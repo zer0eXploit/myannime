@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Card from "../../components/Card/Card";
@@ -46,15 +46,13 @@ class Home extends Component {
     }
 
     return (
-      <Fragment>
-        <Grid item xs={false} sm={1}></Grid>
-        <Grid item container xs={12} sm={10}>
+      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Grid item container xs={12} sm={10} style={{ maxWidth: "1500px" }}>
           <Grid container spacing={1} justify="center" style={{ margin: 0 }}>
             {dynamicContent}
           </Grid>
         </Grid>
-        <Grid item xs={false} sm={1}></Grid>
-      </Fragment>
+      </div>
     );
   }
 }

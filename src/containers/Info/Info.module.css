@@ -37,3 +37,12 @@
 .AdditionalInfo {
   margin: 1rem auto;
 }
+
+.MaxWidth {
+  max-width: 1000px !important;
+}
+
+.Container {
+  display: flex;
+  justify-content: center !important;
+}

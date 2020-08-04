@@ -29,7 +29,7 @@ class Info extends Component {
 
     if (!this.props.loading && this.props.posterURL) {
       dynamicContent = (
-        <Grid item xs={10} sm={8}>
+        <Grid item xs={10} sm={8} className={classes.MaxWidth}>
           <Breadcrumb name={this.props.name} />
           <Grid container justify="space-between" spacing={2}>
             <Grid item xs={12} md={4} className={classes.CenterAlign}>
@@ -130,10 +130,10 @@ class Info extends Component {
     }
 
     return (
-      <Grid container>
-        <Grid item xs={1} sm={2}></Grid>
+      <Grid container className={classes.Container}>
+        {/* <Grid item xs={1} sm={2}></Grid> */}
         {dynamicContent}
-        <Grid item xs={1} sm={2}></Grid>
+        {/* <Grid item xs={1} sm={2}></Grid> */}
       </Grid>
     );
   }
