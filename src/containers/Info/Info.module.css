@@ -1,0 +1,39 @@
+.CenterAlign {
+  text-align: center;
+}
+
+.Paper {
+  width: 100%;
+  /* height: 100%; */
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.Synopsis {
+  display: flex;
+  align-items: center;
+  display: block;
+  justify-content: center;
+}
+
+.Chip {
+  margin-top: 3px;
+  margin-right: 3px;
+}
+
+.InfoCardsMargin {
+  margin: 3px auto !important;
+}
+
+/* .Paper img {
+  display: block;
+} */
+
+.MiddleAlignImage {
+  display: flex;
+  align-items: center;
+}
+
+.AdditionalInfo {
+  margin: 1rem auto;
+}

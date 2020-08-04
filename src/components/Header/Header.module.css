@@ -1,0 +1,11 @@
+.SiteName {
+  cursor: pointer;
+  margin-top: 7px !important;
+}
+
+.Hamburger {
+  width: 20px;
+  border: 1.5px solid rgb(0, 0, 0);
+  display: block;
+  margin: 4px auto;
+}

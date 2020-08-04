@@ -1,0 +1,9 @@
+@media (max-width: 599px) {
+  .Card {
+    width: 90% !important;
+  }
+
+  /* img {
+    height: 250px;
+  } */
+}

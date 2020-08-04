@@ -1,0 +1,8 @@
+.ContentMargin {
+  margin: 70px auto !important;
+}
+
+.Backdrop {
+  z-index: 1 !important;
+  color: "#fff" !important;
+}
