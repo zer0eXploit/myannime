@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemText,
   Paper,
+  Typography,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -117,6 +118,15 @@ class Video extends Component {
           <FormControl style={{ width: "100px", margin: "5px 0" }}>
             {serverSelector}
           </FormControl>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle2" className={classes.Gomen}>
+            {this.props.isZawgyi
+              ? toZawgyi(
+                  "Gomen for Ads. Free Video Hosting ဖြစ်တဲ့အတွက် ကြောင့်ပါ။ :)"
+                )
+              : "Gomen for Ads. Free Video Hosting ဖြစ်တဲ့အတွက် ကြောင့်ပါ။ :)"}
+          </Typography>
         </Grid>
         <Grid item className={classes.IframeContainer}>
           {dynamicIframe}
