@@ -1,12 +1,11 @@
-.CenterAlign {
-  text-align: center;
-}
-
 .Paper {
   width: 100%;
-  /* height: 100%; */
   box-sizing: border-box;
   padding: 20px;
+}
+
+.PosterPaper {
+  padding: 15px;
 }
 
 .Synopsis {
@@ -25,13 +24,11 @@
   margin: 3px auto !important;
 }
 
-/* .Paper img {
-  display: block;
-} */
-
 .MiddleAlignImage {
   display: flex;
-  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .AdditionalInfo {

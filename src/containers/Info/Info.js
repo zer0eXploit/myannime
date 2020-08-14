@@ -34,7 +34,7 @@ class Info extends Component {
           <Grid container justify="space-between" spacing={2}>
             <Grid item xs={12} md={4} className={classes.CenterAlign}>
               <div className={classes.MiddleAlignImage}>
-                <Paper className={classes.Paper}>
+                <Paper className={classes.PosterPaper}>
                   <img
                     src={
                       "https://static.myannime.com/images/" +
@@ -45,30 +45,12 @@ class Info extends Component {
                   />
                 </Paper>
               </div>
-            </Grid>
-            <Grid item container xs={12} md={8}>
               <Grid item xs={12} className={classes.InfoCardsMargin}>
                 <Paper className={classes.Paper}>
                   <Typography variant="h5">
                     {this.props.isZawgyi
-                      ? toZawgyi("ဇာတ်လမ်း အကျဥ်း")
-                      : "ဇာတ်လမ်း အကျဥ်း"}
-                  </Typography>
-                  <div className={classes.Synopsis}>
-                    <Typography variant="subtitle1">
-                      {this.props.isZawgyi
-                        ? toZawgyi(this.props.synopsis)
-                        : this.props.synopsis}
-                    </Typography>
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} className={classes.InfoCardsMargin}>
-                <Paper className={classes.Paper}>
-                  <Typography variant="h5">
-                    {this.props.isZawgyi
-                      ? toZawgyi("အခြားအချက်အလက်များ")
-                      : "အခြားအချက်အလက်များ"}
+                      ? toZawgyi("အချက်အလက်များ")
+                      : "အချက်အလက်များ"}
                   </Typography>
                   <div className={classes.AdditionalInfo}>
                     <Typography variant="subtitle1">
@@ -111,14 +93,32 @@ class Info extends Component {
                 </Paper>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.Paper}>
-                <EpisodesList
-                  isZawgyi={this.props.isZawgyi}
-                  number={this.props.episodes}
-                  animeName={this.props.name}
-                />
-              </Paper>
+            <Grid item container xs={12} md={8}>
+              <Grid item xs={12} className={classes.InfoCardsMargin}>
+                <Paper className={classes.Paper}>
+                  <Typography variant="h5">
+                    {this.props.isZawgyi
+                      ? toZawgyi("ဇာတ်လမ်း အကျဥ်း")
+                      : "ဇာတ်လမ်း အကျဥ်း"}
+                  </Typography>
+                  <div className={classes.Synopsis}>
+                    <Typography variant="subtitle1">
+                      {this.props.isZawgyi
+                        ? toZawgyi(this.props.synopsis)
+                        : this.props.synopsis}
+                    </Typography>
+                  </div>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper className={classes.Paper}>
+                  <EpisodesList
+                    isZawgyi={this.props.isZawgyi}
+                    number={this.props.episodes}
+                    animeName={this.props.name}
+                  />
+                </Paper>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
