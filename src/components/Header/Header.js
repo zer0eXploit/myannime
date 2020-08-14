@@ -13,8 +13,6 @@ import { withRouter } from "react-router-dom";
 
 import classes from "./Header.module.css";
 
-import searchIcon from "./search.svg";
-
 const header = (props) => {
   const handleClick = () => {
     props.history.push("/");
@@ -45,13 +43,6 @@ const header = (props) => {
                 control={<Switch name="isZawgyi" color="secondary" />}
                 label="ZG"
               />
-              <IconButton
-                color="inherit"
-                aria-label="open search"
-                onClick={props.handleMenuClick}
-              >
-                <img src={searchIcon} alt="Search Icon" />
-              </IconButton>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
