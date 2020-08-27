@@ -90,8 +90,8 @@ class About extends React.Component {
             <Grid item>
               <Typography variant="h4">
                 {this.props.isZawgyi
-                  ? toZawgyi("ယခုစာဖတ်နေသူဆီသို့")
-                  : "ယခုစာဖတ်နေသူဆီသို့"}
+                  ? toZawgyi("ယခုစာဖတ်နေသူဆီသို့ ")
+                  : "ယခုစာဖတ်နေသူဆီသို့ "}
                 Message
               </Typography>
               <Typography variant="subtitle1">
