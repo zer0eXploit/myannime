@@ -9,6 +9,7 @@ import {
   ListItemText,
   Paper,
   Typography,
+  Link,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -120,12 +121,33 @@ class Video extends Component {
           </FormControl>
         </Grid>
         <Grid item>
+          <br />
           <Typography variant="subtitle2" className={classes.Gomen}>
             {this.props.isZawgyi
               ? toZawgyi(
-                  "Gomen for Ads. Free Video Hosting ဖြစ်တဲ့အတွက် ကြောင့်ပါ။ :)"
+                  "Gomen for the Ads. Free Video Hosting ဖြစ်တဲ့အတွက် ကြောင့်ပါ။ :)"
                 )
-              : "Gomen for Ads. Free Video Hosting ဖြစ်တဲ့အတွက် ကြောင့်ပါ။ :)"}
+              : "Gomen for the Ads. Free Video Hosting ဖြစ်တဲ့အတွက် ကြောင့်ပါ။ :)"}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <br />
+          <Typography
+            color="secondary"
+            variant="subtitle2"
+            className={classes.Gomen}
+          >
+            {this.props.isZawgyi
+              ? toZawgyi("Error ဖြစ်လျှင် ဆက်သွယ်ရန် ")
+              : "Error ဖြစ်လျှင် ဆက်သွယ်ရန် "}
+            <Link
+              href="https://m.me/puusuubarlarsub"
+              target="_blank"
+              rel="noopener noreferer"
+              color="primary"
+            >
+              Messenger
+            </Link>
           </Typography>
         </Grid>
         <Grid item className={classes.IframeContainer}>
