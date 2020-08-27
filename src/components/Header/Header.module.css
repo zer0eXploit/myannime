@@ -5,7 +5,7 @@
 
 .Hamburger {
   width: 20px;
-  border: 1.5px solid rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
   display: block;
   margin: 4px auto;
 }
