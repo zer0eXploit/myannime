@@ -18,6 +18,7 @@ class Info extends Component {
     }
     const redirectFunc = this.props.history.push;
     this.props.fetchInfoData(animeName, redirectFunc);
+    this.props.clearVideoData();
   }
 
   render() {
@@ -157,6 +158,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchInfoData: (animeName, redirectFunc) => {
       dispatch(actions.fetchInfoData(animeName, redirectFunc));
+    },
+    clearVideoData: () => {
+      dispatch(actions.clearVideoData());
     },
   };
 };

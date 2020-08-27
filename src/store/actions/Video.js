@@ -1,6 +1,12 @@
 import * as actionTypes from "../actionTypes";
 import axios from "../../util/axiosMyannime";
 
+export const clearVideoData = () => {
+  return {
+    type: actionTypes.CLEAR_VIDEO_DATA,
+  };
+};
+
 const fetchVideoDataStart = () => {
   return {
     type: actionTypes.FETCH_VIDEO_DATA_START,

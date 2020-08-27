@@ -9,6 +9,10 @@ const initialState = {
   error: null,
 };
 
+const clearVideoData = (state) => {
+  return updateObject(state, { ...initialState });
+};
+
 const fetchVideoDataStart = (state, action) => {
   return updateObject(state, { ...action.payload });
 };
@@ -31,6 +35,9 @@ const changeStreamUrl = (state, action) => {
 
 const videoReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.CLEAR_VIDEO_DATA:
+      return clearVideoData(state);
+
     case actionTypes.FETCH_VIDEO_DATA_START:
       return fetchVideoDataStart(state, action);
 
