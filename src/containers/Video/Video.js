@@ -141,7 +141,7 @@ class Video extends Component {
               ? toZawgyi("Error ဖြစ်လျှင် ဆက်သွယ်ရန် ")
               : "Error ဖြစ်လျှင် ဆက်သွယ်ရန် "}
             <Link
-              href="https://m.me/puusuubarlarsub"
+              href="https://m.me/myanNime"
               target="_blank"
               rel="noopener noreferer"
               color="primary"
@@ -149,6 +149,30 @@ class Video extends Component {
               Messenger
             </Link>
           </Typography>
+        </Grid>
+        <Grid item>
+          <br />
+          <Typography variant="subtitle2" className={classes.Gomen}>
+            {this.props.isZawgyi
+              ? toZawgyi(
+                  "Facebook Page လေးကိုလည်း အပန်းမကြီးရင် Like လုပ်ထားပေးကြပါဦး။"
+                )
+              : "Facebook Page လေးကိုလည်း အပန်းမကြီးရင် Like လုပ်ထားပေးကြပါဦး။"}
+          </Typography>
+          <iframe
+            src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FmyanNime&width=78&layout=button&action=like&size=large&share=false&height=21&appId"
+            width="78"
+            height="30"
+            title="Facebook Like"
+            style={{
+              border: "none",
+              overflow: "hidden",
+            }}
+            scrolling="no"
+            frameborder="0"
+            allowTransparency="true"
+            allow="encrypted-media"
+          ></iframe>
         </Grid>
         <Grid item className={classes.IframeContainer}>
           {dynamicIframe}
