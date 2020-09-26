@@ -9,7 +9,7 @@ import toZawgyi from "../../util/convertToZg";
 import classes from "./Drawer.module.css";
 
 const drawer = (props) => {
-  const HOMEPAGE_TEXT = "ပင်မစားမျက်နှာသို";
+  const HOMEPAGE_TEXT = "ပင်မစာမျက်နှာသို့";
   const ABOUT_US = "ကျွန်ုပ်တို့အကြောင်း";
   return (
     <Drawer open={props.showDrawer} anchor="right" onClick={props.click}>
