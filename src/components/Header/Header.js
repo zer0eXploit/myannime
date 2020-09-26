@@ -10,10 +10,11 @@ import {
 } from "@material-ui/core";
 
 import { withRouter } from "react-router-dom";
-
+import toZg from "../../util/convertToZg";
 import classes from "./Header.module.css";
 
 const header = (props) => {
+  const SITE_NAME = "မြန်နီမေး";
   const handleClick = () => {
     props.history.push("/");
   };
@@ -31,7 +32,7 @@ const header = (props) => {
               onClick={handleClick}
               className={classes.SiteName}
             >
-              MYANnime
+              {props.isZawgyi ? toZg(SITE_NAME) : SITE_NAME}
             </Typography>
           </Grid>
           <Grid item>
@@ -40,8 +41,8 @@ const header = (props) => {
                 className={classes.ZG}
                 checked={props.isZawgyi}
                 onChange={handleChange}
-                control={<Switch name="isZawgyi" color="secondary" />}
-                label="ZG"
+                control={<Switch name="isZawgyi" color="default" />}
+                label="Zawgyi"
               />
               <IconButton
                 color="inherit"
