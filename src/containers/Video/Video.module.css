@@ -38,3 +38,9 @@
   color: teal;
   font-style: italic;
 }
+
+.Fb {
+  margin-top: 1rem;
+  border: none;
+  overflow: hidden;
+}
