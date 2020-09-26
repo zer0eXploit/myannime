@@ -24,7 +24,7 @@ const breadCrumb = (props) => {
             component={RouterLink}
             to={"/Anime/" + props.name}
           >
-            {props.name}
+            {props.name.replace(/-/g, " ")}
           </Link>
         ) : null}
         {props.episode ? (
