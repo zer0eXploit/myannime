@@ -23,6 +23,8 @@ const useStyles = makeStyles({
 
 export default function MediaCard(props) {
   const classes = useStyles();
+  const WATCH_NOW = "ကြည့်မည်";
+  const animeName = props.name.replace(/-/g, " ");
 
   return (
     <Card className={[classes.root, styles.Card].join(" ")}>
@@ -30,10 +32,10 @@ export default function MediaCard(props) {
         <CardMedia
           className={classes.media}
           image={"https://static.myannime.com/images/" + props.posterURL}
-          title={props.name}
+          title={animeName}
         />
         <CardContent>
-          <Typography variant="subtitle2">{props.name}</Typography>
+          <Typography variant="subtitle2">{animeName}</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
@@ -43,7 +45,7 @@ export default function MediaCard(props) {
           component={RouterLink}
           to={"/Anime/" + props.name}
         >
-          {props.isZawgyi ? toZg("ကြည့်မည်") : "ကြည့်မည်"}
+          {props.isZawgyi ? toZg(WATCH_NOW) : WATCH_NOW}
         </Button>
       </CardActions>
     </Card>

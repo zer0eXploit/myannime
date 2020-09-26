@@ -9,6 +9,8 @@ import toZawgyi from "../../util/convertToZg";
 import classes from "./Drawer.module.css";
 
 const drawer = (props) => {
+  const HOMEPAGE_TEXT = "ပင်မစားမျက်နှာသို";
+  const ABOUT_US = "ကျွန်ုပ်တို့အကြောင်း";
   return (
     <Drawer open={props.showDrawer} anchor="right" onClick={props.click}>
       <List>
@@ -22,9 +24,7 @@ const drawer = (props) => {
           to={"/"}
         >
           <ListItemText
-            primary={
-              props.isZawgyi ? toZawgyi("ပင်မစာမျက်နှာ") : "ပင်မစာမျက်နှာ"
-            }
+            primary={props.isZawgyi ? toZawgyi(HOMEPAGE_TEXT) : HOMEPAGE_TEXT}
           />
         </ListItem>
         <ListItem
@@ -34,11 +34,7 @@ const drawer = (props) => {
           to={"/About"}
         >
           <ListItemText
-            primary={
-              props.isZawgyi
-                ? toZawgyi("ကျွန်ုပ်တို့ အကြောင်း")
-                : "ကျွန်ုပ်တို့ အကြောင်း"
-            }
+            primary={props.isZawgyi ? toZawgyi(ABOUT_US) : ABOUT_US}
           />
         </ListItem>
       </List>

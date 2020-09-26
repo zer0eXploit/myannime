@@ -11,6 +11,12 @@ import * as actions from "../../store/actions/index";
 import classes from "./Info.module.css";
 
 class Info extends Component {
+  ANIME_INFO = "အချက်အလက်များ";
+  NUMBER_OF_EPISODES = "အပိုင်းအရေအတွက်";
+  ANIME_COMPLETION = "ဇာတ်လမ်းပြီးမြောက်မှု";
+  GENRES = "ဇာတ်လမ်းအမျိုးအစား";
+  SYNOPSIS = "ဇာတ်လမ်းအကျဥ်း";
+  EPISODES_LIST = "ဇာတ်လမ်းအပိုင်းများ";
   componentDidMount() {
     const animeName = this.props.location.pathname.split("/")[2];
     if (this.props.name === animeName) {
@@ -50,14 +56,14 @@ class Info extends Component {
                 <Paper className={classes.Paper}>
                   <Typography variant="h5">
                     {this.props.isZawgyi
-                      ? toZawgyi("အချက်အလက်များ")
-                      : "အချက်အလက်များ"}
+                      ? toZawgyi(this.ANIME_INFO)
+                      : this.ANIME_INFO}
                   </Typography>
                   <div className={classes.AdditionalInfo}>
                     <Typography variant="subtitle1">
                       {this.props.isZawgyi
-                        ? toZawgyi("အပိုင်းအရေအတွက်")
-                        : "အပိုင်းအရေအတွက်"}
+                        ? toZawgyi(this.NUMBER_OF_EPISODES)
+                        : this.NUMBER_OF_EPISODES}
                     </Typography>
                     <Chip
                       label={this.props.episodes}
@@ -67,8 +73,8 @@ class Info extends Component {
                   <div className={classes.AdditionalInfo}>
                     <Typography variant="subtitle1">
                       {this.props.isZawgyi
-                        ? toZawgyi("ဇာတ်လမ်း ပြီးမြောက်မှု")
-                        : "ဇာတ်လမ်း ပြီးမြောက်မှု"}
+                        ? toZawgyi(this.ANIME_COMPLETION)
+                        : this.ANIME_COMPLETION}
                     </Typography>
                     <Chip
                       color="primary"
@@ -77,9 +83,7 @@ class Info extends Component {
                     />
                   </div>
                   <Typography variant="subtitle1">
-                    {this.props.isZawgyi
-                      ? toZawgyi("ဇာတ်လမ်း အမျိုးအစား")
-                      : "ဇာတ်လမ်း အမျိုးအစား"}
+                    {this.props.isZawgyi ? toZawgyi(this.GENRES) : this.GENRES}
                   </Typography>
                   {this.props.genres.map((genre) => {
                     return (
@@ -99,8 +103,8 @@ class Info extends Component {
                 <Paper className={classes.Paper}>
                   <Typography variant="h5">
                     {this.props.isZawgyi
-                      ? toZawgyi("ဇာတ်လမ်း အကျဥ်း")
-                      : "ဇာတ်လမ်း အကျဥ်း"}
+                      ? toZawgyi(this.SYNOPSIS)
+                      : this.SYNOPSIS}
                   </Typography>
                   <div className={classes.Synopsis}>
                     <Typography variant="subtitle1">
