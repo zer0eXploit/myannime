@@ -18,10 +18,10 @@ const About = React.lazy(() => import("./About/About"));
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#26c6da",
+      main: "#f44336",
     },
     secondary: {
-      main: "#da2c26",
+      main: "#1976d2",
     },
   },
   typography: {
