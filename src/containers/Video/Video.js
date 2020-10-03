@@ -12,6 +12,7 @@ import {
   Link,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
@@ -119,6 +120,14 @@ class Video extends Component {
 
     dynamicContent = (
       <Fragment>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>
+            {`${this.props.name ? this.props.name : ""} ${
+              this.props.currentEpisode
+            } | MYAN-nime`}
+          </title>
+        </Helmet>
         <Breadcrumb name={pathNames[2]} episode={pathNames[3]} />
         <Grid container item>
           <FormControl style={{ width: "100px", margin: "5px 0" }}>

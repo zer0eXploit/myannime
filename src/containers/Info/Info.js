@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid, Paper, Typography, Chip } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import EpisodesList from "../../components/EpisodesList/EpisodesList";
 import Loader from "../../components/Loader/Loader";
@@ -37,6 +38,10 @@ class Info extends Component {
     if (!this.props.loading && this.props.posterURL) {
       dynamicContent = (
         <Grid item xs={10} sm={8} className={classes.MaxWidth}>
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>{`${this.props.name} Information | MYAN-nime`}</title>
+          </Helmet>
           <Breadcrumb name={this.props.name} />
           <Grid container justify="space-between" spacing={2}>
             <Grid item xs={12} md={4} className={classes.CenterAlign}>

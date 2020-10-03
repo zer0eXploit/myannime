@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import Card from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
@@ -47,6 +48,10 @@ class Home extends Component {
 
     return (
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Home | MYAN-nime</title>
+        </Helmet>
         <Grid item container xs={12} sm={10} style={{ maxWidth: "1500px" }}>
           <Grid container spacing={1} justify="center" style={{ margin: 0 }}>
             {dynamicContent}

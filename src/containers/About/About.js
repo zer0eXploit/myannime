@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import { Helmet } from "react-helmet";
 import toZawgyi from "../../util/convertToZg";
 
 import classes from "./About.module.css";
@@ -12,6 +13,10 @@ class About extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>About | MYAN-nime</title>
+        </Helmet>
         <CssBaseline />
         <Container maxWidth="md" className={classes.About}>
           <Grid container direction="column" spacing={4}>
