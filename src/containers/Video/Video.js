@@ -10,9 +10,11 @@ import {
   Paper,
   Typography,
   Link,
+  Button,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { DiscussionEmbed } from "disqus-react";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
@@ -28,6 +30,10 @@ class Video extends Component {
   ADS_INFO = "ကြော်ငြာတွေအတွက် ခွင့်လွှတ်ပါ။ ^_^";
   ERROR_REPORT = "Error ဖြစ်လျှင် ဆက်သွယ်ရန် ";
   LIKE_SOCIAL = "နောက်ဆုံး Update တွေကိုသိဖို့ FB ကို Like လုပ်ပေးထားကြပါဦး။";
+  SHOW_COMMENTS = "Comments များကိုပြပါ။";
+  state = {
+    showComments: false,
+  };
 
   updateVideo() {
     if (this.props.loading) {
@@ -38,6 +44,9 @@ class Video extends Component {
         !this.props.currentEpisode ||
         this.props.currentEpisode !== this.props.match.params.episode
       ) {
+        this.setState({
+          showComments: false,
+        });
         const urlParams = this.props.location.pathname.split("/");
         const pathName = urlParams[2] + "/" + urlParams[3];
         const redirectFunc = this.props.history.push;
@@ -56,6 +65,15 @@ class Video extends Component {
 
   render() {
     const pathNames = this.props.location.pathname.split("/");
+    const disqusShortname = "myannime";
+    const disqusConfig = {
+      url: `https://myannime.com${this.props.location.pathname}`,
+      identifier: `myannime.com${this.props.location.pathname}`,
+      title: `${pathNames[2]} ${pathNames[3]}`,
+    };
+    const disqusTag = (
+      <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+    );
     let dynamicIframe = null;
     let serverSelector = null;
     let dynamicContent = null;
@@ -122,11 +140,7 @@ class Video extends Component {
       <Fragment>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>
-            {`${this.props.name ? this.props.name : ""} ${
-              this.props.currentEpisode
-            } | MYAN-nime`}
-          </title>
+          <title>{`${pathNames[2]} ${pathNames[3]} | MYAN-nime`}</title>
         </Helmet>
         <Breadcrumb name={pathNames[2]} episode={pathNames[3]} />
         <Grid container item>
@@ -169,8 +183,7 @@ class Video extends Component {
             height="30"
             title="Facebook Like"
             scrolling="no"
-            frameborder="0"
-            allowTransparency="true"
+            frameBorder="0"
             allow="encrypted-media"
             className={classes.Fb}
           ></iframe>
@@ -179,6 +192,22 @@ class Video extends Component {
           {dynamicIframe}
         </Grid>
         <Grid item>
+          {this.state.showComments ? (
+            <Paper className={classes.Paper}>{disqusTag}</Paper>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              onClick={() => {
+                this.setState({ showComments: true });
+              }}
+            >
+              {this.props.isZawgyi
+                ? toZawgyi(this.SHOW_COMMENTS)
+                : this.SHOW_COMMENTS}
+            </Button>
+          )}
           <Paper className={classes.Paper}>{episodesList}</Paper>
         </Grid>
       </Fragment>
