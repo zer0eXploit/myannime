@@ -92,8 +92,8 @@ class Video extends Component {
     if (this.props.streamUrls && this.props.streamUrls.length) {
       serverSelector = (
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="server-select-label"
+          id="server-select"
           value={this.props.currentUrl}
           onChange={(event) => {
             this.props.handleChangeStreamUrl(event.target.value);
