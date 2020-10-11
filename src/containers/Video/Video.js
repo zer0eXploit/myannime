@@ -20,6 +20,7 @@ import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import EpisodesList from "../../components/EpisodesList/EpisodesList";
 import toZawgyi from "../../util/convertToZg";
+import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
 
 import * as actions from "../../store/actions/index";
 
@@ -74,7 +75,7 @@ class Video extends Component {
     const disqusTag = (
       <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
     );
-    let dynamicIframe = null;
+    let dynamicVideoPlayer = null;
     let serverSelector = null;
     let dynamicContent = null;
     let episodesList = (
@@ -94,15 +95,19 @@ class Video extends Component {
         <Select
           labelId="server-select-label"
           id="server-select"
-          value={this.props.currentUrl}
+          value={this.props.currentVideoServerName}
+          className={classes.ServerSelect}
           onChange={(event) => {
-            this.props.handleChangeStreamUrl(event.target.value);
+            this.props.handleChangeStreamUrl(
+              event.target.value,
+              this.props.serverNameUrlMap[event.target.value]
+            );
           }}
         >
-          {this.props.streamUrls.map((url, idx) => {
+          {this.props.videoServers.map((name, idx) => {
             return (
-              <MenuItem key={idx} value={url}>
-                {"Server " + (idx + 1)}
+              <MenuItem key={idx} value={name}>
+                {"Server " + name}
               </MenuItem>
             );
           })}
@@ -110,20 +115,38 @@ class Video extends Component {
       );
     }
 
-    if (this.props.currentUrl) {
-      dynamicIframe = (
-        <iframe
-          title="test"
-          src={this.props.currentUrl}
-          frameBorder="0"
-          marginWidth="0"
-          marginHeight="0"
-          scrolling="no"
-          width="100%"
-          height="100%"
-          allowFullScreen
-        ></iframe>
-      );
+    if (this.props.streamUrls && this.props.streamUrls.length) {
+      if (this.props.currentVideoServerName === "beta") {
+        const videoJsOptions = {
+          autoplay: false,
+          controls: true,
+          preload: "metadata",
+          playsinline: "true",
+          // muted: true,
+          sources: [
+            {
+              src: this.props.currentUrl,
+              type: "video/mp4",
+            },
+          ],
+        };
+
+        dynamicVideoPlayer = <VideoPlayer {...videoJsOptions} />;
+      } else {
+        dynamicVideoPlayer = (
+          <iframe
+            title={this.props.currentVideoServerName}
+            src={this.props.serverNameUrlMap[this.props.currentVideoServerName]}
+            frameBorder="0"
+            marginWidth="0"
+            marginHeight="0"
+            scrolling="no"
+            width="100%"
+            height="100%"
+            allowFullScreen
+          ></iframe>
+        );
+      }
     }
 
     if (this.props.episodes && this.props.name) {
@@ -189,7 +212,7 @@ class Video extends Component {
           ></iframe>
         </Grid>
         <Grid item className={classes.IframeContainer}>
-          {dynamicIframe}
+          {dynamicVideoPlayer}
         </Grid>
         <Grid item>
           {this.state.showComments ? (
@@ -237,7 +260,10 @@ const mapStateToProps = (state) => {
   return {
     currentEpisode: state.video.currentEpisode,
     currentUrl: state.video.currentUrl,
+    videoServers: state.video.videoServers,
+    currentVideoServerName: state.video.currentVideoServerName,
     streamUrls: state.video.streamUrls,
+    serverNameUrlMap: state.video.serverNameUrlMap,
     loading: state.video.loading,
     error: state.video.error,
     name: state.info.name,
@@ -251,8 +277,8 @@ const mapDispatchToProps = (dispatch) => {
     handleFetchVideoData: (pathName, redirectFunc) => {
       dispatch(actions.fetchVideoData(pathName, redirectFunc));
     },
-    handleChangeStreamUrl: (newValue) => {
-      dispatch(actions.changeStreamUrl(newValue));
+    handleChangeStreamUrl: (newName, newUrl) => {
+      dispatch(actions.changeStreamUrl(newName, newUrl));
     },
   };
 };

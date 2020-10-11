@@ -4,7 +4,10 @@ import { updateObject } from "../../util/updateObject";
 const initialState = {
   currentEpisode: null,
   currentUrl: null,
+  videoServers: null,
+  currentVideoServerName: null,
   streamUrls: null,
+  serverNameUrlMap: null,
   loading: false,
   error: null,
 };
