@@ -36,15 +36,20 @@ export const fetchVideoData = (pathName, redirectFunc) => (dispatch) => {
       const data = res.data;
       if (data) {
         const streamUrls = [];
+        const serverNames = [];
         for (let key in data) {
           streamUrls.push(data[key]);
+          serverNames.push(key);
         }
         dispatch({
           type: actionTypes.FETCH_VIDEO_DATA,
           payload: {
             currentEpisode: pathName.split("/")[1],
             currentUrl: streamUrls[0],
+            videoServers: serverNames,
+            currentVideoServerName: serverNames[0],
             streamUrls: streamUrls,
+            serverNameUrlMap: data,
           },
         });
       } else {
@@ -58,10 +63,11 @@ export const fetchVideoData = (pathName, redirectFunc) => (dispatch) => {
     });
 };
 
-export const changeStreamUrl = (newUrl) => {
+export const changeStreamUrl = (newServername, newUrl) => {
   return {
     type: actionTypes.CHANGE_STREAM_URL,
     payload: {
+      currentVideoServerName: newServername,
       currentUrl: newUrl,
     },
   };
