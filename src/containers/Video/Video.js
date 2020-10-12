@@ -28,9 +28,13 @@ import classes from "./Video.module.css";
 
 class Video extends Component {
   SHOW_EPISODES = "ဇာတ်လမ်း အပိုင်းများအားပြပါ။";
-  ADS_INFO = "ကြော်ငြာတွေအတွက် ခွင့်လွှတ်ပါ။ ^_^";
+  ADS_INFO = `
+    ကြော်ငြာတွေအတွက် ခွင့်လွှတ်ပါ။ Server Beta က ကြော်ငြာမရှိပါဘူး။ 
+    ဒါပေမဲ့ တစ်ခါတလေ Error တက်နိုင်ပါတယ်။ ပြီးတော့ Anime မစုံပါဘူး။ ^_^ 
+    `;
   ERROR_REPORT = "Error ဖြစ်လျှင် ဆက်သွယ်ရန် ";
-  LIKE_SOCIAL = "နောက်ဆုံး Update တွေကိုသိဖို့ FB ကို Like လုပ်ပေးထားကြပါဦး။";
+  LIKE_SOCIAL =
+    "နောက်ဆုံး Update တွေကိုသိဖို့ Facebook Page ကို Like လုပ်ပေးထားကြပါဦး။";
   SHOW_COMMENTS = "Comments များကိုပြပါ။";
   state = {
     showComments: false,
