@@ -1,25 +1,27 @@
 import React from "react";
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
-
-// video.js player from the docs: https://github.com/videojs/video.js/blob/master/docs/guides/react.md
+import Plyr from "plyr";
 
 class VideoPlayer extends React.Component {
   componentDidMount() {
-    // instantiate Video.js
-    this.player = videojs(this.videoNode, this.props);
-    // function onPlayerReady() {
-    //   console.log("onPlayerReady", this);
-    // }
+    this.player = new Plyr(this.videoNode);
+    this.player.source = {
+      title: "MYANnime Player",
+      type: "video",
+      sources: this.props.sources,
+    };
   }
 
-  // use `ref` to give Video JS a reference to the video DOM element: https://reactjs.org/docs/refs-and-the-dom
+  componentWillUnmount() {
+    this.player.destroy();
+  }
+
   render() {
     return (
-      <div style={{ width: "100%", height: "100%" }} data-vjs-player>
+      <div style={{ width: "100%", height: "100%" }}>
         <video
+          playsinline
+          controls
           ref={(node) => (this.videoNode = node)}
-          className={"video-js"}
         ></video>
       </div>
     );

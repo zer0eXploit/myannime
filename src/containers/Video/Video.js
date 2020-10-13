@@ -121,21 +121,22 @@ class Video extends Component {
 
     if (this.props.streamUrls && this.props.streamUrls.length) {
       if (this.props.currentVideoServerName === "beta") {
-        const videoJsOptions = {
-          autoplay: false,
-          controls: true,
-          preload: "metadata",
-          playsinline: "true",
-          // muted: true,
+        const videoOptions = {
           sources: [
             {
               src: this.props.currentUrl,
               type: "video/mp4",
+              size: 720,
+            },
+            {
+              src: this.props.currentUrl,
+              type: "video/mp4",
+              size: 1080,
             },
           ],
         };
 
-        dynamicVideoPlayer = <VideoPlayer {...videoJsOptions} />;
+        dynamicVideoPlayer = <VideoPlayer {...videoOptions} />;
       } else {
         dynamicVideoPlayer = (
           <iframe
