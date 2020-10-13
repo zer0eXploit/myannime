@@ -120,7 +120,7 @@ class Video extends Component {
     }
 
     if (this.props.streamUrls && this.props.streamUrls.length) {
-      if (this.props.currentVideoServerName === "beta") {
+      if (this.props.currentVideoServerName === "Beta") {
         const videoOptions = {
           sources: [
             {

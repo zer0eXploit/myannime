@@ -1,0 +1,7 @@
+:root {
+  --plyr-color-main: #ff7961;
+}
+
+.plyr__control--overlaid {
+  border-radius: 10%;
+}

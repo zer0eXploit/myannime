@@ -1,5 +1,6 @@
 import React from "react";
 import Plyr from "plyr";
+import "./VideoPlayer.css";
 
 class VideoPlayer extends React.Component {
   componentDidMount() {
