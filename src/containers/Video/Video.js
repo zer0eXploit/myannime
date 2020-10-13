@@ -12,6 +12,7 @@ import {
   Link,
   Button,
 } from "@material-ui/core";
+import { SnackbarProvider } from "notistack";
 import { Link as RouterLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { DiscussionEmbed } from "disqus-react";
@@ -121,22 +122,12 @@ class Video extends Component {
 
     if (this.props.streamUrls && this.props.streamUrls.length) {
       if (this.props.currentVideoServerName === "Beta") {
-        const videoOptions = {
-          sources: [
-            {
-              src: this.props.currentUrl,
-              type: "video/mp4",
-              size: 720,
-            },
-            {
-              src: this.props.currentUrl,
-              type: "video/mp4",
-              size: 1080,
-            },
-          ],
+        const videoData = {
+          videoInfo: this.props.currentUrl,
+          isZawgyi: this.props.isZawgyi,
         };
 
-        dynamicVideoPlayer = <VideoPlayer {...videoOptions} />;
+        dynamicVideoPlayer = <VideoPlayer {...videoData} />;
       } else {
         dynamicVideoPlayer = (
           <iframe
@@ -250,13 +241,15 @@ class Video extends Component {
     }
 
     return (
-      <Grid container>
-        <Grid item xs={1} sm={2}></Grid>
-        <Grid item xs={10} sm={8}>
-          {dynamicContent}
+      <SnackbarProvider maxSnack={3}>
+        <Grid container>
+          <Grid item xs={1} sm={2}></Grid>
+          <Grid item xs={10} sm={8}>
+            {dynamicContent}
+          </Grid>
+          <Grid item xs={1} sm={2}></Grid>
         </Grid>
-        <Grid item xs={1} sm={2}></Grid>
-      </Grid>
+      </SnackbarProvider>
     );
   }
 }
