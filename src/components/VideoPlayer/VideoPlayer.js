@@ -13,8 +13,15 @@ class VideoPlayer extends React.Component {
   FETCH_ERROR =
     "တောင်းပန်ပါသည်။ ယခု server မှ ဗီဒီယို ကြည့်လို့မရနိုင်ပါ။ Server ပြောင်းကြည့်ပေးပါ။";
 
+  logEventToGA = (event_name) => {
+    try {
+      window.firebase.analytics().logEvent(event_name);
+    } catch (error) {
+      console.log(`[GA LOG:] ${error.message}`);
+    }
+  };
+
   componentDidMount() {
-    console.log(this.props);
     this.player = new Plyr(this.videoNode);
     axios
       .get(`${this.BASE_URI}/u!${this.props.videoInfo}/${this.FINAL_URI_PATH}`)
@@ -36,9 +43,16 @@ class VideoPlayer extends React.Component {
             },
           ],
         };
+        this.player.on("play", (event) => {
+          this.logEventToGA("video_play");
+        });
+        this.player.on("ended", (event) => {
+          this.logEventToGA("video_ended");
+        });
       })
       .catch((error) => {
         console.log(error.message);
+        this.logEventToGA("video_info_fetch_error");
         this.props.enqueueSnackbar(
           this.props.isZawgyi ? toZawgyi(this.FETCH_ERROR) : this.FETCH_ERROR,
           {
