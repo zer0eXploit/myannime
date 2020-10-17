@@ -1,18 +1,9 @@
 import React from "react";
 import Plyr from "plyr";
-import axios from "axios";
-import { withSnackbar } from "notistack";
 
 import "./VideoPlayer.css";
 
-import toZawgyi from "../../util/convertToZg";
-
 class VideoPlayer extends React.Component {
-  BASE_URI = "https://api.onedrive.com/v1.0/shares";
-  FINAL_URI_PATH = "root?expand=children&select=id%2C%40content.downloadUrl";
-  FETCH_ERROR =
-    "တောင်းပန်ပါသည်။ ယခု server မှ ဗီဒီယို ကြည့်လို့မရနိုင်ပါ။ Server ပြောင်းကြည့်ပေးပါ။";
-
   logEventToGA = (event_name) => {
     try {
       window.firebase.analytics().logEvent(event_name);
@@ -23,61 +14,28 @@ class VideoPlayer extends React.Component {
 
   componentDidMount() {
     this.player = new Plyr(this.videoNode);
-    axios
-      .get(`${this.BASE_URI}/u!${this.props.videoInfo}/${this.FINAL_URI_PATH}`)
-      .then((res) => {
-        const videoData = res.data;
-
-        // do an additional check to ensure video link is working. :)
-        axios
-          .get(videoData["@content.downloadUrl"])
-          .then((response) => {
-            console.log(response.status);
-            this.player.source = {
-              title: "MYANnime Player",
-              type: "video",
-              sources: [
-                {
-                  src: videoData["@content.downloadUrl"],
-                  type: "video/mp4",
-                  size: 720,
-                },
-                {
-                  src: videoData["@content.downloadUrl"],
-                  type: "video/mp4",
-                  size: 1080,
-                },
-              ],
-            };
-            this.player.on("play", (event) => {
-              this.logEventToGA("video_play");
-            });
-            this.player.on("ended", (event) => {
-              this.logEventToGA("video_ended");
-            });
-          })
-          .catch((e) => {
-            console.log(e.message);
-            this.props.enqueueSnackbar(
-              this.props.isZawgyi
-                ? toZawgyi(this.FETCH_ERROR)
-                : this.FETCH_ERROR,
-              {
-                variant: "error",
-              }
-            );
-          });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        this.logEventToGA("video_info_fetch_error");
-        this.props.enqueueSnackbar(
-          this.props.isZawgyi ? toZawgyi(this.FETCH_ERROR) : this.FETCH_ERROR,
-          {
-            variant: "error",
-          }
-        );
-      });
+    this.player.source = {
+      title: "MYANnime Player",
+      type: "video",
+      sources: [
+        {
+          src: this.props.videoInfo,
+          type: "video/mp4",
+          size: 720,
+        },
+        {
+          src: this.props.videoInfo,
+          type: "video/mp4",
+          size: 1080,
+        },
+      ],
+    };
+    this.player.on("play", (event) => {
+      this.logEventToGA("video_play");
+    });
+    this.player.on("ended", (event) => {
+      this.logEventToGA("video_ended");
+    });
   }
 
   componentWillUnmount() {
@@ -97,4 +55,4 @@ class VideoPlayer extends React.Component {
   }
 }
 
-export default withSnackbar(VideoPlayer);
+export default VideoPlayer;
