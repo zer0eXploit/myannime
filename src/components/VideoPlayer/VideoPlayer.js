@@ -27,28 +27,46 @@ class VideoPlayer extends React.Component {
       .get(`${this.BASE_URI}/u!${this.props.videoInfo}/${this.FINAL_URI_PATH}`)
       .then((res) => {
         const videoData = res.data;
-        this.player.source = {
-          title: "MYANnime Player",
-          type: "video",
-          sources: [
-            {
-              src: videoData["@content.downloadUrl"],
-              type: "video/mp4",
-              size: 720,
-            },
-            {
-              src: videoData["@content.downloadUrl"],
-              type: "video/mp4",
-              size: 1080,
-            },
-          ],
-        };
-        this.player.on("play", (event) => {
-          this.logEventToGA("video_play");
-        });
-        this.player.on("ended", (event) => {
-          this.logEventToGA("video_ended");
-        });
+
+        // do an additional check to ensure video link is working. :)
+        axios
+          .get(videoData["@content.downloadUrl"])
+          .then((response) => {
+            console.log(response.status);
+            this.player.source = {
+              title: "MYANnime Player",
+              type: "video",
+              sources: [
+                {
+                  src: videoData["@content.downloadUrl"],
+                  type: "video/mp4",
+                  size: 720,
+                },
+                {
+                  src: videoData["@content.downloadUrl"],
+                  type: "video/mp4",
+                  size: 1080,
+                },
+              ],
+            };
+            this.player.on("play", (event) => {
+              this.logEventToGA("video_play");
+            });
+            this.player.on("ended", (event) => {
+              this.logEventToGA("video_ended");
+            });
+          })
+          .catch((e) => {
+            console.log(e.message);
+            this.props.enqueueSnackbar(
+              this.props.isZawgyi
+                ? toZawgyi(this.FETCH_ERROR)
+                : this.FETCH_ERROR,
+              {
+                variant: "error",
+              }
+            );
+          });
       })
       .catch((error) => {
         console.log(error.message);
