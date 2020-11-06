@@ -82,7 +82,7 @@ const GenreInfo = (props) => {
           <meta charSet="utf-8" />
           <title>{genreInfo.genre_name} | MYAN-nime</title>
         </Helmet>
-        <Grid container direction="column" justify="right">
+        <Grid container direction="column" justify="flex-start">
           <Paper className={classes.genreIntro}>
             <Typography variant={"h5"}>{genreInfo.genre_name}</Typography>
             <Typography variant={"subtitle1"}>
@@ -99,7 +99,7 @@ const GenreInfo = (props) => {
             <Typography variant={"h5"} className={classes.title}>
               {"Anime List"}
             </Typography>
-            <Grid container spacing={1} justify="left">
+            <Grid container spacing={1} justify="flex-start">
               {animeCards}
             </Grid>
           </Grid>
