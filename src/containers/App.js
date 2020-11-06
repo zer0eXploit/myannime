@@ -12,8 +12,11 @@ import FourOFour from "./404/404";
 import * as actions from "../store/actions/index";
 
 import classes from "./App.module.css";
+// import GenreInfo from "./GenreInfo/GenreInfo";
 
 const About = React.lazy(() => import("./About/About"));
+const Genres = React.lazy(() => import("./Genres/Genres"));
+const GenreInfo = React.lazy(() => import("./GenreInfo/GenreInfo"));
 
 const theme = createMuiTheme({
   palette: {
@@ -53,6 +56,31 @@ class App extends Component {
         }}
       />
     );
+
+    const genresRouteComponent = (
+      <Route
+        path="/Genres"
+        exact
+        render={() => (
+          <Suspense fallback={<Loader />}>
+            <Genres />
+          </Suspense>
+        )}
+      />
+    );
+
+    const genreInfoRouteComponent = (
+      <Route
+        path="/Genre/:genreName"
+        exact
+        render={(props) => (
+          <Suspense fallback={<Loader />}>
+            <GenreInfo {...props} />
+          </Suspense>
+        )}
+      />
+    );
+
     return (
       <div className={classes.App}>
         <ThemeProvider theme={theme}>
@@ -73,6 +101,8 @@ class App extends Component {
               <Switch>
                 <Route path="/" component={Home} exact />
                 {aboutRouteComponent}
+                {genresRouteComponent}
+                {genreInfoRouteComponent}
                 <Route path="/Anime/:animeInfo" component={Info} exact />
                 <Route
                   path="/Anime/:animeInfo/:episode"
