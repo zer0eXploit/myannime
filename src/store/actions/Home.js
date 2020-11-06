@@ -1,10 +1,10 @@
 import * as actionTypes from "../actionTypes";
 import axios from "../../util/axiosMyannime";
 
-const fetchAnimeDataStart = () => {
+const fetchAnimeDataStart = (sortMethod) => {
   return {
     type: actionTypes.FETCH_ANIME_DATA_START,
-    payload: { loading: true },
+    payload: { loading: true, sortMethod: sortMethod },
   };
 };
 
@@ -22,12 +22,13 @@ const fetchAnimeDataFailed = (error) => {
   };
 };
 
-export const fetchAnimeData = () => (dispatch) => {
-  dispatch(fetchAnimeDataStart());
+export const fetchAnimeData = (page = 1, sortBy = "title") => (dispatch) => {
+  dispatch(fetchAnimeDataStart(sortBy));
   axios
-    .get("http://127.0.0.1:5000/v1/animes", {
+    .get("/animes", {
       params: {
-        sort_by: "rating",
+        sort_by: sortBy,
+        page: page,
       },
     })
     .then((res) => {

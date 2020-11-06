@@ -3,6 +3,7 @@ import { updateObject } from "../../util/updateObject";
 
 const initialState = {
   animeData: null,
+  sortMethod: "title",
   loading: false,
   error: null,
 };

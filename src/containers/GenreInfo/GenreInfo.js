@@ -3,6 +3,8 @@ import { Paper, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { Helmet } from "react-helmet";
+import Pagnation from "../../components/Pagination/GenrePagination";
+import Radio from "../../components/Radio/GenreRadio";
 import Loader from "../../components/Loader/Loader";
 import Card from "../../components/Card/Card";
 import axios from "axios";
@@ -22,12 +24,22 @@ const GenreInfo = (props) => {
   const classes = useStyles();
   const [genreInfo, setGenreInfo] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [sortBy, setSortBy] = useState("title");
   const { enqueueSnackbar } = useSnackbar();
   const genreName = props.location.pathname.split("/")[2];
+  const handleChange = (value) => {
+    setPageNumber(value);
+  };
+
+  const handleChangeRadio = (value) => {
+    setSortBy(value);
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://127.0.0.1:5000/v1/genre/${genreName}`)
+      .get(`/genre/${genreName}?page=${pageNumber}&sort_by=${sortBy}`)
       .then((response) => {
         setGenreInfo(response.data);
         setLoading(false);
@@ -43,10 +55,12 @@ const GenreInfo = (props) => {
           },
         });
       });
-  }, [genreName, enqueueSnackbar]);
+  }, [genreName, enqueueSnackbar, pageNumber, sortBy]);
 
   let toRender = null;
   let animeCards = null;
+  let pagination = null;
+  let sortRadio = null;
 
   if (isLoading) {
     toRender = <Loader />;
@@ -68,6 +82,23 @@ const GenreInfo = (props) => {
           </Grid>
         );
       });
+      pagination = (
+        <Grid item container justify={"center"}>
+          <Pagnation
+            totalPages={genreInfo.total_pages}
+            currentPage={genreInfo.current_page}
+            handleChange={handleChange}
+          />
+        </Grid>
+      );
+      sortRadio = (
+        <Grid item container justify={"center"} style={{ marginTop: "3%" }}>
+          <Radio
+            sortBy={genreInfo.sorted_by}
+            handleChange={handleChangeRadio}
+          ></Radio>
+        </Grid>
+      );
     } else {
       animeCards = (
         <p className={classes.title}>
@@ -101,6 +132,8 @@ const GenreInfo = (props) => {
             </Typography>
             <Grid container spacing={1} justify="flex-start">
               {animeCards}
+              {pagination}
+              {sortRadio}
             </Grid>
           </Grid>
         </Grid>
