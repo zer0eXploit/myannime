@@ -19,12 +19,14 @@ const breadCrumb = (props) => {
         </Link>
         {props.name ? (
           <Link
+            color="textSecondary"
             underline="hover"
-            color={props.episode ? "textSecondary" : "textPrimary"}
             component={RouterLink}
-            to={"/Anime/" + props.name}
+            to={props.anime_id ? "/Anime/" + props.anime_id : "#"}
           >
-            {props.name.replace(/-/g, " ")}
+            <Typography color={props.episode ? "textSecondary" : "textPrimary"}>
+              {props.name}
+            </Typography>
           </Link>
         ) : null}
         {props.episode ? (
