@@ -43,3 +43,9 @@
   display: flex;
   justify-content: center !important;
 }
+
+.GenreLink {
+  text-decoration: none;
+  display: inline-block;
+  margin: 3px;
+}

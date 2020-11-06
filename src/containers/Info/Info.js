@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid, Paper, Typography, Chip } from "@material-ui/core";
+import { Grid, Paper, Typography, Chip, Button } from "@material-ui/core";
 import { Helmet } from "react-helmet";
+import { NavLink } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import EpisodesList from "../../components/EpisodesList/EpisodesList";
 import Loader from "../../components/Loader/Loader";
@@ -19,12 +20,12 @@ class Info extends Component {
   SYNOPSIS = "ဇာတ်လမ်းအကျဥ်း";
   EPISODES_LIST = "ဇာတ်လမ်းအပိုင်းများ";
   componentDidMount() {
-    const animeName = this.props.location.pathname.split("/")[2];
-    if (this.props.name === animeName) {
+    const animeId = this.props.location.pathname.split("/")[2];
+    if (this.props.name === animeId) {
       return;
     }
     const redirectFunc = this.props.history.push;
-    this.props.fetchInfoData(animeName, redirectFunc);
+    this.props.fetchInfoData(animeId, redirectFunc);
     this.props.clearVideoData();
   }
 
@@ -35,27 +36,29 @@ class Info extends Component {
       dynamicContent = <Loader />;
     }
 
-    if (!this.props.loading && this.props.posterURL) {
+    if (!this.props.loading && this.props.animeInfo) {
       dynamicContent = (
         <Grid item xs={10} sm={8} className={classes.MaxWidth}>
           <Helmet>
             <meta charSet="utf-8" />
-            <title>{`${this.props.name} Information | MYAN-nime`}</title>
+            <title>{`${this.props.animeInfo.title} Information | MYAN-nime`}</title>
           </Helmet>
-          <Breadcrumb name={this.props.name} />
+          <Breadcrumb
+            name={this.props.animeInfo.title}
+            anime_id={this.props.animeInfo.anime_id}
+          />
           <Grid container justify="space-between" spacing={2}>
             <Grid item xs={12} md={4} className={classes.CenterAlign}>
               <div className={classes.MiddleAlignImage}>
-                <Paper className={classes.PosterPaper}>
-                  <img
-                    src={
-                      "https://static.myannime.com/images/" +
-                      this.props.posterURL
-                    }
-                    alt={this.props.name}
-                    width="100%"
-                  />
-                </Paper>
+                <Grid item style={{ width: "100%" }}>
+                  <Paper className={classes.PosterPaper}>
+                    <img
+                      src={this.props.animeInfo.poster_uri}
+                      alt={this.props.name}
+                      width="100%"
+                    />
+                  </Paper>
+                </Grid>
               </div>
               <Grid item xs={12} className={classes.InfoCardsMargin}>
                 <Paper className={classes.Paper}>
@@ -71,8 +74,9 @@ class Info extends Component {
                         : this.NUMBER_OF_EPISODES}
                     </Typography>
                     <Chip
-                      label={this.props.episodes}
+                      label={this.props.animeInfo.number_of_episodes}
                       className={classes.Chip}
+                      color="secondary"
                     />
                   </div>
                   <div className={classes.AdditionalInfo}>
@@ -82,22 +86,45 @@ class Info extends Component {
                         : this.ANIME_COMPLETION}
                     </Typography>
                     <Chip
-                      color="primary"
-                      label={this.props.onGoing ? "Ongoing" : "Completed"}
+                      color="secondary"
+                      label={
+                        this.props.animeInfo.status ? "Ongoing" : "Completed"
+                      }
+                      className={classes.Chip}
+                    />
+                  </div>
+                  <div className={classes.AdditionalInfo}>
+                    <Typography variant="subtitle1">
+                      {"Release Date"}
+                    </Typography>
+                    <Chip
+                      color="secondary"
+                      label={this.props.animeInfo.release}
+                      className={classes.Chip}
+                    />
+                  </div>
+                  <div className={classes.AdditionalInfo}>
+                    <Typography variant="subtitle1">{"Rating"}</Typography>
+                    <Chip
+                      color="secondary"
+                      label={this.props.animeInfo.rating}
                       className={classes.Chip}
                     />
                   </div>
                   <Typography variant="subtitle1">
                     {this.props.isZawgyi ? toZawgyi(this.GENRES) : this.GENRES}
                   </Typography>
-                  {this.props.genres.map((genre) => {
+                  {this.props.animeInfo.genres.map((genre) => {
                     return (
-                      <Chip
-                        color="secondary"
-                        label={genre}
-                        className={classes.Chip}
+                      <NavLink
+                        className={classes.GenreLink}
+                        to={"/Genre/" + genre.replace(/ /g, "-")}
                         key={genre}
-                      />
+                      >
+                        <Button variant="contained" color="secondary">
+                          {genre}
+                        </Button>
+                      </NavLink>
                     );
                   })}
                 </Paper>
@@ -114,8 +141,8 @@ class Info extends Component {
                   <div className={classes.Synopsis}>
                     <Typography variant="subtitle1">
                       {this.props.isZawgyi
-                        ? toZawgyi(this.props.synopsis)
-                        : this.props.synopsis}
+                        ? toZawgyi(this.props.animeInfo.synopsis)
+                        : this.props.animeInfo.synopsis}
                     </Typography>
                   </div>
                 </Paper>
@@ -124,8 +151,9 @@ class Info extends Component {
                 <Paper className={classes.Paper}>
                   <EpisodesList
                     isZawgyi={this.props.isZawgyi}
-                    number={this.props.episodes}
-                    animeName={this.props.name}
+                    number={this.props.animeInfo.number_of_episodes}
+                    animeId={this.props.animeInfo.anime_id}
+                    episodes={this.props.animeInfo.episodes}
                   />
                 </Paper>
               </Grid>
@@ -151,12 +179,7 @@ class Info extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posterURL: state.info.posterURL,
-    synopsis: state.info.synopsis,
-    name: state.info.name,
-    episodes: state.info.episodes,
-    genres: state.info.genres,
-    onGoing: state.info.onGoing,
+    animeInfo: state.info.animeInfo,
     error: state.info.error,
     loading: state.info.loading,
     isZawgyi: state.mmfont.isZawgyi,
@@ -165,8 +188,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInfoData: (animeName, redirectFunc) => {
-      dispatch(actions.fetchInfoData(animeName, redirectFunc));
+    fetchInfoData: (animeId, redirectFunc) => {
+      dispatch(actions.fetchInfoData(animeId, redirectFunc));
     },
     clearVideoData: () => {
       dispatch(actions.clearVideoData());
