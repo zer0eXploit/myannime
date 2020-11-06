@@ -24,19 +24,19 @@ class Home extends Component {
     }
 
     if (this.props.animeData) {
-      dynamicContent = this.props.animeData.map((videoCard) => {
+      dynamicContent = this.props.animeData.animes.map((anime) => {
         return (
           <Grid
             item
             container
             justify="center"
-            key={videoCard.name}
+            key={anime.anime_id}
             xs={6}
             sm={4}
             md={3}
             lg={2}
           >
-            <Card {...videoCard} isZawgyi={this.props.isZawgyi} />
+            <Card {...anime} isZawgyi={this.props.isZawgyi} />
           </Grid>
         );
       });
