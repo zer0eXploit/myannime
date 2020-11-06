@@ -22,22 +22,17 @@ const fetchInfoDataFailed = (error) => {
   };
 };
 
-export const fetchInfoData = (animeName, redirectFunc) => (dispatch) => {
+export const fetchInfoData = (animeId, redirectFunc) => (dispatch) => {
   dispatch(fetchInfoDataStart());
   axios
-    .get("/Anime-Info/" + animeName + ".json")
+    .get("/anime/" + animeId)
     .then((res) => {
       const data = res.data;
       if (data) {
         dispatch({
           type: actionTypes.FETCH_INFO_DATA,
           payload: {
-            posterURL: data.pU,
-            synopsis: data.sns,
-            name: animeName,
-            episodes: data.e,
-            genres: data.g,
-            onGoing: data.oG,
+            animeInfo: data,
           },
         });
         dispatch(fetchInfoDataSuccess());

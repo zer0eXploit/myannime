@@ -2,14 +2,9 @@ import * as actionTypes from "../actionTypes";
 import { updateObject } from "../../util/updateObject";
 
 const initialState = {
-  posterURL: null,
-  synopsis: null,
-  name: null,
-  episodes: 0,
-  genres: [],
-  onGoing: null,
+  animeInfo: null,
   error: null,
-  loading: true,
+  loading: false,
 };
 
 const fetchInfoDataStart = (state, action) => {

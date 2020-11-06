@@ -2,12 +2,7 @@ import * as actionTypes from "../actionTypes";
 import { updateObject } from "../../util/updateObject";
 
 const initialState = {
-  currentEpisode: null,
-  currentUrl: null,
-  videoServers: null,
-  currentVideoServerName: null,
-  streamUrls: null,
-  serverNameUrlMap: null,
+  episodeInfo: null,
   loading: false,
   error: null,
 };
@@ -32,10 +27,6 @@ const fetchVideoDataFailed = (state, action) => {
   return updateObject(state, { ...action.payload });
 };
 
-const changeStreamUrl = (state, action) => {
-  return updateObject(state, { ...action.payload });
-};
-
 const videoReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CLEAR_VIDEO_DATA:
@@ -52,9 +43,6 @@ const videoReducer = (state = initialState, action) => {
 
     case actionTypes.FETCH_VIDEO_DATA_FAILED:
       return fetchVideoDataFailed(state, action);
-
-    case actionTypes.CHANGE_STREAM_URL:
-      return changeStreamUrl(state, action);
 
     default:
       return state;

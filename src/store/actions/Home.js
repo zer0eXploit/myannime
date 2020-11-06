@@ -25,27 +25,16 @@ const fetchAnimeDataFailed = (error) => {
 export const fetchAnimeData = () => (dispatch) => {
   dispatch(fetchAnimeDataStart());
   axios
-    .get("/Home.json", {
+    .get("http://127.0.0.1:5000/v1/animes", {
       params: {
-        limitToLast: 50,
-        orderBy: '"$value"',
+        sort_by: "rating",
       },
     })
     .then((res) => {
-      const data = res.data;
-      const animeDataArray = [];
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          data[key].name = key;
-          data[key].posterURL = data[key].pU;
-          delete data[key].pU;
-          animeDataArray.push(data[key]);
-        }
-      }
       dispatch({
         type: actionTypes.FETCH_ANIME_DATA,
         payload: {
-          animeData: animeDataArray,
+          animeData: res.data,
         },
       });
       dispatch(fetchAnimeDataSuccess());

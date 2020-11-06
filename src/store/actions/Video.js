@@ -28,47 +28,28 @@ const fetchVideoDataFailed = (error) => {
   };
 };
 
-export const fetchVideoData = (pathName, redirectFunc) => (dispatch) => {
+export const fetchVideoData = (
+  episodeId = "7d6dec98-8e6d-406d-a176-fafda0adde2f",
+  redirectFunc
+) => (dispatch) => {
   dispatch(fetchVideoDataStart());
   axios
-    .get("/Episodes/" + pathName + ".json")
+    .get("/episode/" + episodeId)
     .then((res) => {
-      const data = res.data;
-      if (data) {
-        const streamUrls = [];
-        const serverNames = [];
-        for (let key in data) {
-          streamUrls.push(data[key]);
-          serverNames.push(key);
-        }
+      if (res.data) {
         dispatch({
           type: actionTypes.FETCH_VIDEO_DATA,
           payload: {
-            currentEpisode: pathName.split("/")[1],
-            currentUrl: streamUrls[0],
-            videoServers: serverNames,
-            currentVideoServerName: serverNames[0],
-            streamUrls: streamUrls,
-            serverNameUrlMap: data,
+            episodeInfo: res.data,
           },
         });
       } else {
-        redirectFunc("/Anime/" + pathName.split("/")[0]);
+        redirectFunc("/");
       }
       dispatch(fetchVideoDataSuccess());
     })
     .catch((error) => {
-      console.log("[FETCH ANIME VIDEO DATA] " + error.response);
+      console.log(error.response);
       dispatch(fetchVideoDataFailed(error));
     });
-};
-
-export const changeStreamUrl = (newServername, newUrl) => {
-  return {
-    type: actionTypes.CHANGE_STREAM_URL,
-    payload: {
-      currentVideoServerName: newServername,
-      currentUrl: newUrl,
-    },
-  };
 };
