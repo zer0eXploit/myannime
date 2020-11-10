@@ -17,6 +17,9 @@ import classes from "./App.module.css";
 const About = React.lazy(() => import("./About/About"));
 const Genres = React.lazy(() => import("./Genres/Genres"));
 const GenreInfo = React.lazy(() => import("./GenreInfo/GenreInfo"));
+const Auth = React.lazy(() => import("./Auth/Auth"));
+const Account = React.lazy(() => import("./MyAccount/MyAccount"));
+const Register = React.lazy(() => import("./Auth/Register/Register"));
 
 const theme = createMuiTheme({
   palette: {
@@ -36,6 +39,10 @@ class App extends Component {
   state = {
     drawerOpen: false,
   };
+
+  componentDidMount() {
+    this.props.autoAuth();
+  }
 
   handleMenuClick = () => {
     this.setState((prevState) => {
@@ -81,6 +88,42 @@ class App extends Component {
       />
     );
 
+    const authRouteComponent = (
+      <Route
+        path="/Auth"
+        exact
+        render={(props) => (
+          <Suspense fallback={<Loader />}>
+            <Auth {...props} />
+          </Suspense>
+        )}
+      />
+    );
+
+    const accountRouteComponent = (
+      <Route
+        path="/MyAccount"
+        exact
+        render={(props) => (
+          <Suspense fallback={<Loader />}>
+            <Account {...props} authData={this.props.authData} />
+          </Suspense>
+        )}
+      />
+    );
+
+    const registerRouteComponent = (
+      <Route
+        path="/Register"
+        exact
+        render={(props) => (
+          <Suspense fallback={<Loader />}>
+            <Register {...props} authData={this.props.authData} />
+          </Suspense>
+        )}
+      />
+    );
+
     return (
       <div className={classes.App}>
         <ThemeProvider theme={theme}>
@@ -88,6 +131,8 @@ class App extends Component {
             <Drawer
               showDrawer={this.state.showDrawer}
               click={this.handleMenuClick}
+              authData={this.props.authData}
+              logOut={this.props.logOut}
               isZawgyi={this.props.isZawgyi}
             />
             <Grid item>
@@ -103,6 +148,9 @@ class App extends Component {
                 {aboutRouteComponent}
                 {genresRouteComponent}
                 {genreInfoRouteComponent}
+                {authRouteComponent}
+                {accountRouteComponent}
+                {registerRouteComponent}
                 <Route path="/Anime/:animeInfo" component={Info} exact />
                 <Route
                   path="/Anime/:animeInfo/:episode"
@@ -122,6 +170,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     isZawgyi: state.mmfont.isZawgyi,
+    authData: state.auth.authData,
   };
 };
 
@@ -130,6 +179,8 @@ const mapDispatchToProps = (dispatch) => {
     handleSwitchChange: () => {
       dispatch(actions.toZawgyi());
     },
+    autoAuth: () => dispatch(actions.autoAuth()),
+    logOut: () => dispatch(actions.authLogout()),
   };
 };
 

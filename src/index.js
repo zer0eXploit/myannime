@@ -7,6 +7,7 @@ import homeReducer from "./store/reducers/Home";
 import animeInfoReducer from "./store/reducers/Anime-Info";
 import animeVideoReducer from "./store/reducers/Video";
 import toZawgyiReducer from "./store/reducers/ToZawgyi";
+import authReducer from "./store/reducers/Auth";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   home: homeReducer,
   info: animeInfoReducer,
   video: animeVideoReducer,
+  auth: authReducer,
   mmfont: toZawgyiReducer,
 });
 
