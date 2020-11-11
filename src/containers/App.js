@@ -140,6 +140,7 @@ class App extends Component {
                 handleMenuClick={this.handleMenuClick}
                 isZawgyi={this.props.isZawgyi}
                 handleSwitchChange={this.props.handleSwitchChange}
+                authData={this.props.authData}
               />
             </Grid>
             <Grid item container className={classes.ContentMargin}>
