@@ -25,7 +25,9 @@ const breadCrumb = (props) => {
             to={props.anime_id ? "/Anime/" + props.anime_id : "#"}
           >
             <Typography color={props.episode ? "textSecondary" : "textPrimary"}>
-              {props.name}
+              {props.name.length > 10
+                ? props.name.slice(0, 10) + " ..."
+                : props.name}
             </Typography>
           </Link>
         ) : null}
