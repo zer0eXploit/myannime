@@ -7,7 +7,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import { Helmet } from "react-helmet";
 import Loader from "../../components/Loader/Loader";
-import axios from "axios";
+import axios from "../../util/axiosMyannime";
 import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const Genres = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/v1/genres")
+      .get("/genres")
       .then((response) => {
         setGenresInfo(response.data);
       })
