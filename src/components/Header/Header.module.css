@@ -16,3 +16,14 @@
 .ZG {
   margin-right: 0 !important;
 }
+
+.User {
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .User {
+    display: none;
+  }
+}
