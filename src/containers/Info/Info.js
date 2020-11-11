@@ -134,10 +134,16 @@ class Info extends Component {
               <Grid item xs={12} className={classes.InfoCardsMargin}>
                 <Paper className={classes.Paper}>
                   <Typography variant="h5">
+                    {this.props.animeInfo.title}
+                  </Typography>
+                  <hr />
+                  <br />
+                  <Typography variant="h5">
                     {this.props.isZawgyi
                       ? toZawgyi(this.SYNOPSIS)
                       : this.SYNOPSIS}
                   </Typography>
+                  <br />
                   <div className={classes.Synopsis}>
                     <Typography variant="subtitle1">
                       {this.props.isZawgyi
