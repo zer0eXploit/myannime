@@ -7,6 +7,7 @@ import { login } from "../../store/actions/index";
 import { updateObject } from "../../util/updateObject";
 import validityCheck from "../../util/validityCheck";
 import { Button } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 
 import styles from "./Auth.module.css";
 
@@ -147,6 +148,10 @@ class Authentication extends Component {
     }
     return (
       <div className={styles.Auth}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Authenticate | MYANnime</title>
+        </Helmet>
         <h2>Login</h2>
         {this.props.authData ? <Redirect to="/" /> : null}
         {errorMessage}

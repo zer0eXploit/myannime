@@ -7,6 +7,7 @@ import { login } from "../../../store/actions/index";
 import { updateObject } from "../../../util/updateObject";
 import validityCheck from "../../../util/validityCheck";
 import { Button } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import axios from "../../../util/axiosMyannime";
 
 import styles from "./Register.module.css";
@@ -213,6 +214,10 @@ class Authentication extends Component {
     return (
       <div className={styles.Auth}>
         <h2>Register</h2>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Register an Account | MYAN-nime</title>
+        </Helmet>
         {this.props.authData ? <Redirect to="/" /> : null}
         {errorMessage}
         {this.state.showCount && (
