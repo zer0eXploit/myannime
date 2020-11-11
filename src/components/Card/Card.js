@@ -34,7 +34,11 @@ export default function MediaCard(props) {
           title={props.title}
         />
         <CardContent>
-          <Typography variant="subtitle2">{props.title}</Typography>
+          <Typography variant="subtitle2">
+            {props.title.length > 15
+              ? props.title.slice(0, 15) + " ..."
+              : props.title}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
