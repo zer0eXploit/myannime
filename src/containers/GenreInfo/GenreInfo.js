@@ -114,17 +114,17 @@ const GenreInfo = (props) => {
           <title>{genreInfo.genre_name} | MYAN-nime</title>
         </Helmet>
         <Grid container direction="column" justify="flex-start">
-          <Paper className={classes.genreIntro}>
-            <Typography variant={"h5"}>{genreInfo.genre_name}</Typography>
-            <Typography variant={"subtitle1"}>
-              {genreInfo.genre_explanation}
-            </Typography>
-          </Paper>
+          <Grid item style={{ maxWidth: "1500px" }}>
+            <Paper className={classes.genreIntro}>
+              <Typography variant={"h5"}>{genreInfo.genre_name}</Typography>
+              <Typography variant={"subtitle1"}>
+                {genreInfo.genre_explanation}
+              </Typography>
+            </Paper>
+          </Grid>
           <Grid
             item
             container
-            xs={12}
-            sm={10}
             style={{ maxWidth: "1500px", padding: "2%", paddingTop: "0.2%" }}
           >
             <Typography variant={"h5"} className={classes.title}>
