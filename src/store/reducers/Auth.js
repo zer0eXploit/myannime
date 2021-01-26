@@ -27,6 +27,10 @@ const logOut = (state, action) => {
   return updateObject(state, { ...action.payload });
 };
 
+const clearError = (state, action) => {
+  return updateObject(state, { ...action.payload });
+};
+
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_START:
@@ -43,6 +47,9 @@ const authReducer = (state = initialState, action) => {
 
     case actionTypes.LOGOUT:
       return logOut(state, action);
+
+    case actionTypes.CLEAR_ERROR:
+      return clearError(state, action);
 
     default:
       return state;
