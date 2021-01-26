@@ -7,11 +7,13 @@
 }
 
 .ProfileHeadContainer {
-  margin-top: 12px;
+  margin: 12px;
+}
+
+.NameContainer {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 1.2rem;
+  height: 100%;
 }
 
 .Name {
@@ -22,10 +24,11 @@
 }
 
 .ProfilePicContainer {
-  width: 250px;
+  /* width: 250px; */
   height: 250px;
   border-radius: 2%;
   overflow: hidden;
+  display: block;
 }
 
 .ProfilePic {
@@ -35,12 +38,15 @@
 
 .ProfileAndEditContainer {
   position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.ButtonGroup {
+/* .ButtonGroup {
   position: absolute;
   top: 85%;
-}
+} */
 
 .ProfileDetails {
   padding: 1.2rem;
@@ -62,6 +68,7 @@ input[type="file"] {
   display: block;
   padding: 6px 12px;
   cursor: pointer;
+  width: fit-content;
 }
 
 .UploadButtonAndText {

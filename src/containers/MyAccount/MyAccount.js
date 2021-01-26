@@ -201,6 +201,57 @@ function AccountHome(props) {
   let bookmarkedAnimes = null;
   let bookmarkedAnimeList = null;
 
+  let imageUpload = (
+    <div>
+      <h2>Profile Picture</h2>
+      <form style={{ width: "80%", height: "fit-content" }}>
+        <label
+          className={[styles.CustomFileUpload, styles.ButtonGroup].join(" ")}
+          style={{
+            display: fileSelected ? "none" : "block",
+          }}
+        >
+          <input
+            value={control}
+            type="file"
+            accept="image/*"
+            onChange={onChangeHandler}
+          />
+          Upload new photo
+        </label>
+      </form>
+      {fileSelected && !uploadStarted ? (
+        <div className={styles.UploadButtonAndText}>
+          <p>
+            {"Photo "}
+            <strong>{fileSelected.name}</strong>
+            {" has been selected. Ready to upload."}
+          </p>
+          <Button
+            variant="outlined"
+            color="secondary"
+            disabled={!fileSelected}
+            onClick={onSubmitHandler}
+            disableElevation
+          >
+            Upload Now
+          </Button>
+        </div>
+      ) : null}
+      {uploadStarted && (
+        <div className={styles.UploadProgress}>
+          <LinearProgress
+            style={{ width: "100%" }}
+            variant="determinate"
+            color="secondary"
+            value={uploadProgress}
+          />
+          <p>{uploadProgress + "%"}</p>
+        </div>
+      )}
+    </div>
+  );
+
   let accountSecurity = (
     <>
       <h2>Account Security</h2>
@@ -338,67 +389,36 @@ function AccountHome(props) {
 
     userInfo = (
       <Grid container justify="center">
-        <Grid item lg={4}>
+        <Grid item lg={12}>
           <div className={styles.ProfileHeadContainer}>
-            <div className={styles.ProfileAndEditContainer}>
-              <div className={styles.ProfilePicContainer}>
-                {profileImageUrl && (
-                  <img
-                    className={styles.ProfilePic}
-                    src={profileImageUrl}
-                    width="200"
-                    height="200"
-                    alt="avatar"
-                  />
-                )}
-              </div>
-              <form style={{ width: "80%" }}>
-                <label
-                  className={[styles.CustomFileUpload, styles.ButtonGroup].join(
-                    " ",
-                  )}
-                  style={{ visibility: fileSelected ? "hidden" : "visible" }}
-                >
-                  <input
-                    value={control}
-                    type="file"
-                    accept="image/*"
-                    onChange={onChangeHandler}
-                  />
-                  Upload new photo
-                </label>
-              </form>
-            </div>
-            {fileSelected && !uploadStarted ? (
-              <div className={styles.UploadButtonAndText}>
-                <p>
-                  {"Photo "}
-                  <strong>{fileSelected.name}</strong>
-                  {" has been selected. Ready to upload."}
-                </p>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  disabled={!fileSelected}
-                  onClick={onSubmitHandler}
-                  disableElevation
-                >
-                  Upload Now
-                </Button>
-              </div>
-            ) : null}
-            {uploadStarted && (
-              <div className={styles.UploadProgress}>
-                <LinearProgress
-                  style={{ width: "100%" }}
-                  variant="determinate"
-                  color="secondary"
-                  value={uploadProgress}
-                />
-                <p>{uploadProgress + "%"}</p>
-              </div>
-            )}
-            <p className={styles.Name}>{"Hello! " + props.authData.name}</p>
+            {/* Profile pic and form start */}
+            <Grid container justify="center">
+              <Grid item container justify="center" direction="column" lg={6}>
+                <div className={styles.ProfileAndEditContainer}>
+                  <div className={styles.ProfilePicContainer}>
+                    {profileImageUrl && (
+                      <img
+                        className={styles.ProfilePic}
+                        src={profileImageUrl}
+                        width="200"
+                        height="200"
+                        alt="avatar"
+                      />
+                    )}
+                  </div>
+                </div>
+              </Grid>
+              {/* Profile pic and form end */}
+              <Grid item lg={6}>
+                <div className={styles.NameContainer}>
+                  <p className={styles.Name}>
+                    {"Welcome!"}
+                    <br />
+                    {props.authData.name}
+                  </p>
+                </div>
+              </Grid>
+            </Grid>
           </div>
         </Grid>
         <Grid item container lg={12} justify="center">
@@ -422,6 +442,7 @@ function AccountHome(props) {
                 Member since: {new Date(userData.joined).toLocaleDateString()}
               </span>
             </p>
+            {imageUpload}
             {accountSecurity}
             {bookmarkedAnimes}
           </div>
