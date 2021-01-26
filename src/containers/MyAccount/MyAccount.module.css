@@ -1,0 +1,124 @@
+.UserProfile {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.ProfileHeadContainer {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem;
+}
+
+.Name {
+  font-size: 2.3rem;
+  text-align: center;
+  font-weight: bold;
+  margin: 1.2rem;
+}
+
+.ProfilePicContainer {
+  width: 250px;
+  height: 250px;
+  border-radius: 2%;
+  overflow: hidden;
+}
+
+.ProfilePic {
+  border-radius: 50% !important;
+  display: block;
+}
+
+.ProfileAndEditContainer {
+  position: relative;
+}
+
+.ButtonGroup {
+  position: absolute;
+  top: 85%;
+}
+
+.ProfileDetails {
+  padding: 1.2rem;
+  border: 1px solid #ccc;
+  text-align: left;
+  width: 80%;
+  border-radius: 1rem;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.CustomFileUpload {
+  border: 1px solid transparent;
+  background-color: #f44336;
+  color: white;
+  border-radius: 0.4rem;
+  display: block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.UploadButtonAndText {
+  margin-top: 0.5rem;
+}
+
+.UploadProgress {
+  margin-top: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.Input {
+  /* width: 100%; */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.Label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.InputFormFieldContainer {
+  display: inline-block;
+}
+
+.InputElement {
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  font: inherit;
+  padding: 6px 10px;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.InputElement:focus {
+  outline: none;
+  background-color: #ccc;
+}
+
+.UpdatePassword {
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.BlockBtn {
+  display: block;
+  margin: 0.5rem;
+}
+
+.UserData {
+  background-color: #ccc;
+  padding: 5px;
+}
