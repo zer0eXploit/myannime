@@ -41,15 +41,6 @@ const header = (props) => {
               {props.authData && (
                 <NavLink to={"/MyAccount"} className={classes.User}>
                   <Button variant="text">
-                    <img
-                      style={{ borderRadius: "50%", marginRight: "0.5rem" }}
-                      src="https://veherthb.sirv.com/MYANNime/default-avatar.jpg?w=32&h=32"
-                      width="32"
-                      height="32"
-                      srcSet="https://veherthb.sirv.com/MYANNime/default-avatar.jpg?w=32&h=32 1x, https://veherthb.sirv.com/MYANNime/default-avatar.jpg?w=64&h=64 2x"
-                      alt="avatar"
-                    />
-
                     <span style={{ color: "white" }}>
                       {props.authData.username}
                     </span>
