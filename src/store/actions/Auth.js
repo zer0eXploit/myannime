@@ -1,7 +1,7 @@
 import * as actionTypes from "../actionTypes";
 import axios from "../../util/axiosMyannime";
 
-const loginStart = (sortMethod) => {
+const loginStart = () => {
   return {
     type: actionTypes.LOGIN_START,
     payload: { loading: true, error: null },
@@ -16,9 +16,18 @@ const loginSuccess = () => {
 };
 
 const loginFailed = (error) => {
+  let errorMessage = {};
+  if (error.data.message_1) {
+    for (let key in error.data) {
+      errorMessage[key] = error.data[key];
+    }
+  } else {
+    errorMessage = error.data.message;
+  }
+
   return {
     type: actionTypes.LOGIN_FAILED,
-    payload: { loading: false, error: error.data.message },
+    payload: { loading: false, error: errorMessage },
   };
 };
 
@@ -88,7 +97,7 @@ export const login = (username, password, redirectTo) => (dispatch) => {
     })
     .then((res) => {
       const expirationDate = new Date(
-        new Date().getTime() + res.data.expires_in * 1000
+        new Date().getTime() + res.data.expires_in * 1000,
       );
       localStorage.setItem("token", res.data.access_token);
       localStorage.setItem("refresh_token", res.data.refresh_token);
@@ -109,4 +118,13 @@ export const login = (username, password, redirectTo) => (dispatch) => {
       console.log(error.response);
       dispatch(loginFailed(error.response));
     });
+};
+
+export const clearError = () => {
+  return {
+    type: actionTypes.CLEAR_ERROR,
+    payload: {
+      error: null,
+    },
+  };
 };
