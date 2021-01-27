@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Input from "../../components/Input/Input";
 import Loader from "../../components/Loader/Loader";
-import { login } from "../../store/actions/index";
+import { login, clearError } from "../../store/actions/index";
 import { updateObject } from "../../util/updateObject";
 import validityCheck from "../../util/validityCheck";
 import { Button } from "@material-ui/core";
@@ -48,8 +48,16 @@ class Authentication extends Component {
     allInputValid: false,
   };
 
+  componentDidMount() {
+    this.props.clearError();
+  }
+
   switchFormMode = () => {
     this.props.history.push("/Register");
+  };
+
+  switchToPwResetHandler = () => {
+    this.props.history.push("/PasswordReset");
   };
 
   onChangeHandler = (event, elementIdentifier) => {
@@ -59,10 +67,10 @@ class Authentication extends Component {
         value: event.target.value,
         valid: validityCheck(
           this.state.controls[elementIdentifier].validityCheck,
-          event.target.value
+          event.target.value,
         ),
         touched: true,
-      }
+      },
     );
 
     const updatedControls = updateObject(this.state.controls, {
@@ -119,16 +127,26 @@ class Authentication extends Component {
         <Button
           variant="outlined"
           color="primary"
+          style={{ margin: "5px" }}
           disabled={!this.state.allInputValid}
           onClick={this.onSubmitHandler}
           disableElevation
         >
-          Login
+          <span style={{ padding: "7px" }}>Login</span>
         </Button>
         <div>
           <Button
-            style={{ marginTop: "5px" }}
+            style={{ marginRight: "5px" }}
+            color="primary"
+            variant="outlined"
+            onClick={this.switchToPwResetHandler}
+          >
+            <span style={{ padding: "7px" }}>Forgot your password?</span>
+          </Button>
+          <Button
+            style={{ marginLeft: "5px" }}
             color="secondary"
+            variant="outlined"
             onClick={this.switchFormMode}
           >
             <span style={{ padding: "7px" }}>Don't have an account?</span>
@@ -140,7 +158,15 @@ class Authentication extends Component {
     let errorMessage = null;
 
     if (this.props.error) {
-      errorMessage = <p>{this.props.error}</p>;
+      if (this.props.error.message_1) {
+        const messages = [];
+        for (let key in this.props.error) {
+          messages.push(this.props.error[key]);
+        }
+        errorMessage = messages.map((msg, idx) => <p key={idx}>{msg}</p>);
+      } else {
+        errorMessage = <p>{this.props.error}</p>;
+      }
     }
 
     if (this.props.loading) {
@@ -173,6 +199,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (username, password, redirectTo) => {
       dispatch(login(username, password, redirectTo));
+    },
+    clearError: () => {
+      dispatch(clearError());
     },
   };
 };
