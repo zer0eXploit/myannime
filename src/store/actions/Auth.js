@@ -31,14 +31,12 @@ const loginFailed = (error) => {
   };
 };
 
-const logOutTimeout = (timeoutPeriod) => {
-  return (dispatch) => {
-    console.log("Token expiring in: " + timeoutPeriod + " seconds.");
-    setTimeout(() => {
-      dispatch(authLogout());
-      console.log("Token expired. Getting new token...");
-    }, timeoutPeriod * 1000);
-  };
+const logOutTimeout = (timeoutPeriod) => (dispatch) => {
+  console.log("Token expiring in: " + timeoutPeriod + " seconds.");
+  setTimeout(() => {
+    dispatch(getRefreshToken());
+    console.log("Token expired. Getting new token...");
+  }, timeoutPeriod * 1000);
 };
 
 export const authLogout = () => {
@@ -118,6 +116,43 @@ export const login = (username, password, redirectTo) => (dispatch) => {
       console.log(error.response);
       dispatch(loginFailed(error.response));
     });
+};
+
+const getRefreshToken = () => async (dispatch) => {
+  console.log("Getting refresh token...");
+  // Get unchanging data for state update
+  const refresh_token = localStorage.getItem("refresh_token");
+  const name = localStorage.getItem("name");
+  const username = localStorage.getItem("username");
+  const expirationDate = localStorage.getItem("expirationDate");
+
+  const headers = {
+    Authorization: `Bearer ${refresh_token}`,
+  };
+  const response = await axios.post("/user/refresh", {}, { headers: headers });
+
+  console.log(response);
+
+  if (response.status === 200) {
+    const newAccessToken = response.data.access_token;
+    // Set the new access token
+    localStorage.setItem("token", newAccessToken);
+
+    const authData = {
+      access_token: newAccessToken,
+      refresh_token: refresh_token,
+      name: name,
+      username: username,
+    };
+
+    dispatch(logOutTimeout(expirationDate));
+    dispatch({
+      type: actionTypes.LOGIN,
+      payload: {
+        authData: authData,
+      },
+    });
+  }
 };
 
 export const clearError = () => {
