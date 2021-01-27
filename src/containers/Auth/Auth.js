@@ -136,7 +136,7 @@ class Authentication extends Component {
         </Button>
         <div>
           <Button
-            style={{ marginRight: "5px" }}
+            style={{ margin: "2px 2px" }}
             color="primary"
             variant="outlined"
             onClick={this.switchToPwResetHandler}
@@ -144,7 +144,7 @@ class Authentication extends Component {
             <span style={{ padding: "7px" }}>Forgot your password?</span>
           </Button>
           <Button
-            style={{ marginLeft: "5px" }}
+            style={{ margin: "2px 2px" }}
             color="secondary"
             variant="outlined"
             onClick={this.switchFormMode}
@@ -152,6 +152,17 @@ class Authentication extends Component {
             <span style={{ padding: "7px" }}>Don't have an account?</span>
           </Button>
         </div>
+        <Button
+          style={{ marginTop: "3px" }}
+          color="primary"
+          onClick={() => {
+            this.props.history.push("/NewActivationEmail");
+          }}
+        >
+          <span style={{ padding: "7px" }}>
+            Did not get your activation email?
+          </span>
+        </Button>
       </form>
     );
 
