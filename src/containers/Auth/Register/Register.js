@@ -82,6 +82,10 @@ class Authentication extends Component {
     serverResponse: null,
   };
 
+  switchFormMode = () => {
+    this.props.history.push("/Auth");
+  };
+
   onChangeHandler = (event, elementIdentifier) => {
     const updatedElement = updateObject(
       this.state.controls[elementIdentifier],
@@ -89,10 +93,10 @@ class Authentication extends Component {
         value: event.target.value,
         valid: validityCheck(
           this.state.controls[elementIdentifier].validityCheck,
-          event.target.value
+          event.target.value,
         ),
         touched: true,
-      }
+      },
     );
 
     const updatedControls = updateObject(this.state.controls, {
@@ -198,6 +202,14 @@ class Authentication extends Component {
           disableElevation
         >
           Register
+        </Button>
+        <span> | </span>
+        <Button
+          color="secondary"
+          variant="outlined"
+          onClick={this.switchFormMode}
+        >
+          Login Instead?
         </Button>
       </form>
     );
