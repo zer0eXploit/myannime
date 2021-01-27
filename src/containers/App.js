@@ -20,6 +20,9 @@ const GenreInfo = React.lazy(() => import("./GenreInfo/GenreInfo"));
 const Auth = React.lazy(() => import("./Auth/Auth"));
 const Account = React.lazy(() => import("./MyAccount/MyAccount"));
 const Register = React.lazy(() => import("./Auth/Register/Register"));
+const PasswordReset = React.lazy(() =>
+  import("./Auth/PasswordReset/PasswordReset"),
+);
 
 const theme = createMuiTheme({
   palette: {
@@ -124,6 +127,18 @@ class App extends Component {
       />
     );
 
+    const pwResetRouteComponent = (
+      <Route
+        path="/PasswordReset"
+        exact
+        render={() => (
+          <Suspense fallback={<Loader />}>
+            <PasswordReset />
+          </Suspense>
+        )}
+      />
+    );
+
     return (
       <div className={classes.App}>
         <ThemeProvider theme={theme}>
@@ -152,6 +167,7 @@ class App extends Component {
                 {authRouteComponent}
                 {accountRouteComponent}
                 {registerRouteComponent}
+                {pwResetRouteComponent}
                 <Route path="/Anime/:animeInfo" component={Info} exact />
                 <Route
                   path="/Anime/:animeInfo/:episode"
