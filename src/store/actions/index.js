@@ -1,6 +1,6 @@
 export { fetchAnimeData } from "./Home";
 
-export { fetchInfoData } from "./Anime-Info";
+export { fetchInfoData, setBookmarkOption } from "./Anime-Info";
 
 export { fetchVideoData, clearVideoData } from "./Video";
 

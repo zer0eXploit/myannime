@@ -3,6 +3,7 @@ import { updateObject } from "../../util/updateObject";
 
 const initialState = {
   animeInfo: null,
+  animeBookmarked: false,
   error: null,
   loading: false,
 };
@@ -23,6 +24,10 @@ const fetchInfoDataFailed = (state, action) => {
   return updateObject(state, { ...action.payload });
 };
 
+const setBookmarkOption = (state, action) => {
+  return updateObject(state, { ...action.payload });
+};
+
 const infoReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_INFO_DATA_START:
@@ -36,6 +41,9 @@ const infoReducer = (state = initialState, action) => {
 
     case actionTypes.FETCH_INFO_DATA_FAILED:
       return fetchInfoDataFailed(state, action);
+
+    case actionTypes.SET_BOOKMARK_OPTION:
+      return setBookmarkOption(state, action);
 
     default:
       return state;
