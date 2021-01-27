@@ -14,8 +14,13 @@ import Card from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
 
 function AccountHome(props) {
-  const { username } = props.authData;
-  const { access_token } = props.authData;
+  let username = null;
+  let access_token = null;
+
+  if (props.authData) {
+    username = props.authData.username;
+    access_token = props.authData.access_token;
+  }
   const [uploadStarted, setUploadStarted] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [control, setControl] = useState("");
