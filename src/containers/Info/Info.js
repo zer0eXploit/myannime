@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Grid, Paper, Typography, Chip, Button } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Typography,
+  Chip,
+  Button,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
@@ -19,15 +27,34 @@ class Info extends Component {
   GENRES = "ဇာတ်လမ်းအမျိုးအစား";
   SYNOPSIS = "ဇာတ်လမ်းအကျဥ်း";
   EPISODES_LIST = "ဇာတ်လမ်းအပိုင်းများ";
+  BOOKMARK_TEXT = "သိမ်းဆည်းမည်";
+  REMOVE_BOOKMARK_TEXT = "သိမ်းဆည်းထားခြင်းမှ ပြန်ဖျက်မည်";
+  // Directly checked for access token existence instead from state
+  // because state update is async and if authData is updated only after
+  // getting animeInfo, then auth headers will not be present in the
+  // request to get anime info as access token is used to check if a user
+  // has bookmarked the anime or not.
+  accessToken = localStorage.getItem("token");
+
   componentDidMount() {
     const animeId = this.props.location.pathname.split("/")[2];
     if (this.props.name === animeId) {
       return;
     }
     const redirectFunc = this.props.history.push;
-    this.props.fetchInfoData(animeId, redirectFunc);
+
+    if (this.accessToken) {
+      this.props.fetchInfoData(animeId, redirectFunc, this.accessToken);
+    } else {
+      this.props.fetchInfoData(animeId, redirectFunc);
+    }
     this.props.clearVideoData();
   }
+
+  handleBookmarkChange = () => {
+    const animeId = this.props.animeInfo.anime_id;
+    this.props.handleBookmarkChange(!this.props.animeBookmarked, animeId);
+  };
 
   render() {
     let dynamicContent = null;
@@ -151,6 +178,37 @@ class Info extends Component {
                         : this.props.animeInfo.synopsis}
                     </Typography>
                   </div>
+                  <div className={classes.SaveAnimeSwitch}>
+                    {/* Login button or Save anime switch */}
+                    {this.accessToken ? (
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={this.props.animeBookmarked}
+                            onChange={this.handleBookmarkChange}
+                            name="checkedB"
+                            color="primary"
+                          />
+                        }
+                        label={
+                          this.props.animeBookmarked
+                            ? this.REMOVE_BOOKMARK_TEXT
+                            : this.BOOKMARK_TEXT
+                        }
+                      />
+                    ) : (
+                      <>
+                        <br />
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={(props) => this.props.history.push("/Auth")}
+                        >
+                          Login to bookmark this anime
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs={12}>
@@ -185,7 +243,9 @@ class Info extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    authData: state.auth.authData,
     animeInfo: state.info.animeInfo,
+    animeBookmarked: state.info.animeBookmarked,
     error: state.info.error,
     loading: state.info.loading,
     isZawgyi: state.mmfont.isZawgyi,
@@ -194,12 +254,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInfoData: (animeId, redirectFunc) => {
-      dispatch(actions.fetchInfoData(animeId, redirectFunc));
+    fetchInfoData: (animeId, redirectFunc, accessToken = null) => {
+      dispatch(actions.fetchInfoData(animeId, redirectFunc, accessToken));
     },
     clearVideoData: () => {
       dispatch(actions.clearVideoData());
     },
+    handleBookmarkChange: (animeBookmarked, animeId) =>
+      dispatch(actions.setBookmarkOption(animeBookmarked, animeId)),
   };
 };
 
