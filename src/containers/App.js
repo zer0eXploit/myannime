@@ -26,6 +26,9 @@ const PasswordReset = React.lazy(() =>
 const SetNewPassword = React.lazy(() =>
   import("./Auth/PasswordReset/SetNewPassword/SetNewPassword"),
 );
+const RequestNewActivationEmail = React.lazy(() =>
+  import("./Auth/Register/ActivationEmail/ActivationEmail"),
+);
 
 const theme = createMuiTheme({
   palette: {
@@ -154,6 +157,18 @@ class App extends Component {
       />
     );
 
+    const requestNewActivationEmailComponent = (
+      <Route
+        path="/NewActivationEmail"
+        exact
+        render={(props) => (
+          <Suspense fallback={<Loader />}>
+            <RequestNewActivationEmail {...props} />
+          </Suspense>
+        )}
+      />
+    );
+
     return (
       <div className={classes.App}>
         <ThemeProvider theme={theme}>
@@ -184,6 +199,7 @@ class App extends Component {
                 {registerRouteComponent}
                 {pwResetRouteComponent}
                 {setNewPwRouteComponent}
+                {requestNewActivationEmailComponent}
                 <Route path="/Anime/:animeInfo" component={Info} exact />
                 <Route
                   path="/Anime/:animeInfo/:episode"
