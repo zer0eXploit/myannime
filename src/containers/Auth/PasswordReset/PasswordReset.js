@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { Grid, Paper, Button } from "@material-ui/core";
 import { withSnackbar } from "notistack";
 
@@ -44,32 +45,40 @@ const PasswordReset = (props) => {
   };
 
   return (
-    <Grid container justify="center">
-      <Paper className={styles.Paper}>
-        <div className={styles.FormContainer}>
-          <h3 className={styles.Heading}>Reset Your Password</h3>
-          <p className={styles.Info}>Please enter your email address below.</p>
-          <form onSubmit={submitHandler}>
-            <label className={styles.Label}>Email Address</label>
-            <input
-              type="email"
-              className={styles.InputElement}
-              value={email}
-              onChange={emailChangeHandler}
-            ></input>
-            <Button
-              className={styles.SubmitButton}
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={!emailValid}
-            >
-              Submit
-            </Button>
-          </form>
-        </div>
-      </Paper>
-    </Grid>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Reset Password | MYANnime</title>
+      </Helmet>
+      <Grid container justify="center">
+        <Paper className={styles.Paper}>
+          <div className={styles.FormContainer}>
+            <h3 className={styles.Heading}>Reset Your Password</h3>
+            <p className={styles.Info}>
+              Please enter your email address below.
+            </p>
+            <form onSubmit={submitHandler}>
+              <label className={styles.Label}>Email Address</label>
+              <input
+                type="email"
+                className={styles.InputElement}
+                value={email}
+                onChange={emailChangeHandler}
+              ></input>
+              <Button
+                className={styles.SubmitButton}
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={!emailValid}
+              >
+                Submit
+              </Button>
+            </form>
+          </div>
+        </Paper>
+      </Grid>
+    </>
   );
 };
 

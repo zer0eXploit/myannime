@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Paper, Button } from "@material-ui/core";
 import { withSnackbar } from "notistack";
+import { Helmet } from "react-helmet";
 
 import axios from "../../../../util/axiosMyannime";
 
@@ -43,32 +44,40 @@ const ActivationEmail = (props) => {
   };
 
   return (
-    <Grid container justify="center">
-      <Paper className={styles.Paper}>
-        <div className={styles.FormContainer}>
-          <h3 className={styles.Heading}>Request for a new activation email</h3>
-          <p className={styles.Info}>Please enter your username below.</p>
-          <form onSubmit={submitHandler}>
-            <label className={styles.Label}>Username</label>
-            <input
-              type="text"
-              className={styles.InputElement}
-              value={username}
-              onChange={usernameChangeHandler}
-            ></input>
-            <Button
-              className={styles.SubmitButton}
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={!usernameValid}
-            >
-              Request
-            </Button>
-          </form>
-        </div>
-      </Paper>
-    </Grid>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Request Activation Email | MYANnime</title>
+      </Helmet>
+      <Grid container justify="center">
+        <Paper className={styles.Paper}>
+          <div className={styles.FormContainer}>
+            <h3 className={styles.Heading}>
+              Request for a new activation email
+            </h3>
+            <p className={styles.Info}>Please enter your username below.</p>
+            <form onSubmit={submitHandler}>
+              <label className={styles.Label}>Username</label>
+              <input
+                type="text"
+                className={styles.InputElement}
+                value={username}
+                onChange={usernameChangeHandler}
+              ></input>
+              <Button
+                className={styles.SubmitButton}
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={!usernameValid}
+              >
+                Request
+              </Button>
+            </form>
+          </div>
+        </Paper>
+      </Grid>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Paper, Button } from "@material-ui/core";
 import { withSnackbar } from "notistack";
+import { Helmet } from "react-helmet";
 
 import axios from "../../../../util/axiosMyannime";
 
@@ -51,35 +52,41 @@ const PasswordReset = (props) => {
   };
 
   return (
-    <Grid container justify="center">
-      <Paper className={styles.Paper}>
-        <div className={styles.FormContainer}>
-          <h3 className={styles.Heading}>Reset Your Password</h3>
-          <p className={styles.Info}>Please enter your new password.</p>
-          <form onSubmit={submitHandler}>
-            <label className={styles.Label}>New Password</label>
-            <input
-              type="password"
-              className={styles.InputElement}
-              value={password}
-              onChange={passwordChangeHandler}
-            ></input>
-            <small className={styles.HitText}>
-              Hint: Password must be more than 6 characters.
-            </small>
-            <Button
-              className={styles.SubmitButton}
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={!passwordValid}
-            >
-              Reset
-            </Button>
-          </form>
-        </div>
-      </Paper>
-    </Grid>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Set New Password | MYANnime</title>
+      </Helmet>
+      <Grid container justify="center">
+        <Paper className={styles.Paper}>
+          <div className={styles.FormContainer}>
+            <h3 className={styles.Heading}>Reset Your Password</h3>
+            <p className={styles.Info}>Please enter your new password.</p>
+            <form onSubmit={submitHandler}>
+              <label className={styles.Label}>New Password</label>
+              <input
+                type="password"
+                className={styles.InputElement}
+                value={password}
+                onChange={passwordChangeHandler}
+              ></input>
+              <small className={styles.HitText}>
+                Hint: Password must be more than 6 characters.
+              </small>
+              <Button
+                className={styles.SubmitButton}
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={!passwordValid}
+              >
+                Reset
+              </Button>
+            </form>
+          </div>
+        </Paper>
+      </Grid>
+    </>
   );
 };
 
