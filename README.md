@@ -24,7 +24,7 @@ cmd: npm start # the app is available at 127.0.0.1:3000
 - NOT an illegal anime streaming site because no actual anime videos are stored.
 - The videos listed on the site are free videos.
 - All the poster images are from myanimelist.
-- Please read [this](https://myanime-d5de4.web.app/about) too.
+- Please read [this](https://myannime.web.app/about) too.
 
 # License
 
