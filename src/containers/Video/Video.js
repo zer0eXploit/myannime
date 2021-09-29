@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React from "react";
+
 import {
   Grid,
   FormControl,
@@ -11,58 +11,79 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { SnackbarProvider } from "notistack";
-import { Link as RouterLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { SnackbarProvider } from "notistack";
 import { DiscussionEmbed } from "disqus-react";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import { Link as RouterLink } from "react-router-dom";
+import { Fragment, useState, useEffect } from "react";
+import { useSelector, useDispatch, connect } from "react-redux";
+
 import Loader from "../../components/Loader/Loader";
+import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import EpisodesList from "../../components/EpisodesList/EpisodesList";
-import toZawgyi from "../../util/convertToZg";
 
 import * as actions from "../../store/actions/index";
+
+import toZawgyi from "../../util/convertToZg";
 
 import classes from "./Video.module.css";
 
 const Video = (props) => {
-  const SHOW_EPISODES = "ဇာတ်လမ်း အပိုင်းများအားပြပါ။";
-  const THANKS_MESSAGE = `
-    မြန်နီမေးကို အသုံးပြုပေးလို့ ကျေးဇူးတင်ပါတယ်။  ^_^ 
-    `;
-  const SHOW_COMMENTS = "Comments များကိုပြပါ။";
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.info.error);
+  const loading = useSelector((state) => state.video.loading);
+  const isZawgyi = useSelector((state) => state.video.isZawgyi);
+  const animeInfo = useSelector((state) => state.info.animeInfo);
+  const episodeInfo = useSelector((state) => state.video.episodeInfo);
+
+  const [showComments, setShowComments] = useState(false);
+  const [streamUrls, setStreamUrls] = useState([]);
+  const [currentUrl, setCurrentUrl] = useState("");
+
   const urlParams = props.location.pathname.split("/");
+
   const episodeId = urlParams[3];
   const redirectFunc = props.history.push;
+
   const disqusShortname = "myannime";
   const disqusConfig = {
     url: `https://myannime.com${props.location.pathname}`,
     identifier: `myannime.com${props.location.pathname}`,
     title: `${urlParams[2]} ${urlParams[3]}`,
   };
-  const disqusTag = (
-    <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
-  );
+
+  // Handlers
+  const handleChangeStreamUrl = (newUrl) => {
+    setCurrentUrl(newUrl);
+  };
+
+  // TO DO: Replace the strings with Translations
+  const SHOW_EPISODES = "ဇာတ်လမ်း အပိုင်းများအားပြပါ။";
+  const THANKS_MESSAGE = `မြန်နီမေးကို အသုံးပြုပေးလို့ ကျေးဇူးတင်ပါတယ်။  ^_^`;
+  const SHOW_COMMENTS = "Comments များကိုပြပါ။";
+
   let dynamicVideoPlayer = null;
   let serverSelector = null;
   let dynamicContent = null;
   let episodesList = (
-    <ListItem button component={RouterLink} to={"/Anime/" + urlParams[2]}>
+    <ListItem button component={RouterLink} to={"/anime/" + urlParams[2]}>
       <ListItemText
-        primary={props.isZawgyi ? toZawgyi(SHOW_EPISODES) : SHOW_EPISODES}
+        primary={isZawgyi ? toZawgyi(SHOW_EPISODES) : SHOW_EPISODES}
       />
     </ListItem>
   );
 
-  const { episodeInfo, handleFetchVideoData } = props;
-  const [showComments, setShowComments] = useState(false);
-  const [streamUrls, setStreamUrls] = useState([]);
-  const [currentUrl, setCurrentUrl] = useState("");
+  const disqusTag = (
+    <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+  );
 
+  // Effects!
   useEffect(() => {
-    handleFetchVideoData(episodeId, redirectFunc);
     setShowComments(false);
-  }, [handleFetchVideoData, episodeId, redirectFunc]);
+    dispatch(actions.fetchVideoData(episodeId, redirectFunc));
+  }, [dispatch, episodeId, redirectFunc]);
 
   useEffect(() => {
     if (episodeInfo) {
@@ -76,10 +97,7 @@ const Video = (props) => {
       setCurrentUrl(urls[0]);
     }
   }, [episodeInfo]);
-
-  const handleChangeStreamUrl = (newUrl) => {
-    setCurrentUrl(newUrl);
-  };
+  // End Effects
 
   if (streamUrls.length) {
     serverSelector = (
@@ -126,14 +144,14 @@ const Video = (props) => {
     );
   }
 
-  if (props.animeInfo && episodeInfo) {
-    if (props.animeInfo.anime_id === episodeInfo.anime_id) {
+  if (animeInfo && episodeInfo) {
+    if (animeInfo.anime_id === episodeInfo.anime_id) {
       episodesList = (
         <EpisodesList
-          isZawgyi={props.isZawgyi}
-          number={props.animeInfo.number_of_episodes}
-          animeId={props.animeInfo.anime_id}
-          episodes={props.animeInfo.episodes}
+          isZawgyi={isZawgyi}
+          number={animeInfo.number_of_episodes}
+          animeId={animeInfo.anime_id}
+          episodes={animeInfo.episodes}
         />
       );
     }
@@ -143,14 +161,14 @@ const Video = (props) => {
     <Fragment>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{`${props.animeInfo ? props.animeInfo.title : ""} Episode: ${
+        <title>{`${animeInfo ? animeInfo.title : ""} Episode: ${
           episodeInfo ? episodeInfo.episode_number : ""
         } | MYAN-nime`}</title>
       </Helmet>
       <Breadcrumb
-        name={props.animeInfo ? props.animeInfo.title : ""}
+        name={animeInfo ? animeInfo.title : ""}
         episode={"Episode: " + (episodeInfo && episodeInfo.episode_number)}
-        anime_id={props.animeInfo ? props.animeInfo.anime_id : null}
+        anime_id={animeInfo ? animeInfo.anime_id : null}
       />
       <Grid container item>
         <FormControl style={{ width: "100px", margin: "5px 0" }}>
@@ -159,7 +177,7 @@ const Video = (props) => {
       </Grid>
       <Grid item style={{ marginTop: "8px" }}>
         <Typography>
-          {props.isZawgyi ? toZawgyi(THANKS_MESSAGE) : THANKS_MESSAGE}
+          {isZawgyi ? toZawgyi(THANKS_MESSAGE) : THANKS_MESSAGE}
         </Typography>
       </Grid>
       <Grid item className={classes.IframeContainer}>
@@ -177,7 +195,7 @@ const Video = (props) => {
               setShowComments(true);
             }}
           >
-            {props.isZawgyi ? toZawgyi(SHOW_COMMENTS) : SHOW_COMMENTS}
+            {isZawgyi ? toZawgyi(SHOW_COMMENTS) : SHOW_COMMENTS}
           </Button>
         )}
         <Paper className={classes.Paper}>{episodesList}</Paper>
@@ -185,12 +203,12 @@ const Video = (props) => {
     </Fragment>
   );
 
-  if (props.loading) {
+  if (loading) {
     dynamicContent = <Loader />;
   }
 
-  if (props.error) {
-    dynamicContent = <ErrorMessage isZawgyi={props.isZawgyi} />;
+  if (error) {
+    dynamicContent = <ErrorMessage isZawgyi={isZawgyi} />;
   }
 
   return (
@@ -206,22 +224,4 @@ const Video = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    episodeInfo: state.video.episodeInfo,
-    animeInfo: state.info.animeInfo,
-    loading: state.video.loading,
-    error: state.video.error,
-    isZawgyi: state.mmfont.isZawgyi,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleFetchVideoData: (pathName, redirectFunc) => {
-      dispatch(actions.fetchVideoData(pathName, redirectFunc));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Video);
+export default Video;
