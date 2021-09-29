@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Button from "@material-ui/core/Button";
+import React from "react";
 import Helmet from "react-helmet";
-import { Redirect } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
 import { withSnackbar } from "notistack";
+import { Redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import Card from "../../components/Card/Card";
+import Loader from "../../components/Loader/Loader";
 
 import axios from "../../util/axiosMyannime";
 
 import styles from "./MyAccount.module.css";
-
-import Card from "../../components/Card/Card";
-import Loader from "../../components/Loader/Loader";
 
 function AccountHome(props) {
   let username = null;
@@ -31,9 +33,8 @@ function AccountHome(props) {
   const [showUpdatePassword, setshowUpdatePassword] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [enablePasswordResetButton, setEnablePasswordResetButton] = useState(
-    true,
-  );
+  const [enablePasswordResetButton, setEnablePasswordResetButton] =
+    useState(true);
 
   const URI = `${axios.defaults.baseURL}user/avatar/${username}`;
 
@@ -47,12 +48,9 @@ function AccountHome(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setUserData(res.data);
       })
-      .catch((e) => {
-        console.log(e.response);
-      });
+      .catch((e) => {});
   }, [access_token]);
 
   // Get user profile image
@@ -119,7 +117,6 @@ function AccountHome(props) {
           },
         });
         cleanUp();
-        console.log(e.response);
       });
   };
 
@@ -156,7 +153,6 @@ function AccountHome(props) {
             horizontal: "left",
           },
         });
-        console.log(e.response);
         setOldPassword("");
         setNewPassword("");
       });
@@ -197,7 +193,6 @@ function AccountHome(props) {
             horizontal: "left",
           },
         });
-        console.log(e.response);
         setEnablePasswordResetButton(true);
       });
   };
