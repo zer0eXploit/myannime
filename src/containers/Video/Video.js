@@ -16,7 +16,7 @@ import { SnackbarProvider } from "notistack";
 import { DiscussionEmbed } from "disqus-react";
 import { Link as RouterLink } from "react-router-dom";
 import { Fragment, useState, useEffect } from "react";
-import { useSelector, useDispatch, connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Loader from "../../components/Loader/Loader";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
