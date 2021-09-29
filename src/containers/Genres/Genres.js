@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+
+import { Helmet } from "react-helmet";
 import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Accordion from "@material-ui/core/Accordion";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
-import { Helmet } from "react-helmet";
-import Loader from "../../components/Loader/Loader";
-import axios from "../../util/axiosMyannime";
-import { NavLink } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(16),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-  margin: {
-    margin: "5px",
-  },
-  genres: { display: "flex", justifyContent: "center", width: "100%" },
-  genresContainer: {
-    maxWidth: "1000px",
-    display: "flex",
-    justifyContent: "center",
-  },
-  accordion: { borderRadius: "0 !important" },
-}));
+import Loader from "../../components/Loader/Loader";
+
+import axios from "../../util/axiosMyannime";
+
+import themer from "../../config/genreTheme";
+
+const useStyles = makeStyles(themer);
 
 const Genres = (props) => {
   const classes = useStyles();
@@ -70,7 +58,7 @@ const Genres = (props) => {
                     color: "black",
                   }}
                   to={{
-                    pathname: "/Genre/" + genre.genre_name.replace(/ /g, "-"),
+                    pathname: "/genre/" + genre.genre_name.replace(/ /g, "-"),
                   }}
                 >
                   [See Animes]
@@ -90,7 +78,6 @@ const Genres = (props) => {
         <title>Genres | MYAN-nime</title>
       </Helmet>
       <Grid container className={classes.genresContainer}>
-        {/* <Typography variant="h5">{"Genre Information"}</Typography> */}
         <Grid container justify="center">
           {dynamicContent}
         </Grid>
