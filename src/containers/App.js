@@ -61,7 +61,7 @@ function MyApp() {
 
   const aboutRouteComponent = (
     <Route
-      path="/About"
+      path="/about"
       render={() => {
         return (
           <Suspense fallback={<Loader />}>
@@ -74,7 +74,7 @@ function MyApp() {
 
   const genresRouteComponent = (
     <Route
-      path="/Genres"
+      path="/genres"
       exact
       render={() => (
         <Suspense fallback={<Loader />}>
@@ -86,7 +86,7 @@ function MyApp() {
 
   const genreInfoRouteComponent = (
     <Route
-      path="/Genre/:genreName"
+      path="/genre/:genreName"
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
@@ -98,7 +98,7 @@ function MyApp() {
 
   const authRouteComponent = (
     <Route
-      path="/Auth"
+      path="/auth"
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
@@ -110,7 +110,7 @@ function MyApp() {
 
   const accountRouteComponent = (
     <Route
-      path="/MyAccount"
+      path="/myaccount"
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
@@ -122,7 +122,7 @@ function MyApp() {
 
   const registerRouteComponent = (
     <Route
-      path="/Register"
+      path="/register"
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
@@ -134,7 +134,7 @@ function MyApp() {
 
   const pwResetRouteComponent = (
     <Route
-      path="/PasswordReset"
+      path="/passwordreset"
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
@@ -158,7 +158,7 @@ function MyApp() {
 
   const requestNewActivationEmailComponent = (
     <Route
-      path="/NewActivationEmail"
+      path="/newactivationemail"
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
@@ -199,9 +199,9 @@ function MyApp() {
               {pwResetRouteComponent}
               {setNewPwRouteComponent}
               {requestNewActivationEmailComponent}
-              <Route path="/Anime/:animeInfo" component={Info} exact />
+              <Route path="/anime/:animeInfo" component={Info} exact />
               <Route
-                path="/Anime/:animeInfo/:episode"
+                path="/anime/:animeInfo/:episode"
                 exact
                 component={Video}
               />
