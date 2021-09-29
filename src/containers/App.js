@@ -1,236 +1,217 @@
-import React, { Component, Suspense } from "react";
-import { connect } from "react-redux";
-import { Grid, createMuiTheme, ThemeProvider } from "@material-ui/core";
-import Header from "../components/Header/Header";
-import Home from "./Home/Home";
+import React from "react";
+
 import { Switch, Route } from "react-router-dom";
-import Video from "./Video/Video";
-import Drawer from "../components/Drawer/Drawer";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useCallback, Suspense } from "react";
+import { Grid, createMuiTheme, ThemeProvider } from "@material-ui/core";
+
+import Home from "./Home/Home";
 import Info from "./Info/Info";
-import Loader from "../components/Loader/Loader";
+import Video from "./Video/Video";
 import FourOFour from "./404/404";
+import Header from "../components/Header/Header";
+import Drawer from "../components/Drawer/Drawer";
+import Loader from "../components/Loader/Loader";
+
 import * as actions from "../store/actions/index";
+import themeInfo from "../config/muitheme";
 
 import classes from "./App.module.css";
-// import GenreInfo from "./GenreInfo/GenreInfo";
 
-const About = React.lazy(() => import("./About/About"));
-const Genres = React.lazy(() => import("./Genres/Genres"));
-const GenreInfo = React.lazy(() => import("./GenreInfo/GenreInfo"));
-const Auth = React.lazy(() => import("./Auth/Auth"));
-const Account = React.lazy(() => import("./MyAccount/MyAccount"));
-const Register = React.lazy(() => import("./Auth/Register/Register"));
+// Lazy Load Components
 const PasswordReset = React.lazy(() =>
   import("./Auth/PasswordReset/PasswordReset"),
-);
-const SetNewPassword = React.lazy(() =>
-  import("./Auth/PasswordReset/SetNewPassword/SetNewPassword"),
 );
 const RequestNewActivationEmail = React.lazy(() =>
   import("./Auth/Register/ActivationEmail/ActivationEmail"),
 );
+const SetNewPassword = React.lazy(() =>
+  import("./Auth/PasswordReset/SetNewPassword/SetNewPassword"),
+);
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#f44336",
-    },
-    secondary: {
-      main: "#1976d2",
-    },
-  },
-  typography: {
-    fontFamily: ['"Myanmar Sans Pro"', '"Open Sans"', "sans-serif"].join(","),
-  },
-});
+const Auth = React.lazy(() => import("./Auth/Auth"));
+const About = React.lazy(() => import("./About/About"));
+const Genres = React.lazy(() => import("./Genres/Genres"));
+const Account = React.lazy(() => import("./MyAccount/MyAccount"));
+const GenreInfo = React.lazy(() => import("./GenreInfo/GenreInfo"));
+const Register = React.lazy(() => import("./Auth/Register/Register"));
 
-class App extends Component {
-  state = {
-    drawerOpen: false,
-  };
+const theme = createMuiTheme(themeInfo);
 
-  componentDidMount() {
-    this.props.autoAuth();
-  }
+function MyApp() {
+  const dispatch = useDispatch();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isZawgyi = useSelector((state) => state.mmfont.isZawgyi);
+  const authData = useSelector((state) => state.auth.authData);
 
-  handleMenuClick = () => {
-    this.setState((prevState) => {
-      return { showDrawer: !prevState.showDrawer };
-    });
-  };
+  useEffect(() => {
+    dispatch(actions.autoAuth());
+  }, [dispatch]);
 
-  render() {
-    const aboutRouteComponent = (
-      <Route
-        path="/About"
-        render={() => {
-          return (
-            <Suspense fallback={<Loader />}>
-              <About />
-            </Suspense>
-          );
-        }}
-      />
-    );
+  const handleMenuClick = useCallback(() => {
+    setIsDrawerOpen((prevState) => !prevState);
+  }, []);
 
-    const genresRouteComponent = (
-      <Route
-        path="/Genres"
-        exact
-        render={() => (
+  const handleSwitchChange = useCallback(
+    () => dispatch(actions.toZawgyi()),
+    [dispatch],
+  );
+
+  const logOut = useCallback(() => dispatch(actions.authLogout()), [dispatch]);
+
+  const aboutRouteComponent = (
+    <Route
+      path="/About"
+      render={() => {
+        return (
           <Suspense fallback={<Loader />}>
-            <Genres />
+            <About />
           </Suspense>
-        )}
-      />
-    );
+        );
+      }}
+    />
+  );
 
-    const genreInfoRouteComponent = (
-      <Route
-        path="/Genre/:genreName"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <GenreInfo {...props} />
-          </Suspense>
-        )}
-      />
-    );
+  const genresRouteComponent = (
+    <Route
+      path="/Genres"
+      exact
+      render={() => (
+        <Suspense fallback={<Loader />}>
+          <Genres />
+        </Suspense>
+      )}
+    />
+  );
 
-    const authRouteComponent = (
-      <Route
-        path="/Auth"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <Auth {...props} />
-          </Suspense>
-        )}
-      />
-    );
+  const genreInfoRouteComponent = (
+    <Route
+      path="/Genre/:genreName"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <GenreInfo {...props} />
+        </Suspense>
+      )}
+    />
+  );
 
-    const accountRouteComponent = (
-      <Route
-        path="/MyAccount"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <Account {...props} authData={this.props.authData} />
-          </Suspense>
-        )}
-      />
-    );
+  const authRouteComponent = (
+    <Route
+      path="/Auth"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <Auth {...props} />
+        </Suspense>
+      )}
+    />
+  );
 
-    const registerRouteComponent = (
-      <Route
-        path="/Register"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <Register {...props} authData={this.props.authData} />
-          </Suspense>
-        )}
-      />
-    );
+  const accountRouteComponent = (
+    <Route
+      path="/MyAccount"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <Account {...props} authData={this.props.authData} />
+        </Suspense>
+      )}
+    />
+  );
 
-    const pwResetRouteComponent = (
-      <Route
-        path="/PasswordReset"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <PasswordReset {...props} />
-          </Suspense>
-        )}
-      />
-    );
+  const registerRouteComponent = (
+    <Route
+      path="/Register"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <Register {...props} authData={this.props.authData} />
+        </Suspense>
+      )}
+    />
+  );
 
-    const setNewPwRouteComponent = (
-      <Route
-        path="/reset_password"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <SetNewPassword {...props} />
-          </Suspense>
-        )}
-      />
-    );
+  const pwResetRouteComponent = (
+    <Route
+      path="/PasswordReset"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <PasswordReset {...props} />
+        </Suspense>
+      )}
+    />
+  );
 
-    const requestNewActivationEmailComponent = (
-      <Route
-        path="/NewActivationEmail"
-        exact
-        render={(props) => (
-          <Suspense fallback={<Loader />}>
-            <RequestNewActivationEmail {...props} />
-          </Suspense>
-        )}
-      />
-    );
+  const setNewPwRouteComponent = (
+    <Route
+      path="/reset_password"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <SetNewPassword {...props} />
+        </Suspense>
+      )}
+    />
+  );
 
-    return (
-      <div className={classes.App}>
-        <ThemeProvider theme={theme}>
-          <Grid container direction="column" justify="center">
-            <Drawer
-              showDrawer={this.state.showDrawer}
-              click={this.handleMenuClick}
-              authData={this.props.authData}
-              logOut={this.props.logOut}
-              isZawgyi={this.props.isZawgyi}
+  const requestNewActivationEmailComponent = (
+    <Route
+      path="/NewActivationEmail"
+      exact
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <RequestNewActivationEmail {...props} />
+        </Suspense>
+      )}
+    />
+  );
+
+  return (
+    <div className={classes.App}>
+      <ThemeProvider theme={theme}>
+        <Grid container direction="column" justify="center">
+          <Drawer
+            showDrawer={isDrawerOpen}
+            click={handleMenuClick}
+            authData={authData}
+            logOut={logOut}
+            isZawgyi={isZawgyi}
+          />
+          <Grid item>
+            <Header
+              handleMenuClick={handleMenuClick}
+              isZawgyi={isZawgyi}
+              handleSwitchChange={handleSwitchChange}
+              authData={authData}
             />
-            <Grid item>
-              <Header
-                handleMenuClick={this.handleMenuClick}
-                isZawgyi={this.props.isZawgyi}
-                handleSwitchChange={this.props.handleSwitchChange}
-                authData={this.props.authData}
-              />
-            </Grid>
-            <Grid item container className={classes.ContentMargin}>
-              <Switch>
-                <Route path="/" component={Home} exact />
-                {aboutRouteComponent}
-                {genresRouteComponent}
-                {genreInfoRouteComponent}
-                {authRouteComponent}
-                {accountRouteComponent}
-                {registerRouteComponent}
-                {pwResetRouteComponent}
-                {setNewPwRouteComponent}
-                {requestNewActivationEmailComponent}
-                <Route path="/Anime/:animeInfo" component={Info} exact />
-                <Route
-                  path="/Anime/:animeInfo/:episode"
-                  exact
-                  component={Video}
-                />
-                <Route component={FourOFour} />
-              </Switch>
-            </Grid>
           </Grid>
-        </ThemeProvider>
-      </div>
-    );
-  }
+          <Grid item container className={classes.ContentMargin}>
+            <Switch>
+              <Route path="/" component={Home} exact />
+              {aboutRouteComponent}
+              {genresRouteComponent}
+              {genreInfoRouteComponent}
+              {authRouteComponent}
+              {accountRouteComponent}
+              {registerRouteComponent}
+              {pwResetRouteComponent}
+              {setNewPwRouteComponent}
+              {requestNewActivationEmailComponent}
+              <Route path="/Anime/:animeInfo" component={Info} exact />
+              <Route
+                path="/Anime/:animeInfo/:episode"
+                exact
+                component={Video}
+              />
+              <Route component={FourOFour} />
+            </Switch>
+          </Grid>
+        </Grid>
+      </ThemeProvider>
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isZawgyi: state.mmfont.isZawgyi,
-    authData: state.auth.authData,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleSwitchChange: () => {
-      dispatch(actions.toZawgyi());
-    },
-    autoAuth: () => dispatch(actions.autoAuth()),
-    logOut: () => dispatch(actions.authLogout()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default MyApp;
