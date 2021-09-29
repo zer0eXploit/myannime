@@ -1,24 +1,20 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { Paper, Grid, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { useSnackbar } from "notistack";
-import { Helmet } from "react-helmet";
-import Pagnation from "../../components/Pagination/GenrePagination";
-import Radio from "../../components/Radio/GenreRadio";
-import Loader from "../../components/Loader/Loader";
-import Card from "../../components/Card/Card";
+import React from "react";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
-  genreIntro: {
-    padding: "2%",
-    borderRadius: "0",
-    marginBottom: "3%",
-  },
-  title: {
-    marginBottom: "15px",
-  },
-}));
+import { Helmet } from "react-helmet";
+import { useSnackbar } from "notistack";
+import { useState, useEffect, Fragment } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Grid, Typography } from "@material-ui/core";
+
+import Card from "../../components/Card/Card";
+import Loader from "../../components/Loader/Loader";
+import Radio from "../../components/Radio/GenreRadio";
+import Pagnation from "../../components/Pagination/GenrePagination";
+
+import themer from "../../config/genreInfoTheme";
+
+const useStyles = makeStyles(themer);
 
 const GenreInfo = (props) => {
   const classes = useStyles();
@@ -27,14 +23,11 @@ const GenreInfo = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [sortBy, setSortBy] = useState("title");
   const { enqueueSnackbar } = useSnackbar();
-  const genreName = props.location.pathname.split("/")[2];
-  const handleChange = (value) => {
-    setPageNumber(value);
-  };
 
-  const handleChangeRadio = (value) => {
-    setSortBy(value);
-  };
+  const genreName = props.location.pathname.split("/")[2];
+
+  const handleChange = (value) => setPageNumber(value);
+  const handleChangeRadio = (value) => setSortBy(value);
 
   useEffect(() => {
     setLoading(true);
