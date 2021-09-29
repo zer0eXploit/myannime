@@ -114,7 +114,7 @@ function MyApp() {
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
-          <Account {...props} authData={this.props.authData} />
+          <Account {...props} authData={authData} />
         </Suspense>
       )}
     />
@@ -126,7 +126,7 @@ function MyApp() {
       exact
       render={(props) => (
         <Suspense fallback={<Loader />}>
-          <Register {...props} authData={this.props.authData} />
+          <Register {...props} authData={authData} />
         </Suspense>
       )}
     />
