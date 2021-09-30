@@ -1,4 +1,7 @@
 {
+  "home": {
+    "pageTitle": "Home"
+  },
   "header": {
     "brand": "MyanNime"
   },
@@ -18,6 +21,7 @@
     "home": "Home"
   },
   "animeInfo": {
+    "pageTitle": "{{animeTitle}} Information",
     "info": "Information",
     "numEps": "Number of Episodes",
     "status": "Status",
@@ -40,6 +44,7 @@
     "showComments": "Show Comments"
   },
   "myAccount": {
+    "pageTitle": "My Account",
     "welcome": "Welcome!",
     "memberDetails": "Member Details",
     "username": "Username:",
@@ -61,5 +66,14 @@
     "bookmarkedAnimes": "Bookmarked Animes",
     "viewBookmarkedAnimes": "View Bookmarked Animes",
     "hide": "Hide"
+  },
+  "aboutUs": {
+    "pageTitle": "About",
+    "aboutMyanNime": "About MyanNime",
+    "aboutMyanNimeDescription": "This is just a hobby project created as a mean to practise my skills.",
+    "legal": "Legal Compliance",
+    "legalDescription": "The files stored are not on our own servers and are only used for demo purposes and will be removed upon request.",
+    "contact": "Contact",
+    "contactDescription": "Please reach me at zer0exploit[@]aol[.]com"
   }
 }
