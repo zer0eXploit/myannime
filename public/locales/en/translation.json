@@ -33,5 +33,33 @@
   "episodesList": {
     "episodes": "Episodes",
     "episode": "Episode"
+  },
+  "video": {
+    "viewEpList": "View Episodes List",
+    "appreciationText": "Thanks for using MyanNime. ^_^",
+    "showComments": "Show Comments"
+  },
+  "myAccount": {
+    "welcome": "Welcome!",
+    "memberDetails": "Member Details",
+    "username": "Username:",
+    "email": "Email:",
+    "role": "Member Role:",
+    "memberSince": "Member since:",
+    "profilePic": "Profile Picture",
+    "uploadNewPFP": "Upload New",
+    "photo": "Photo",
+    "selected": "has been selected and is ready to upload.",
+    "uploadNow": "Upload Now",
+    "accountSecurity": "Account Security",
+    "updatePw": "Update Password",
+    "oldPw": "Old Password",
+    "newPw": "New Password",
+    "update": "Update",
+    "cancel": "Cancel",
+    "resetPw": "Reset Password",
+    "bookmarkedAnimes": "Bookmarked Animes",
+    "viewBookmarkedAnimes": "View Bookmarked Animes",
+    "hide": "Hide"
   }
 }
