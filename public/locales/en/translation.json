@@ -1,6 +1,7 @@
 {
   "home": {
-    "pageTitle": "Home"
+    "pageTitle": "Home",
+    "sortOrder": "Sort Order"
   },
   "header": {
     "brand": "MyanNime"
@@ -34,6 +35,13 @@
     "unbookmark": "Remove Bookmark",
     "episodes": "Episodes"
   },
+  "genres": {
+    "pageTitle": "Genres",
+    "seeAnimes": "See Animes",
+    "noAnimeInGenre": "Currently, there is no anime in this genre. Please check back again.",
+    "animeList": "Anime List",
+    "sortOrder": "Sort Order"
+  },
   "episodesList": {
     "episodes": "Episodes",
     "episode": "Episode"
@@ -42,6 +50,40 @@
     "viewEpList": "View Episodes List",
     "appreciationText": "Thanks for using MyanNime. ^_^",
     "showComments": "Show Comments"
+  },
+  "auth": {
+    "pageTitle": "Authenticate",
+    "resetPwPageTitle": "Reset Password",
+    "setNewPwPageTitle": "Set New Password",
+    "registerPageTitle": "Register an Account at MyanNime",
+    "requestActivationEmailTitle": "Request Activation Email",
+    "requestActivationEmail": "Request for a new activation email",
+    "enterUnameBelow": "Please enter your username below.",
+    "request": "Request",
+    "login": "Login",
+    "username": "Username",
+    "enterValidUname": "Please enter a valid username!",
+    "password": "Password",
+    "enterValidPw": "Passwords must be more than 5 characters!",
+    "forgotPw": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "noActivationEmail": "Did not get your activation email?",
+    "resetPw": "Reset Your Password",
+    "enterEmail": "Please enter your email below.",
+    "emailAddress": "Email Address",
+    "submit": "Submit",
+    "register": "Register MyanNime Account",
+    "name": "Name",
+    "enterValidName": "Please enter a valid name!",
+    "email": "Email",
+    "enterValidEmail": "Please enter a valid email!",
+    "registerNow": "Register Now",
+    "loginInstead": "Login Instead?",
+    "enterNewPw": "Please enter your new password.",
+    "newPw": "New Password",
+    "newPwHint": "Hint: Password must be more than 6 characters.",
+    "reset": "Reset",
+    "willBeRedirectedIn": "You will be redirected back to home page in"
   },
   "myAccount": {
     "pageTitle": "My Account",
