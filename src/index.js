@@ -12,6 +12,8 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 import rootReducer from "./store/reducers";
 
+import "./i18n";
+
 import "./index.css";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
