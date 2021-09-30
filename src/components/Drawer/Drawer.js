@@ -1,18 +1,15 @@
-import React, { Fragment } from "react";
+import React from "react";
 
-import { Drawer, List, ListItem, ListItemText } from "@material-ui/core";
-
+import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
-
-import toZawgyi from "../../util/convertToZg";
+import { Drawer, List, ListItem, ListItemText } from "@material-ui/core";
 
 import classes from "./Drawer.module.css";
 
-const drawer = (props) => {
-  const HOMEPAGE_TEXT = "ပင်မစာမျက်နှာသို့";
-  const GENRES_PAGE_TEXT = "Anime Genres";
-  const ABOUT_US = "ကျွန်ုပ်တို့အကြောင်း";
-  const LOGIN = "Login to my Account";
+const NavDrawer = (props) => {
+  const { t } = useTranslation();
+
   return (
     <Drawer open={props.showDrawer} anchor="right" onClick={props.click}>
       <List>
@@ -25,9 +22,7 @@ const drawer = (props) => {
           component={RouterLink}
           to={"/"}
         >
-          <ListItemText
-            primary={props.isZawgyi ? toZawgyi(HOMEPAGE_TEXT) : HOMEPAGE_TEXT}
-          />
+          <ListItemText primary={t("drawer.home")} />
         </ListItem>
 
         <ListItem
@@ -36,11 +31,7 @@ const drawer = (props) => {
           component={RouterLink}
           to={"/Genres"}
         >
-          <ListItemText
-            primary={
-              props.isZawgyi ? toZawgyi(GENRES_PAGE_TEXT) : GENRES_PAGE_TEXT
-            }
-          />
+          <ListItemText primary={t("drawer.genres")} />
         </ListItem>
         {props.authData ? (
           <ListItem
@@ -49,7 +40,7 @@ const drawer = (props) => {
             component={RouterLink}
             to={"/MyAccount"}
           >
-            <ListItemText primary={"My Account"} />
+            <ListItemText primary={t("drawer.myaccount")} />
           </ListItem>
         ) : (
           <Fragment>
@@ -59,7 +50,7 @@ const drawer = (props) => {
               component={RouterLink}
               to={"/Auth"}
             >
-              <ListItemText primary={LOGIN} />
+              <ListItemText primary={t("drawer.login")} />
             </ListItem>
             <ListItem
               button
@@ -67,7 +58,7 @@ const drawer = (props) => {
               component={RouterLink}
               to={"/Register"}
             >
-              <ListItemText primary={"Register"} />
+              <ListItemText primary={t("drawer.register")} />
             </ListItem>
           </Fragment>
         )}
@@ -82,7 +73,7 @@ const drawer = (props) => {
               window.location.href = "/";
             }}
           >
-            <ListItemText primary={"Logout"} />
+            <ListItemText primary={t("drawer.logout")} />
           </ListItem>
         )}
         <ListItem
@@ -91,13 +82,11 @@ const drawer = (props) => {
           component={RouterLink}
           to={"/About"}
         >
-          <ListItemText
-            primary={props.isZawgyi ? toZawgyi(ABOUT_US) : ABOUT_US}
-          />
+          <ListItemText primary={t("drawer.about")} />
         </ListItem>
       </List>
     </Drawer>
   );
 };
 
-export default drawer;
+export default NavDrawer;
