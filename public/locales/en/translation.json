@@ -13,5 +13,8 @@
   },
   "card": {
     "watch": "Watch"
+  },
+  "breadcrumb": {
+    "home": "Home"
   }
 }
