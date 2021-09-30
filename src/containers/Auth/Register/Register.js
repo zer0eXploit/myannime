@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect, Component } from "react";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Input from "../../../components/Input/Input";
 import Loader from "../../../components/Loader/Loader";
@@ -12,94 +12,97 @@ import axios from "../../../util/axiosMyannime";
 
 import styles from "./Register.module.css";
 
-class Authentication extends Component {
-  state = {
-    controls: {
-      name: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Name",
-        },
-        value: "",
-        invalidMessage: "Please Enter A Valid Name!",
-        validityCheck: {
-          required: true,
-          minLength: 6,
-        },
-        valid: false,
-        touched: false,
+function MyannimeRegister(props) {
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.auth.error);
+  const loading = useSelector((state) => state.auth.loading);
+  const authData = useSelector((state) => state.auth.authData);
+
+  const [count, setCount] = useState(10);
+  const [showCount, setShowCount] = useState(false);
+  const [allInputValid, setAllInputValid] = useState(false);
+  const [serverResponse, setServerResponse] = useState(null);
+  const [controls, setControls] = useState({
+    name: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Name",
       },
-      email: {
-        elementType: "input",
-        elementConfig: {
-          type: "email",
-          placeholder: "Email",
-        },
-        value: "",
-        invalidMessage: "Please Enter A Valid Email!",
-        validityCheck: {
-          email: true,
-          minLength: 6,
-        },
-        valid: false,
-        touched: false,
+      value: "",
+      invalidMessage: "Please Enter A Valid Name!",
+      validityCheck: {
+        required: true,
+        minLength: 6,
       },
-      username: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Username",
-        },
-        value: "",
-        invalidMessage: "Please Enter A Valid Username!",
-        validityCheck: {
-          required: true,
-          minLength: 3,
-        },
-        valid: false,
-        touched: false,
-      },
-      password: {
-        elementType: "input",
-        elementConfig: {
-          type: "password",
-          placeholder: "Password",
-        },
-        value: "",
-        invalidMessage: "Password must be more than 5 characters!",
-        validityCheck: {
-          required: true,
-          minLength: 6,
-        },
-        valid: false,
-        touched: false,
-      },
+      valid: false,
+      touched: false,
     },
-    showCount: false,
-    count: 10,
-    allInputValid: false,
-    serverResponse: null,
-  };
-
-  switchFormMode = () => {
-    this.props.history.push("/Auth");
-  };
-
-  onChangeHandler = (event, elementIdentifier) => {
-    const updatedElement = updateObject(
-      this.state.controls[elementIdentifier],
-      {
-        value: event.target.value,
-        valid: validityCheck(
-          this.state.controls[elementIdentifier].validityCheck,
-          event.target.value,
-        ),
-        touched: true,
+    email: {
+      elementType: "input",
+      elementConfig: {
+        type: "email",
+        placeholder: "Email",
       },
-    );
+      value: "",
+      invalidMessage: "Please Enter A Valid Email!",
+      validityCheck: {
+        email: true,
+        minLength: 6,
+      },
+      valid: false,
+      touched: false,
+    },
+    username: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Username",
+      },
+      value: "",
+      invalidMessage: "Please Enter A Valid Username!",
+      validityCheck: {
+        required: true,
+        minLength: 3,
+      },
+      valid: false,
+      touched: false,
+    },
+    password: {
+      elementType: "input",
+      elementConfig: {
+        type: "password",
+        placeholder: "Password",
+      },
+      value: "",
+      invalidMessage: "Password must be more than 5 characters!",
+      validityCheck: {
+        required: true,
+        minLength: 6,
+      },
+      valid: false,
+      touched: false,
+    },
+  });
 
-    const updatedControls = updateObject(this.state.controls, {
+  const { history } = props;
+
+  const switchFormMode = () => {
+    history.push("/Auth");
+  };
+
+  const onChangeHandler = (event, elementIdentifier) => {
+    const updatedElement = updateObject(controls[elementIdentifier], {
+      value: event.target.value,
+      valid: validityCheck(
+        controls[elementIdentifier].validityCheck,
+        event.target.value,
+      ),
+      touched: true,
+    });
+
+    const updatedControls = updateObject(controls, {
       [elementIdentifier]: updatedElement,
     });
 
@@ -109,20 +112,16 @@ class Authentication extends Component {
       overAllValidity = updatedControls[key].valid && overAllValidity;
     }
 
-    this.setState({
-      controls: updatedControls,
-      allInputValid: overAllValidity,
-    });
+    setControls(updatedControls);
+    setAllInputValid(overAllValidity);
   };
 
-  onSubmitHandler = (event) => {
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    this.setState({
-      ...this.state,
-      allInputValid: false,
-      serverResponse: "Please wait ...",
-    });
-    const { name, email, username, password } = this.state.controls;
+    setAllInputValid(false);
+    setServerResponse("Please wait...");
+
+    const { name, email, username, password } = controls;
     axios
       .post("/user/register", {
         name: name.value,
@@ -131,131 +130,93 @@ class Authentication extends Component {
         password: password.value,
       })
       .then((res) => {
-        console.log(res.data);
-        this.setState((prevState) => {
-          return {
-            ...prevState,
-            allInputValid: false,
-            showCount: true,
-            serverResponse: res.data.message,
-          };
-        });
+        setAllInputValid(false);
+        setShowCount(true);
+        setServerResponse(res.data.message);
+
         const interval = setInterval(() => {
-          this.setState((prevState) => {
-            return {
-              ...prevState,
-              count: prevState.count - 1,
-            };
-          });
+          setCount((prevState) => prevState - 1);
         }, 1000);
 
         setTimeout(() => {
           clearInterval(interval);
-          this.props.history.push("/");
+          history.push("/");
         }, 10000);
       })
       .catch((e) => {
         console.log(e.response.data.message);
-        this.setState((prevState) => {
-          return {
-            ...prevState,
-            serverResponse: e.response.data.message,
-          };
-        });
+        setServerResponse(e.response.data.message);
       });
   };
 
-  render() {
-    const formElementsArray = [];
-    for (let key in this.state.controls) {
-      formElementsArray.push({
-        id: key,
-        config: this.state.controls[key],
-      });
-    }
-
-    let form = (
-      <form onSubmit={this.onSubmitHandler}>
-        {formElementsArray.map((ele) => {
-          return (
-            <Input
-              elementType={ele.config.elementType}
-              elementConfig={ele.config.elementConfig}
-              value={ele.config.value}
-              key={ele.id}
-              changed={(event) => {
-                this.onChangeHandler(event, ele.id);
-              }}
-              invalid={!ele.config.valid}
-              invalidMessage={ele.config.invalidMessage}
-              shouldValidate={ele.config.validityCheck}
-              touched={ele.config.touched}
-              label={ele.config.elementConfig.placeholder}
-            />
-          );
-        })}
-        <Button
-          variant="outlined"
-          color="primary"
-          disabled={!this.state.allInputValid}
-          onClick={this.onSubmitHandler}
-          disableElevation
-        >
-          Register
-        </Button>
-        <span> | </span>
-        <Button
-          color="secondary"
-          variant="outlined"
-          onClick={this.switchFormMode}
-        >
-          Login Instead?
-        </Button>
-      </form>
-    );
-
-    let errorMessage = null;
-
-    if (this.state.serverResponse) {
-      errorMessage = <p>{this.state.serverResponse}</p>;
-    }
-
-    if (this.props.loading) {
-      form = <Loader />;
-    }
-    return (
-      <div className={styles.Auth}>
-        <h2>Register</h2>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>Register an Account | MYAN-nime</title>
-        </Helmet>
-        {this.props.authData ? <Redirect to="/" /> : null}
-        {errorMessage}
-        {this.state.showCount && (
-          <p>
-            You will be redirected back to the homepage in {this.state.count}
-          </p>
-        )}
-        {form}
-      </div>
-    );
+  const formElementsArray = [];
+  for (let key in controls) {
+    formElementsArray.push({
+      id: key,
+      config: controls[key],
+    });
   }
+
+  let form = (
+    <form onSubmit={onSubmitHandler}>
+      {formElementsArray.map((ele) => {
+        return (
+          <Input
+            elementType={ele.config.elementType}
+            elementConfig={ele.config.elementConfig}
+            value={ele.config.value}
+            key={ele.id}
+            changed={(event) => {
+              onChangeHandler(event, ele.id);
+            }}
+            invalid={!ele.config.valid}
+            invalidMessage={ele.config.invalidMessage}
+            shouldValidate={ele.config.validityCheck}
+            touched={ele.config.touched}
+            label={ele.config.elementConfig.placeholder}
+          />
+        );
+      })}
+      <Button
+        variant="outlined"
+        color="primary"
+        disabled={!allInputValid}
+        onClick={onSubmitHandler}
+        disableElevation
+      >
+        Register
+      </Button>
+      <span> | </span>
+      <Button color="secondary" variant="outlined" onClick={switchFormMode}>
+        Login Instead?
+      </Button>
+    </form>
+  );
+
+  let errorMessage = null;
+
+  if (serverResponse) {
+    errorMessage = <p>{serverResponse}</p>;
+  }
+
+  if (loading) {
+    form = <Loader />;
+  }
+  return (
+    <div className={styles.Auth}>
+      <h2>Register</h2>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Register an Account | MYAN-nime</title>
+      </Helmet>
+      {authData ? <Redirect to="/" /> : null}
+      {errorMessage}
+      {showCount && (
+        <p>You will be redirected back to the homepage in {count}</p>
+      )}
+      {form}
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    authData: state.auth.authData,
-    error: state.auth.error,
-    loading: state.auth.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAuth: (username, password, redirectTo) => {
-      dispatch(login(username, password, redirectTo));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
+export default MyannimeRegister;
