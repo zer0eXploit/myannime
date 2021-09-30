@@ -7,6 +7,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { withSnackbar } from "notistack";
 import { Redirect } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import Card from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
@@ -23,18 +24,21 @@ function AccountHome(props) {
     username = props.authData.username;
     access_token = props.authData.access_token;
   }
-  const [uploadStarted, setUploadStarted] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+
   const [control, setControl] = useState("");
-  const [fileSelected, setFileSelected] = useState(null);
-  const [profileImageUrl, setProfileImageUrl] = useState("");
   const [userData, setUserData] = useState(null);
-  const [showBookmarkList, setshowBookmarkList] = useState(false);
-  const [showUpdatePassword, setshowUpdatePassword] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [fileSelected, setFileSelected] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStarted, setUploadStarted] = useState(false);
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [showBookmarkList, setshowBookmarkList] = useState(false);
+  const [showUpdatePassword, setshowUpdatePassword] = useState(false);
   const [enablePasswordResetButton, setEnablePasswordResetButton] =
     useState(true);
+
+  const { t } = useTranslation();
 
   const URI = `${axios.defaults.baseURL}user/avatar/${username}`;
 
@@ -203,7 +207,7 @@ function AccountHome(props) {
 
   let imageUpload = (
     <div>
-      <h2>Profile Picture</h2>
+      <h2>{t("myAccount.profilePic")}</h2>
       <form style={{ width: "80%", height: "fit-content" }}>
         <label
           className={[styles.CustomFileUpload, styles.ButtonGroup].join(" ")}
@@ -217,15 +221,14 @@ function AccountHome(props) {
             accept="image/*"
             onChange={onChangeHandler}
           />
-          Upload new photo
+          {t("myAccount.uploadNewPFP")}
         </label>
       </form>
       {fileSelected && !uploadStarted ? (
         <div className={styles.UploadButtonAndText}>
           <p>
-            {"Photo "}
-            <strong>{fileSelected.name}</strong>
-            {" has been selected. Ready to upload."}
+            {t("myAccount.photo")} <strong>{fileSelected.name}</strong>{" "}
+            {t("myAccount.selected")}
           </p>
           <Button
             variant="outlined"
@@ -234,7 +237,7 @@ function AccountHome(props) {
             onClick={onSubmitHandler}
             disableElevation
           >
-            Upload Now
+            {t("myAccount.uploadNow")}
           </Button>
         </div>
       ) : null}
@@ -254,7 +257,7 @@ function AccountHome(props) {
 
   let accountSecurity = (
     <>
-      <h2>Account Security</h2>
+      <h2>{t("myAccount.accountSecurity")}</h2>
       {!showUpdatePassword ? (
         <Button
           className={styles.InputFormFieldContainer}
@@ -264,18 +267,18 @@ function AccountHome(props) {
           disableElevation
           onClick={() => setshowUpdatePassword(!showUpdatePassword)}
         >
-          Update My Password
+          {t("myAccount.updatePw")}
         </Button>
       ) : (
         <div className={styles.UpdatePassword}>
           <form onSubmit={onPasswordUpdateHandler}>
-            <h4>Update Password</h4>
+            <h4>{t("myAccount.updatePw")}</h4>
             <div
               className={[styles.Input, styles.InputFormFieldContainer].join(
                 " ",
               )}
             >
-              <label className={styles.Label}>Old Password</label>
+              <label className={styles.Label}>{t("myAccount.oldPw")}</label>
               <input
                 type="password"
                 className={styles.InputElement}
@@ -288,7 +291,7 @@ function AccountHome(props) {
                 " ",
               )}
             >
-              <label className={styles.Label}>New Password</label>
+              <label className={styles.Label}>{t("myAccount.newPw")}</label>
               <input
                 type="password"
                 className={styles.InputElement}
@@ -304,7 +307,7 @@ function AccountHome(props) {
               disableElevation
               disabled={!(!!oldPassword && !!newPassword)}
             >
-              Update
+              {t("myAccount.update")}
             </Button>
           </form>
           <Button
@@ -315,7 +318,7 @@ function AccountHome(props) {
             disableElevation
             onClick={() => setshowUpdatePassword(!showUpdatePassword)}
           >
-            Cancel
+            {t("myAccount.cancel")}
           </Button>
         </div>
       )}
@@ -329,7 +332,7 @@ function AccountHome(props) {
           onClick={handleResetPassword}
           disabled={!enablePasswordResetButton}
         >
-          Reset My Password
+          {t("myAccount.resetPw")}
         </Button>
       </div>
     </>
@@ -344,7 +347,7 @@ function AccountHome(props) {
           disableElevation
           onClick={() => setshowBookmarkList(!showBookmarkList)}
         >
-          Hide
+          {t("myAccount.hide")}
         </Button>
       </div>
       <Grid container spacing={1} justify="flex-start">
@@ -373,7 +376,7 @@ function AccountHome(props) {
       disableElevation
       onClick={() => setshowBookmarkList(!showBookmarkList)}
     >
-      View Bookmarked Animes
+      {t("myAccount.viewBookmarkedAnimes")}
     </Button>
   );
 
@@ -381,7 +384,7 @@ function AccountHome(props) {
     if (!!userData.saved_animes.length) {
       bookmarkedAnimes = (
         <>
-          <h2>Bookmarked Animes</h2>
+          <h2>{t("myAccount.bookmarkedAnimes")}</h2>
           {bookmarkedAnimeList}
         </>
       );
@@ -412,7 +415,7 @@ function AccountHome(props) {
               <Grid item lg={6}>
                 <div className={styles.NameContainer}>
                   <p className={styles.Name}>
-                    {"Welcome!"}
+                    {t("myAccount.welcome")}
                     <br />
                     {props.authData.name}
                   </p>
@@ -423,23 +426,26 @@ function AccountHome(props) {
         </Grid>
         <Grid item container lg={12} justify="center">
           <div className={styles.ProfileDetails}>
-            <h2>Membership Details</h2>
+            <h2>{t("myAccount.memberDetails")}</h2>
             <p>
               <span className={styles.UserData}>
-                Username: {userData.username}
-              </span>
-            </p>
-            <p>
-              <span className={styles.UserData}>Email: {userData.email}</span>
-            </p>
-            <p>
-              <span className={styles.UserData}>
-                Member Role: {userData.role}
+                {t("myAccount.username")} {userData.username}
               </span>
             </p>
             <p>
               <span className={styles.UserData}>
-                Member since: {new Date(userData.joined).toLocaleDateString()}
+                {t("myAccount.email")} {userData.email}
+              </span>
+            </p>
+            <p>
+              <span className={styles.UserData}>
+                {t("myAccount.role")} {userData.role}
+              </span>
+            </p>
+            <p>
+              <span className={styles.UserData}>
+                {t("myAccount.memberSince")}{" "}
+                {new Date(userData.joined).toLocaleDateString()}
               </span>
             </p>
             {imageUpload}

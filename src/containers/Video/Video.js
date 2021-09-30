@@ -14,6 +14,7 @@ import {
 import { Helmet } from "react-helmet";
 import { SnackbarProvider } from "notistack";
 import { DiscussionEmbed } from "disqus-react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { Fragment, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,8 +25,6 @@ import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import EpisodesList from "../../components/EpisodesList/EpisodesList";
 
 import * as actions from "../../store/actions/index";
-
-import toZawgyi from "../../util/convertToZg";
 
 import classes from "./Video.module.css";
 
@@ -41,6 +40,8 @@ const Video = (props) => {
   const [showComments, setShowComments] = useState(false);
   const [streamUrls, setStreamUrls] = useState([]);
   const [currentUrl, setCurrentUrl] = useState("");
+
+  const { t } = useTranslation();
 
   const urlParams = props.location.pathname.split("/");
 
@@ -59,19 +60,12 @@ const Video = (props) => {
     setCurrentUrl(newUrl);
   };
 
-  // TO DO: Replace the strings with Translations
-  const SHOW_EPISODES = "ဇာတ်လမ်း အပိုင်းများအားပြပါ။";
-  const THANKS_MESSAGE = `မြန်နီမေးကို အသုံးပြုပေးလို့ ကျေးဇူးတင်ပါတယ်။  ^_^`;
-  const SHOW_COMMENTS = "Comments များကိုပြပါ။";
-
   let dynamicVideoPlayer = null;
   let serverSelector = null;
   let dynamicContent = null;
   let episodesList = (
     <ListItem button component={RouterLink} to={"/anime/" + urlParams[2]}>
-      <ListItemText
-        primary={isZawgyi ? toZawgyi(SHOW_EPISODES) : SHOW_EPISODES}
-      />
+      <ListItemText primary={t("video.viewEpList")} />
     </ListItem>
   );
 
@@ -176,9 +170,7 @@ const Video = (props) => {
         </FormControl>
       </Grid>
       <Grid item style={{ marginTop: "8px" }}>
-        <Typography>
-          {isZawgyi ? toZawgyi(THANKS_MESSAGE) : THANKS_MESSAGE}
-        </Typography>
+        <Typography>{t("video.appreciationText")}</Typography>
       </Grid>
       <Grid item className={classes.IframeContainer}>
         {dynamicVideoPlayer}
@@ -195,7 +187,7 @@ const Video = (props) => {
               setShowComments(true);
             }}
           >
-            {isZawgyi ? toZawgyi(SHOW_COMMENTS) : SHOW_COMMENTS}
+            {t("video.showComments")}
           </Button>
         )}
         <Paper className={classes.Paper}>{episodesList}</Paper>
