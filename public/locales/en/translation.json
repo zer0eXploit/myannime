@@ -10,5 +10,8 @@
     "myaccount": "My Account",
     "logout": "Log Out",
     "about": "About Us"
+  },
+  "card": {
+    "watch": "Watch"
   }
 }
