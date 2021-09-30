@@ -23,9 +23,9 @@ const Header = (props) => {
     props.history.push("/");
   };
 
-  const handleChange = () => {
-    props.handleSwitchChange();
-  };
+  // const handleChange = () => {
+  //   props.handleSwitchChange();
+  // };
   return (
     <AppBar position="fixed" color="primary">
       <Toolbar>
@@ -50,13 +50,13 @@ const Header = (props) => {
                   </Button>
                 </NavLink>
               )}
-              <FormControlLabel
+              {/* <FormControlLabel
                 className={classes.ZG}
                 checked={props.isZawgyi}
                 onChange={handleChange}
                 control={<Switch name="isZawgyi" color="default" />}
                 label="Zawgyi"
-              />
+              /> */}
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
