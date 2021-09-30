@@ -6,8 +6,6 @@ import {
   Typography,
   Grid,
   IconButton,
-  FormControlLabel,
-  Switch,
   Button,
 } from "@material-ui/core";
 import { Fragment } from "react";
