@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { Helmet } from "react-helmet";
 import { useSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 import { useState, useEffect, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Grid, Typography } from "@material-ui/core";
@@ -23,6 +24,8 @@ const GenreInfo = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [sortBy, setSortBy] = useState("title");
   const { enqueueSnackbar } = useSnackbar();
+
+  const { t } = useTranslation();
 
   const genreName = props.location.pathname.split("/")[2];
 
@@ -94,9 +97,7 @@ const GenreInfo = (props) => {
       );
     } else {
       animeCards = (
-        <p className={classes.title}>
-          Currently, there is no anime in this genre. Please check back again.
-        </p>
+        <p className={classes.title}>{t("genres.noAnimeInGenre")}</p>
       );
     }
 
@@ -121,7 +122,7 @@ const GenreInfo = (props) => {
             style={{ maxWidth: "1500px", padding: "2%", paddingTop: "0.2%" }}
           >
             <Typography variant={"h5"} className={classes.title}>
-              {"Anime List"}
+              {t("genres.animeList")}
             </Typography>
             <Grid container spacing={1} justify="flex-start">
               {animeCards}

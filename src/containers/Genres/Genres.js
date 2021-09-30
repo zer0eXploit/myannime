@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { Grid } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Accordion from "@material-ui/core/Accordion";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,6 +22,8 @@ const useStyles = makeStyles(themer);
 const Genres = (props) => {
   const classes = useStyles();
   const [genresInfo, setGenresInfo] = useState({});
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     axios
@@ -61,7 +64,7 @@ const Genres = (props) => {
                     pathname: "/genre/" + genre.genre_name.replace(/ /g, "-"),
                   }}
                 >
-                  [See Animes]
+                  {`[${t("genres.seeAnimes")}]`}
                 </NavLink>
               </Typography>
             </AccordionDetails>
@@ -75,7 +78,7 @@ const Genres = (props) => {
     <div className={classes.genres}>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Genres | MYAN-nime</title>
+        <title>{t("genres.pageTitle")} | MYAN-nime</title>
       </Helmet>
       <Grid container className={classes.genresContainer}>
         <Grid container justify="center">

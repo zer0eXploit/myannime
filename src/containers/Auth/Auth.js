@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { Button } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 
 import Input from "../../components/Input/Input";
@@ -23,16 +24,18 @@ function MyannimeLogin(props) {
   const loading = useSelector((state) => state.auth.loading);
   const authData = useSelector((state) => state.auth.authData);
 
+  const { t } = useTranslation();
+
   const [allInputValid, setAllInputValid] = useState(false);
   const [controls, setControls] = useState({
     username: {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Username",
+        placeholder: t("auth.username"),
       },
       value: "",
-      invalidMessage: "Please Enter A Valid Username!",
+      invalidMessage: t("auth.enterValidUname"),
       validityCheck: {
         required: true,
         minLength: 3,
@@ -44,10 +47,10 @@ function MyannimeLogin(props) {
       elementType: "input",
       elementConfig: {
         type: "password",
-        placeholder: "Password",
+        placeholder: t("auth.password"),
       },
       value: "",
-      invalidMessage: "Password must be more than 5 characters!",
+      invalidMessage: t("auth.enterValidPw"),
       validityCheck: {
         required: true,
         minLength: 6,
@@ -138,7 +141,7 @@ function MyannimeLogin(props) {
         type="submit"
         disableElevation
       >
-        <span style={{ padding: "7px" }}>Login</span>
+        <span style={{ padding: "7px" }}>{t("auth.login")}</span>
       </Button>
       <div>
         <Button
@@ -147,7 +150,7 @@ function MyannimeLogin(props) {
           variant="outlined"
           onClick={switchToPwResetHandler}
         >
-          <span style={{ padding: "7px" }}>Forgot your password?</span>
+          <span style={{ padding: "7px" }}>{t("auth.forgotPw")}</span>
         </Button>
         <Button
           style={{ margin: "2px 2px" }}
@@ -155,7 +158,7 @@ function MyannimeLogin(props) {
           variant="outlined"
           onClick={switchFormMode}
         >
-          <span style={{ padding: "7px" }}>Don't have an account?</span>
+          <span style={{ padding: "7px" }}>{t("auth.noAccount")}</span>
         </Button>
       </div>
       <Button
@@ -165,9 +168,7 @@ function MyannimeLogin(props) {
           history.push("/NewActivationEmail");
         }}
       >
-        <span style={{ padding: "7px" }}>
-          Did not get your activation email?
-        </span>
+        <span style={{ padding: "7px" }}>{t("auth.noActivationEmail")}</span>
       </Button>
     </form>
   );
@@ -193,9 +194,9 @@ function MyannimeLogin(props) {
     <div className={styles.Auth}>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Authenticate | MYANnime</title>
+        <title>{t("auth.pageTitle")} | MYANnime</title>
       </Helmet>
-      <h2>Login</h2>
+      <h2>{t("auth.login")}</h2>
       {authData ? <Redirect to="/" /> : null}
       {errorMessage}
       {form}

@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+
 export default function RadioButtons(props) {
+  const { t } = useTranslation();
+
   const [selectedValue, setSelectedValue] = useState("title");
   const { sortMethod } = props;
   const handleChange = (event) => {
@@ -19,7 +24,7 @@ export default function RadioButtons(props) {
 
   return (
     <RadioGroup style={{ display: "inline-block" }}>
-      <FormLabel component="legend">Default sort order -</FormLabel>
+      <FormLabel component="legend">{t("home.sortOrder")} -</FormLabel>
       <FormControlLabel
         value="Title"
         control={

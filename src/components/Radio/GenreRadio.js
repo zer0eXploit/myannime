@@ -4,14 +4,18 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+import { useTranslation } from "react-i18next";
+
 export default function RadioButtons(props) {
+  const { t } = useTranslation();
+
   const handleChange = (event) => {
     props.handleChange(event.target.value);
   };
 
   return (
     <RadioGroup style={{ display: "inline-block" }}>
-      <FormLabel component="legend">Default sort order -</FormLabel>
+      <FormLabel component="legend">{t("genres.sortOrder")} -</FormLabel>
       <FormControlLabel
         value="Title"
         control={

@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { withSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 import { Grid, Paper, Button } from "@material-ui/core";
 
 import axios from "../../../../util/axiosMyannime";
@@ -10,6 +11,8 @@ import axios from "../../../../util/axiosMyannime";
 import styles from "./SetNewPassword.module.css";
 
 const PasswordReset = (props) => {
+  const { t } = useTranslation();
+
   const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(false);
 
@@ -57,24 +60,22 @@ const PasswordReset = (props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Set New Password | MYANnime</title>
+        <title>{t("auth.setNewPwPagTitle")} | MYANnime</title>
       </Helmet>
       <Grid container justify="center">
         <Paper className={styles.Paper}>
           <div className={styles.FormContainer}>
-            <h3 className={styles.Heading}>Reset Your Password</h3>
-            <p className={styles.Info}>Please enter your new password.</p>
+            <h3 className={styles.Heading}>{t("auth.resetPw")}</h3>
+            <p className={styles.Info}>{t("auth.enterNewPw")}</p>
             <form onSubmit={submitHandler}>
-              <label className={styles.Label}>New Password</label>
+              <label className={styles.Label}>{t("auth.newPw")}</label>
               <input
                 type="password"
                 className={styles.InputElement}
                 value={password}
                 onChange={passwordChangeHandler}
               ></input>
-              <small className={styles.HitText}>
-                Hint: Password must be more than 6 characters.
-              </small>
+              <small className={styles.HitText}>{t("auth.newPwHint")}</small>
               <Button
                 className={styles.SubmitButton}
                 variant="contained"
@@ -82,7 +83,7 @@ const PasswordReset = (props) => {
                 type="submit"
                 disabled={!passwordValid}
               >
-                Reset
+                {t("auth.reset")}
               </Button>
             </form>
           </div>

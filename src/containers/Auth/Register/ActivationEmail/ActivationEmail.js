@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { withSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 import { Grid, Paper, Button } from "@material-ui/core";
 
 import axios from "../../../../util/axiosMyannime";
@@ -12,6 +13,8 @@ import styles from "./ActivationEmail.module.css";
 const ActivationEmail = (props) => {
   const [username, setUsername] = useState("");
   const [usernameValid, setUsernameValid] = useState(false);
+
+  const { t } = useTranslation();
 
   const usernameIsValid = (username) => {
     return username.length >= 3;
@@ -49,17 +52,17 @@ const ActivationEmail = (props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Request Activation Email | MYANnime</title>
+        <title>{t("auth.requestActivationEmailTitle")} | MYANnime</title>
       </Helmet>
       <Grid container justify="center">
         <Paper className={styles.Paper}>
           <div className={styles.FormContainer}>
             <h3 className={styles.Heading}>
-              Request for a new activation email
+              {t("auth.requestActivationEmail")}
             </h3>
-            <p className={styles.Info}>Please enter your username below.</p>
+            <p className={styles.Info}>{t("auth.enterUnameBelow")}</p>
             <form onSubmit={submitHandler}>
-              <label className={styles.Label}>Username</label>
+              <label className={styles.Label}>{t("auth.username")}</label>
               <input
                 type="text"
                 className={styles.InputElement}
@@ -73,7 +76,7 @@ const ActivationEmail = (props) => {
                 type="submit"
                 disabled={!usernameValid}
               >
-                Request
+                {t("auth.request")}
               </Button>
             </form>
           </div>

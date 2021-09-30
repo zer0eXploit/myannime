@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { withSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 import { Grid, Paper, Button } from "@material-ui/core";
 
 import axios from "../../../util/axiosMyannime";
@@ -12,6 +13,8 @@ import styles from "./PasswordReset.module.css";
 const PasswordReset = (props) => {
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(false);
+
+  const { t } = useTranslation();
 
   const validateEmail = (email) => {
     const regex = /^[a-z]\w*[.\-_]*\w*@[a-z0-9]+\.[a-z]+$/gi;
@@ -50,17 +53,15 @@ const PasswordReset = (props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Reset Password | MYANnime</title>
+        <title>{t("auth.resetPwPageTitle")} | MYANnime</title>
       </Helmet>
       <Grid container justify="center">
         <Paper className={styles.Paper}>
           <div className={styles.FormContainer}>
-            <h3 className={styles.Heading}>Reset Your Password</h3>
-            <p className={styles.Info}>
-              Please enter your email address below.
-            </p>
+            <h3 className={styles.Heading}>{t("auth.resetPw")}</h3>
+            <p className={styles.Info}>{t("auth.enterEmail")}</p>
             <form onSubmit={submitHandler}>
-              <label className={styles.Label}>Email Address</label>
+              <label className={styles.Label}>{t("auth.emailAddress")}</label>
               <input
                 type="email"
                 className={styles.InputElement}
@@ -74,7 +75,7 @@ const PasswordReset = (props) => {
                 type="submit"
                 disabled={!emailValid}
               >
-                Submit
+                {t("auth.submit")}
               </Button>
             </form>
           </div>

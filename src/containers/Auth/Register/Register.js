@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import axios from "../../../util/axiosMyannime";
 import validityCheck from "../../../util/validityCheck";
@@ -19,6 +20,8 @@ function MyannimeRegister(props) {
   const loading = useSelector((state) => state.auth.loading);
   const authData = useSelector((state) => state.auth.authData);
 
+  const { t } = useTranslation();
+
   const [count, setCount] = useState(10);
   const [showCount, setShowCount] = useState(false);
   const [allInputValid, setAllInputValid] = useState(false);
@@ -28,10 +31,10 @@ function MyannimeRegister(props) {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Name",
+        placeholder: t("auth.name"),
       },
       value: "",
-      invalidMessage: "Please Enter A Valid Name!",
+      invalidMessage: t("auth.enterValidName"),
       validityCheck: {
         required: true,
         minLength: 6,
@@ -43,10 +46,10 @@ function MyannimeRegister(props) {
       elementType: "input",
       elementConfig: {
         type: "email",
-        placeholder: "Email",
+        placeholder: t("auth.email"),
       },
       value: "",
-      invalidMessage: "Please Enter A Valid Email!",
+      invalidMessage: t("auth.enterValidEmail"),
       validityCheck: {
         email: true,
         minLength: 6,
@@ -58,10 +61,10 @@ function MyannimeRegister(props) {
       elementType: "input",
       elementConfig: {
         type: "text",
-        placeholder: "Username",
+        placeholder: t("auth.username"),
       },
       value: "",
-      invalidMessage: "Please Enter A Valid Username!",
+      invalidMessage: t("auth.enterValidUname"),
       validityCheck: {
         required: true,
         minLength: 3,
@@ -73,10 +76,10 @@ function MyannimeRegister(props) {
       elementType: "input",
       elementConfig: {
         type: "password",
-        placeholder: "Password",
+        placeholder: t("auth.password"),
       },
       value: "",
-      invalidMessage: "Password must be more than 5 characters!",
+      invalidMessage: t("auth.enterValidPw"),
       validityCheck: {
         required: true,
         minLength: 6,
@@ -184,11 +187,11 @@ function MyannimeRegister(props) {
         onClick={onSubmitHandler}
         disableElevation
       >
-        Register
+        {t("auth.registerNow")}
       </Button>
       <span> | </span>
       <Button color="secondary" variant="outlined" onClick={switchFormMode}>
-        Login Instead?
+        {t("auth.loginInstead")}
       </Button>
     </form>
   );
@@ -204,15 +207,17 @@ function MyannimeRegister(props) {
   }
   return (
     <div className={styles.Auth}>
-      <h2>Register</h2>
+      <h2>{t("auth.register")}</h2>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Register an Account | MYAN-nime</title>
+        <title>{t("auth.registerPageTitle")} | MYAN-nime</title>
       </Helmet>
       {authData ? <Redirect to="/" /> : null}
       {errorMessage}
       {showCount && (
-        <p>You will be redirected back to the homepage in {count}</p>
+        <p>
+          {t("auth.willBeRedirectedIn")} {count}
+        </p>
       )}
       {form}
     </div>
