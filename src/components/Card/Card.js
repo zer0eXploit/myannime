@@ -1,15 +1,18 @@
 import React from "react";
+
+import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link as RouterLink } from "react-router-dom";
+
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
+import Button from "@material-ui/core/Button";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import { Link as RouterLink } from "react-router-dom";
+import CardActionArea from "@material-ui/core/CardActionArea";
+
 import styles from "./Card.module.css";
-import toZg from "../../util/convertToZg";
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +26,7 @@ const useStyles = makeStyles({
 
 export default function MediaCard(props) {
   const classes = useStyles();
-  const WATCH_NOW = "ကြည့်မည်";
+  const { t } = useTranslation();
 
   return (
     <Card className={[classes.root, styles.Card].join(" ")}>
@@ -48,7 +51,7 @@ export default function MediaCard(props) {
           component={RouterLink}
           to={"/Anime/" + props.anime_id}
         >
-          {props.isZawgyi ? toZg(WATCH_NOW) : WATCH_NOW}
+          {t("card.watch")}
         </Button>
       </CardActions>
     </Card>
