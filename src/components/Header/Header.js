@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
+
 import {
   AppBar,
   Toolbar,
@@ -9,13 +10,15 @@ import {
   Switch,
   Button,
 } from "@material-ui/core";
-
+import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { withRouter, NavLink } from "react-router-dom";
-import toZg from "../../util/convertToZg";
+
 import classes from "./Header.module.css";
 
-const header = (props) => {
-  const SITE_NAME = "မြန်နီမေး";
+const Header = (props) => {
+  const { t } = useTranslation();
+
   const handleClick = () => {
     props.history.push("/");
   };
@@ -33,7 +36,7 @@ const header = (props) => {
               onClick={handleClick}
               className={classes.SiteName}
             >
-              {props.isZawgyi ? toZg(SITE_NAME) : SITE_NAME}
+              {t("header.brand")}
             </Typography>
           </Grid>
           <Grid item>
@@ -73,4 +76,4 @@ const header = (props) => {
   );
 };
 
-export default withRouter(header);
+export default withRouter(Header);
