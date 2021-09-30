@@ -1,11 +1,15 @@
 import React from "react";
-import { Breadcrumbs, Link } from "@material-ui/core";
+
+import { useTranslation } from "react-i18next";
+
 import Typography from "@material-ui/core/Typography";
+import { Breadcrumbs, Link } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 
 import classes from "./Breadcrumb.module.css";
 
-const breadCrumb = (props) => {
+const BreadCrumb = (props) => {
+  const { t } = useTranslation();
   return (
     <div className={classes.BreadCrumb}>
       <Breadcrumbs aria-label="breadcrumb">
@@ -15,7 +19,7 @@ const breadCrumb = (props) => {
           component={RouterLink}
           to="/"
         >
-          Home
+          {t("breadcrumb.home")}
         </Link>
         {props.name ? (
           <Link
@@ -39,4 +43,4 @@ const breadCrumb = (props) => {
   );
 };
 
-export default breadCrumb;
+export default BreadCrumb;
