@@ -16,5 +16,18 @@
   },
   "breadcrumb": {
     "home": "Home"
+  },
+  "animeInfo": {
+    "info": "Information",
+    "numEps": "Number of Episodes",
+    "status": "Status",
+    "release": "Release Date",
+    "rating": "Rating",
+    "genres": "Genres",
+    "synopsis": "Synopsis",
+    "loginToBookmark": "Please Login to Bookmark",
+    "bookmark": "Bookmark this Anime",
+    "unbookmark": "Remove Bookmark",
+    "episodes": "Episodes"
   }
 }
