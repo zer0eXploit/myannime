@@ -29,5 +29,9 @@
     "bookmark": "Bookmark this Anime",
     "unbookmark": "Remove Bookmark",
     "episodes": "Episodes"
+  },
+  "episodesList": {
+    "episodes": "Episodes",
+    "episode": "Episode"
   }
 }
