@@ -1,21 +1,21 @@
-import React, { useState, useEffect, Component } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import React from "react";
+
+import { useState } from "react";
+import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
+import { Button } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+
+import axios from "../../../util/axiosMyannime";
+import validityCheck from "../../../util/validityCheck";
+import { updateObject } from "../../../util/updateObject";
+
 import Input from "../../../components/Input/Input";
 import Loader from "../../../components/Loader/Loader";
-import { login } from "../../../store/actions/index";
-import { updateObject } from "../../../util/updateObject";
-import validityCheck from "../../../util/validityCheck";
-import { Button } from "@material-ui/core";
-import { Helmet } from "react-helmet";
-import axios from "../../../util/axiosMyannime";
 
 import styles from "./Register.module.css";
 
 function MyannimeRegister(props) {
-  const dispatch = useDispatch();
-
-  const error = useSelector((state) => state.auth.error);
   const loading = useSelector((state) => state.auth.loading);
   const authData = useSelector((state) => state.auth.authData);
 
