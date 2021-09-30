@@ -214,4 +214,10 @@ function MyApp() {
   );
 }
 
-export default MyApp;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <MyApp />
+    </Suspense>
+  );
+}
