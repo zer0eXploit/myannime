@@ -1,5 +1,14 @@
 {
   "header": {
     "brand": "MyanNime"
+  },
+  "drawer": {
+    "home": "Home",
+    "genres": "Genres",
+    "login": "Log In",
+    "register": "Register",
+    "myaccount": "My Account",
+    "logout": "Log Out",
+    "about": "About Us"
   }
 }
