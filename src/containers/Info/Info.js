@@ -75,7 +75,9 @@ function AnimeInfo(props) {
       <Grid item xs={10} sm={8} className={classes.MaxWidth}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{`${animeInfo.title} Information | MYAN-nime`}</title>
+          <title>{`${t("animeInfo.pageTitle", {
+            animeTitle: animeInfo.title,
+          })} | MYAN-nime`}</title>
         </Helmet>
         <Breadcrumb name={animeInfo.title} anime_id={animeInfo.anime_id} />
         <Grid container justify="space-between" spacing={2}>

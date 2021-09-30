@@ -1,8 +1,9 @@
 import React from "react";
 
-import { useEffect, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { Grid } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
+import { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Card from "../../components/Card/Card";
@@ -21,6 +22,8 @@ function MyanNimeHome(props) {
   const isZawgyi = useSelector((state) => state.home.isZawgyi);
   const animeData = useSelector((state) => state.home.animeData);
   const sortMethod = useSelector((state) => state.home.sortMethod);
+
+  const { t } = useTranslation();
 
   const handlePaginate = useCallback(
     (page, sortBy) => {
@@ -91,7 +94,7 @@ function MyanNimeHome(props) {
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Home | MYAN-nime</title>
+        <title>{t("home.pageTitle")} | MYAN-nime</title>
       </Helmet>
       <Grid item container xs={12} sm={10} style={{ maxWidth: "1500px" }}>
         <Grid container spacing={1} justify="flex-start" style={{ margin: 0 }}>
