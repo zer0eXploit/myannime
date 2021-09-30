@@ -12,6 +12,7 @@ import {
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 
 import Loader from "../../components/Loader/Loader";
@@ -20,8 +21,6 @@ import EpisodesList from "../../components/EpisodesList/EpisodesList";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 import * as actions from "../../store/actions/index";
-
-import toZawgyi from "../../util/convertToZg";
 
 import classes from "./Info.module.css";
 
@@ -34,6 +33,8 @@ function AnimeInfo(props) {
   const animeInfo = useSelector((state) => state.info.animeInfo);
   const animeBookmarked = useSelector((state) => state.info.animeBookmarked);
 
+  const { t } = useTranslation();
+
   // Directly checked for access token existence instead from state
   // because state update is async and if authData is updated only after
   // getting animeInfo, then auth headers will not be present in the
@@ -42,14 +43,6 @@ function AnimeInfo(props) {
   const accessToken = localStorage.getItem("token");
 
   const { name, location, history } = props;
-
-  const ANIME_INFO = "အချက်အလက်များ";
-  const NUMBER_OF_EPISODES = "အပိုင်းအရေအတွက်";
-  const ANIME_COMPLETION = "ဇာတ်လမ်းပြီးမြောက်မှု";
-  const GENRES = "ဇာတ်လမ်းအမျိုးအစား";
-  const SYNOPSIS = "ဇာတ်လမ်းအကျဥ်း";
-  const BOOKMARK_TEXT = "သိမ်းဆည်းမည်";
-  const REMOVE_BOOKMARK_TEXT = "သိမ်းဆည်းထားခြင်းမှ ပြန်ဖျက်မည်";
 
   useEffect(() => {
     const animeId = location.pathname.split("/")[2];
@@ -96,14 +89,10 @@ function AnimeInfo(props) {
             </div>
             <Grid item xs={12} className={classes.InfoCardsMargin}>
               <Paper className={classes.Paper}>
-                <Typography variant="h5">
-                  {isZawgyi ? toZawgyi(ANIME_INFO) : ANIME_INFO}
-                </Typography>
+                <Typography variant="h5">{t("animeInfo.info")}</Typography>
                 <div className={classes.AdditionalInfo}>
                   <Typography variant="subtitle1">
-                    {isZawgyi
-                      ? toZawgyi(NUMBER_OF_EPISODES)
-                      : NUMBER_OF_EPISODES}
+                    {t("animeInfo.numEps")}
                   </Typography>
                   <Chip
                     label={animeInfo.number_of_episodes}
@@ -113,7 +102,7 @@ function AnimeInfo(props) {
                 </div>
                 <div className={classes.AdditionalInfo}>
                   <Typography variant="subtitle1">
-                    {isZawgyi ? toZawgyi(ANIME_COMPLETION) : ANIME_COMPLETION}
+                    {t("animeInfo.status")}
                   </Typography>
                   <Chip
                     color="secondary"
@@ -122,7 +111,9 @@ function AnimeInfo(props) {
                   />
                 </div>
                 <div className={classes.AdditionalInfo}>
-                  <Typography variant="subtitle1">{"Release Date"}</Typography>
+                  <Typography variant="subtitle1">
+                    {t("animeInfo.release")}
+                  </Typography>
                   <Chip
                     color="secondary"
                     label={animeInfo.release}
@@ -130,7 +121,9 @@ function AnimeInfo(props) {
                   />
                 </div>
                 <div className={classes.AdditionalInfo}>
-                  <Typography variant="subtitle1">{"Rating"}</Typography>
+                  <Typography variant="subtitle1">
+                    {t("animeInfo.rating")}
+                  </Typography>
                   <Chip
                     color="secondary"
                     label={animeInfo.rating}
@@ -138,7 +131,7 @@ function AnimeInfo(props) {
                   />
                 </div>
                 <Typography variant="subtitle1">
-                  {isZawgyi ? toZawgyi(GENRES) : GENRES}
+                  {t("animeInfo.genres")}
                 </Typography>
                 {animeInfo.genres.map((genre) => {
                   return (
@@ -162,15 +155,11 @@ function AnimeInfo(props) {
                 <Typography variant="h5">{animeInfo.title}</Typography>
                 <hr />
                 <br />
-                <Typography variant="h5">
-                  {isZawgyi ? toZawgyi(SYNOPSIS) : SYNOPSIS}
-                </Typography>
+                <Typography variant="h5">{t("animeInfo.synopsis")}</Typography>
                 <br />
                 <div className={classes.Synopsis}>
                   <Typography variant="subtitle1">
-                    {isZawgyi
-                      ? toZawgyi(animeInfo.synopsis)
-                      : animeInfo.synopsis}
+                    {animeInfo.synopsis}
                   </Typography>
                 </div>
                 <div className={classes.SaveAnimeSwitch}>
@@ -186,7 +175,9 @@ function AnimeInfo(props) {
                         />
                       }
                       label={
-                        animeBookmarked ? REMOVE_BOOKMARK_TEXT : BOOKMARK_TEXT
+                        animeBookmarked
+                          ? t("animeInfo.unbookmark")
+                          : t("animeInfo.bookmark")
                       }
                     />
                   ) : (
@@ -197,7 +188,7 @@ function AnimeInfo(props) {
                         color="primary"
                         onClick={() => history.push("/auth")}
                       >
-                        Login to bookmark this anime
+                        {t("animeInfo.loginToBookmark")}
                       </Button>
                     </>
                   )}
