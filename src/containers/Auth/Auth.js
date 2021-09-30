@@ -1,79 +1,87 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+
+import { Helmet } from "react-helmet";
+import { Button } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Input from "../../components/Input/Input";
 import Loader from "../../components/Loader/Loader";
+
 import { login, clearError } from "../../store/actions/index";
-import { updateObject } from "../../util/updateObject";
+
 import validityCheck from "../../util/validityCheck";
-import { Button } from "@material-ui/core";
-import { Helmet } from "react-helmet";
+import { updateObject } from "../../util/updateObject";
 
 import styles from "./Auth.module.css";
 
-class Authentication extends Component {
-  state = {
-    controls: {
-      username: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Username",
-        },
-        value: "",
-        invalidMessage: "Please Enter A Valid Username!",
-        validityCheck: {
-          required: true,
-          minLength: 3,
-        },
-        valid: false,
-        touched: false,
+function MyannimeLogin(props) {
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.auth.error);
+  const loading = useSelector((state) => state.auth.loading);
+  const authData = useSelector((state) => state.auth.authData);
+
+  const [allInputValid, setAllInputValid] = useState(false);
+  const [controls, setControls] = useState({
+    username: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Username",
       },
-      password: {
-        elementType: "input",
-        elementConfig: {
-          type: "password",
-          placeholder: "Password",
-        },
-        value: "",
-        invalidMessage: "Password must be more than 5 characters!",
-        validityCheck: {
-          required: true,
-          minLength: 6,
-        },
-        valid: false,
-        touched: false,
+      value: "",
+      invalidMessage: "Please Enter A Valid Username!",
+      validityCheck: {
+        required: true,
+        minLength: 3,
       },
+      valid: false,
+      touched: false,
     },
-    allInputValid: false,
-  };
-
-  componentDidMount() {
-    this.props.clearError();
-  }
-
-  switchFormMode = () => {
-    this.props.history.push("/Register");
-  };
-
-  switchToPwResetHandler = () => {
-    this.props.history.push("/PasswordReset");
-  };
-
-  onChangeHandler = (event, elementIdentifier) => {
-    const updatedElement = updateObject(
-      this.state.controls[elementIdentifier],
-      {
-        value: event.target.value,
-        valid: validityCheck(
-          this.state.controls[elementIdentifier].validityCheck,
-          event.target.value,
-        ),
-        touched: true,
+    password: {
+      elementType: "input",
+      elementConfig: {
+        type: "password",
+        placeholder: "Password",
       },
-    );
+      value: "",
+      invalidMessage: "Password must be more than 5 characters!",
+      validityCheck: {
+        required: true,
+        minLength: 6,
+      },
+      valid: false,
+      touched: false,
+    },
+  });
 
-    const updatedControls = updateObject(this.state.controls, {
+  const { history } = props;
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
+  const switchFormMode = () => {
+    history.push("/Register");
+  };
+
+  const switchToPwResetHandler = () => {
+    history.push("/PasswordReset");
+  };
+
+  const onChangeHandler = (event, elementIdentifier) => {
+    const updatedElement = updateObject(controls[elementIdentifier], {
+      value: event.target.value,
+      valid: validityCheck(
+        controls[elementIdentifier].validityCheck,
+        event.target.value,
+      ),
+      touched: true,
+    });
+
+    const updatedControls = updateObject(controls, {
       [elementIdentifier]: updatedElement,
     });
 
@@ -83,137 +91,116 @@ class Authentication extends Component {
       overAllValidity = updatedControls[key].valid && overAllValidity;
     }
 
-    this.setState({
-      controls: updatedControls,
-      allInputValid: overAllValidity,
-    });
+    setControls(updatedControls);
+    setAllInputValid(overAllValidity);
   };
 
-  onSubmitHandler = (event) => {
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    const { username, password } = this.state.controls;
-    this.props.onAuth(username.value, password.value, this.props.history.push);
+    const { username, password } = controls;
+    dispatch(login(username.value, password.value, history.push));
   };
 
-  render() {
-    const formElementsArray = [];
-    for (let key in this.state.controls) {
-      formElementsArray.push({
-        id: key,
-        config: this.state.controls[key],
-      });
-    }
-
-    let form = (
-      <form onSubmit={this.onSubmitHandler}>
-        {formElementsArray.map((ele) => {
-          return (
-            <Input
-              elementType={ele.config.elementType}
-              elementConfig={ele.config.elementConfig}
-              value={ele.config.value}
-              key={ele.id}
-              changed={(event) => {
-                this.onChangeHandler(event, ele.id);
-              }}
-              invalid={!ele.config.valid}
-              invalidMessage={ele.config.invalidMessage}
-              shouldValidate={ele.config.validityCheck}
-              touched={ele.config.touched}
-              label={ele.config.elementConfig.placeholder}
-            />
-          );
-        })}
-        <Button
-          variant="outlined"
-          color="primary"
-          style={{ margin: "5px" }}
-          disabled={!this.state.allInputValid}
-          onClick={this.onSubmitHandler}
-          disableElevation
-        >
-          <span style={{ padding: "7px" }}>Login</span>
-        </Button>
-        <div>
-          <Button
-            style={{ margin: "2px 2px" }}
-            color="primary"
-            variant="outlined"
-            onClick={this.switchToPwResetHandler}
-          >
-            <span style={{ padding: "7px" }}>Forgot your password?</span>
-          </Button>
-          <Button
-            style={{ margin: "2px 2px" }}
-            color="secondary"
-            variant="outlined"
-            onClick={this.switchFormMode}
-          >
-            <span style={{ padding: "7px" }}>Don't have an account?</span>
-          </Button>
-        </div>
-        <Button
-          style={{ marginTop: "3px" }}
-          color="primary"
-          onClick={() => {
-            this.props.history.push("/NewActivationEmail");
-          }}
-        >
-          <span style={{ padding: "7px" }}>
-            Did not get your activation email?
-          </span>
-        </Button>
-      </form>
-    );
-
-    let errorMessage = null;
-
-    if (this.props.error) {
-      if (this.props.error.message_1) {
-        const messages = [];
-        for (let key in this.props.error) {
-          messages.push(this.props.error[key]);
-        }
-        errorMessage = messages.map((msg, idx) => <p key={idx}>{msg}</p>);
-      } else {
-        errorMessage = <p>{this.props.error}</p>;
-      }
-    }
-
-    if (this.props.loading) {
-      form = <Loader />;
-    }
-    return (
-      <div className={styles.Auth}>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>Authenticate | MYANnime</title>
-        </Helmet>
-        <h2>Login</h2>
-        {this.props.authData ? <Redirect to="/" /> : null}
-        {errorMessage}
-        {form}
-      </div>
-    );
+  const formElementsArray = [];
+  for (let key in controls) {
+    formElementsArray.push({
+      id: key,
+      config: controls[key],
+    });
   }
+
+  let form = (
+    <form onSubmit={onSubmitHandler}>
+      {formElementsArray.map((ele) => {
+        return (
+          <Input
+            elementType={ele.config.elementType}
+            elementConfig={ele.config.elementConfig}
+            value={ele.config.value}
+            key={ele.id}
+            changed={(event) => {
+              onChangeHandler(event, ele.id);
+            }}
+            invalid={!ele.config.valid}
+            invalidMessage={ele.config.invalidMessage}
+            shouldValidate={ele.config.validityCheck}
+            touched={ele.config.touched}
+            label={ele.config.elementConfig.placeholder}
+          />
+        );
+      })}
+      <Button
+        variant="outlined"
+        color="primary"
+        style={{ margin: "5px" }}
+        disabled={!allInputValid}
+        onClick={onSubmitHandler}
+        type="submit"
+        disableElevation
+      >
+        <span style={{ padding: "7px" }}>Login</span>
+      </Button>
+      <div>
+        <Button
+          style={{ margin: "2px 2px" }}
+          color="primary"
+          variant="outlined"
+          onClick={switchToPwResetHandler}
+        >
+          <span style={{ padding: "7px" }}>Forgot your password?</span>
+        </Button>
+        <Button
+          style={{ margin: "2px 2px" }}
+          color="secondary"
+          variant="outlined"
+          onClick={switchFormMode}
+        >
+          <span style={{ padding: "7px" }}>Don't have an account?</span>
+        </Button>
+      </div>
+      <Button
+        style={{ marginTop: "3px" }}
+        color="primary"
+        onClick={() => {
+          history.push("/NewActivationEmail");
+        }}
+      >
+        <span style={{ padding: "7px" }}>
+          Did not get your activation email?
+        </span>
+      </Button>
+    </form>
+  );
+
+  let errorMessage = null;
+
+  if (error) {
+    if (error.message_1) {
+      const messages = [];
+      for (let key in error) {
+        messages.push(error[key]);
+      }
+      errorMessage = messages.map((msg, idx) => <p key={idx}>{msg}</p>);
+    } else {
+      errorMessage = <p>{error}</p>;
+    }
+  }
+
+  if (loading) {
+    form = <Loader />;
+  }
+  return (
+    <div className={styles.Auth}>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Authenticate | MYANnime</title>
+      </Helmet>
+      <h2>Login</h2>
+      {authData ? <Redirect to="/" /> : null}
+      {errorMessage}
+      {form}
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    authData: state.auth.authData,
-    error: state.auth.error,
-    loading: state.auth.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAuth: (username, password, redirectTo) => {
-      dispatch(login(username, password, redirectTo));
-    },
-    clearError: () => {
-      dispatch(clearError());
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
+export default MyannimeLogin;
