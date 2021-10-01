@@ -5,6 +5,8 @@ import {
   Toolbar,
   Typography,
   Grid,
+  Select,
+  MenuItem,
   IconButton,
   Button,
 } from "@material-ui/core";
@@ -12,10 +14,12 @@ import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { withRouter, NavLink } from "react-router-dom";
 
+import languages from "../../config/appLanguages";
+
 import classes from "./Header.module.css";
 
 const Header = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleClick = () => {
     props.history.push("/");
@@ -24,6 +28,11 @@ const Header = (props) => {
   // const handleChange = () => {
   //   props.handleSwitchChange();
   // };
+
+  const handleLanChange = (lan) => {
+    i18n.changeLanguage(lan);
+  };
+
   return (
     <AppBar position="fixed" color="primary">
       <Toolbar>
@@ -55,6 +64,28 @@ const Header = (props) => {
                 control={<Switch name="isZawgyi" color="default" />}
                 label="Zawgyi"
               /> */}
+              <Select
+                labelId="server-select-label"
+                id="server-select"
+                value={
+                  (typeof window !== "undefined" &&
+                    window.localStorage.i18nextLng) ||
+                  "en"
+                }
+                // className={classes.ServerSelect}
+                style={{ color: "#fff" }}
+                onChange={(event) => {
+                  handleLanChange(event.target.value);
+                }}
+              >
+                {Object.keys(languages).map((lan, idx) => {
+                  return (
+                    <MenuItem key={idx} value={lan}>
+                      <span>{languages[lan]["displayName"]}</span>
+                    </MenuItem>
+                  );
+                })}
+              </Select>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
