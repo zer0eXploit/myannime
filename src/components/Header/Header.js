@@ -49,7 +49,7 @@ const Header = (props) => {
           <Grid item>
             <Fragment>
               {props.authData && (
-                <NavLink to={"/MyAccount"} className={classes.User}>
+                <NavLink to={"/myaccount"} className={classes.User}>
                   <Button variant="text">
                     <span style={{ color: "white" }}>
                       {props.authData.username}

@@ -110,7 +110,7 @@ export const login = (username, password, redirectTo) => (dispatch) => {
         },
       });
       dispatch(loginSuccess());
-      redirectTo("/MyAccount");
+      redirectTo("/myaccount");
     })
     .catch((error) => {
       console.log(error.response);

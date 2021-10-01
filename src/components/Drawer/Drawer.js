@@ -29,7 +29,7 @@ const NavDrawer = (props) => {
           button
           className={classes.ListItem}
           component={RouterLink}
-          to={"/Genres"}
+          to={"/genres"}
         >
           <ListItemText primary={t("drawer.genres")} />
         </ListItem>
@@ -38,7 +38,7 @@ const NavDrawer = (props) => {
             button
             className={classes.ListItem}
             component={RouterLink}
-            to={"/MyAccount"}
+            to={"/myaccount"}
           >
             <ListItemText primary={t("drawer.myaccount")} />
           </ListItem>
@@ -48,7 +48,7 @@ const NavDrawer = (props) => {
               button
               className={classes.ListItem}
               component={RouterLink}
-              to={"/Auth"}
+              to={"/auth"}
             >
               <ListItemText primary={t("drawer.login")} />
             </ListItem>
@@ -56,7 +56,7 @@ const NavDrawer = (props) => {
               button
               className={classes.ListItem}
               component={RouterLink}
-              to={"/Register"}
+              to={"/register"}
             >
               <ListItemText primary={t("drawer.register")} />
             </ListItem>
@@ -80,7 +80,7 @@ const NavDrawer = (props) => {
           button
           className={classes.ListItem}
           component={RouterLink}
-          to={"/About"}
+          to={"/about"}
         >
           <ListItemText primary={t("drawer.about")} />
         </ListItem>

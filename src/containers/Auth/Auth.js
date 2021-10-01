@@ -67,11 +67,11 @@ function MyannimeLogin(props) {
   }, [dispatch]);
 
   const switchFormMode = () => {
-    history.push("/Register");
+    history.push("/register");
   };
 
   const switchToPwResetHandler = () => {
-    history.push("/PasswordReset");
+    history.push("/passwordreset");
   };
 
   const onChangeHandler = (event, elementIdentifier) => {
@@ -165,7 +165,7 @@ function MyannimeLogin(props) {
         style={{ marginTop: "3px" }}
         color="primary"
         onClick={() => {
-          history.push("/NewActivationEmail");
+          history.push("/newactivationemail");
         }}
       >
         <span style={{ padding: "7px" }}>{t("auth.noActivationEmail")}</span>

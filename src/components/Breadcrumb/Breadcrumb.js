@@ -26,7 +26,7 @@ const BreadCrumb = (props) => {
             color="textSecondary"
             underline="hover"
             component={RouterLink}
-            to={props.anime_id ? "/Anime/" + props.anime_id : "#"}
+            to={props.anime_id ? "/anime/" + props.anime_id : "#"}
           >
             <Typography color={props.episode ? "textSecondary" : "textPrimary"}>
               {props.name.length > 10

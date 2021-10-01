@@ -92,7 +92,7 @@ function MyannimeRegister(props) {
   const { history } = props;
 
   const switchFormMode = () => {
-    history.push("/Auth");
+    history.push("/auth");
   };
 
   const onChangeHandler = (event, elementIdentifier) => {

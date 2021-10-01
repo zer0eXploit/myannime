@@ -30,7 +30,7 @@ export default function MediaCard(props) {
 
   return (
     <Card className={[classes.root, styles.Card].join(" ")}>
-      <CardActionArea component={RouterLink} to={"/Anime/" + props.anime_id}>
+      <CardActionArea component={RouterLink} to={"/anime/" + props.anime_id}>
         <CardMedia
           className={classes.media}
           image={props.poster_uri}
@@ -49,7 +49,7 @@ export default function MediaCard(props) {
           size="small"
           color="primary"
           component={RouterLink}
-          to={"/Anime/" + props.anime_id}
+          to={"/anime/" + props.anime_id}
         >
           {t("card.watch")}
         </Button>

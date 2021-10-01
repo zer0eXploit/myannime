@@ -42,7 +42,7 @@ const PasswordReset = (props) => {
       props.enqueueSnackbar(data.message, { variant: "info" });
       setPassword("");
       // Redirect to login
-      props.history.push("/Auth");
+      props.history.push("/auth");
     } catch (e) {
       console.log(e.response);
       props.enqueueSnackbar(e.response.data.message, { variant: "error" });

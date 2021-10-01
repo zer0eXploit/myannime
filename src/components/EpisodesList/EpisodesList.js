@@ -17,7 +17,7 @@ function EpisodesList(props) {
           button
           key={episode.episode_id}
           component={RouterLink}
-          to={"/Anime/" + props.animeId + "/" + episode.episode_id}
+          to={"/anime/" + props.animeId + "/" + episode.episode_id}
         >
           <ListItemText
             primary={`${t("episodesList.episode")} ${episode.episode_number}`}
