@@ -1,5 +1,5 @@
 const languages = {
-  en: { displayName: "English" },
+  "en-US": { displayName: "English" },
   mm: { displayName: "မြန်မာဘာသာ" },
 };
 
