@@ -65,14 +65,7 @@ const Header = (props) => {
                 label="Zawgyi"
               /> */}
               <Select
-                labelId="server-select-label"
-                id="server-select"
-                value={
-                  (typeof window !== "undefined" &&
-                    window.localStorage.i18nextLng) ||
-                  "en"
-                }
-                // className={classes.ServerSelect}
+                value={window?.localStorage.i18nextLng || "en"}
                 style={{ color: "#fff" }}
                 onChange={(event) => {
                   handleLanChange(event.target.value);
