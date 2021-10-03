@@ -22,6 +22,18 @@
   margin-right: 1rem;
 }
 
+.LanguageSwitch {
+  color: #fff !important;
+}
+
+.LanguageSwitch::before {
+  display: none !important;
+}
+
+.LanguageSwitch > svg {
+  color: #fff !important;
+}
+
 @media only screen and (max-width: 600px) {
   .User {
     display: none;
