@@ -66,7 +66,7 @@ const Header = (props) => {
               /> */}
               <Select
                 value={window?.localStorage.i18nextLng || "en"}
-                style={{ color: "#fff" }}
+                className={classes.LanguageSwitch}
                 onChange={(event) => {
                   handleLanChange(event.target.value);
                 }}
