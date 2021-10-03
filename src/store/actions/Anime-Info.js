@@ -22,44 +22,48 @@ const fetchInfoDataFailed = (error) => {
   };
 };
 
-export const fetchInfoData = (animeId, redirectFunc, accessToken) => (
-  dispatch,
-) => {
-  dispatch(fetchInfoDataStart());
-  let headers = null;
-  if (accessToken) {
-    headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-  }
-  axios
-    .get("/anime/" + animeId, { headers: headers })
-    .then((res) => {
-      const data = res.data;
-      if (data) {
-        if (data.anime_bookmarked) {
+export const fetchInfoData =
+  (animeId, redirectFunc, accessToken) => (dispatch) => {
+    dispatch(fetchInfoDataStart());
+    let headers = null;
+    if (accessToken) {
+      headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+    }
+    axios
+      .get("/anime/" + animeId, { headers: headers })
+      .then((res) => {
+        const data = res.data;
+        if (data) {
+          if (data.anime_bookmarked) {
+            dispatch({
+              type: actionTypes.SET_BOOKMARK_OPTION,
+              payload: { animeBookmarked: true },
+            });
+          } else {
+            dispatch({
+              type: actionTypes.SET_BOOKMARK_OPTION,
+              payload: { animeBookmarked: false },
+            });
+          }
           dispatch({
-            type: actionTypes.SET_BOOKMARK_OPTION,
-            payload: { animeBookmarked: true },
+            type: actionTypes.FETCH_INFO_DATA,
+            payload: {
+              animeInfo: data,
+            },
           });
+          dispatch(fetchInfoDataSuccess());
+        } else {
+          redirectFunc("/");
+          // dispatch(fetchInfoDataFailed({ message: "returned null" }));
         }
-        dispatch({
-          type: actionTypes.FETCH_INFO_DATA,
-          payload: {
-            animeInfo: data,
-          },
-        });
-        dispatch(fetchInfoDataSuccess());
-      } else {
-        redirectFunc("/");
-        // dispatch(fetchInfoDataFailed({ message: "returned null" }));
-      }
-    })
-    .catch((error) => {
-      console.log("[FETCH ANIME INFO] " + error.response);
-      dispatch(fetchInfoDataFailed(error));
-    });
-};
+      })
+      .catch((error) => {
+        console.log("[FETCH ANIME INFO] " + error.response);
+        dispatch(fetchInfoDataFailed(error));
+      });
+  };
 
 export const setBookmarkOption = (animeBookmarked, animeId) => {
   const token = localStorage.getItem("token");
