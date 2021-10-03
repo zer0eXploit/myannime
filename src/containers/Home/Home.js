@@ -19,7 +19,7 @@ function MyanNimeHome(props) {
 
   const error = useSelector((state) => state.home.error);
   const loading = useSelector((state) => state.home.loading);
-  const isZawgyi = useSelector((state) => state.home.isZawgyi);
+  const isZawgyi = useSelector((state) => state.mmfont.isZawgyi);
   const animeData = useSelector((state) => state.home.animeData);
   const sortMethod = useSelector((state) => state.home.sortMethod);
 
