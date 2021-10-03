@@ -4,11 +4,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.MuiSelect-icon {
-  color: #fff !important;
-}
-
-.MuiInput-underline:before {
-  display: none !important;
-}
