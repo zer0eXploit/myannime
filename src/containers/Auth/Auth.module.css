@@ -11,6 +11,30 @@
   box-sizing: border-box;
 }
 
+.loginBtn {
+  /* form fields have 10px padding */
+  width: calc(100% - 20px);
+  margin-top: 5px;
+}
+
+.usefulLinks {
+  /* again form fields have 10px padding */
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.usefulLink:any-link,
+.usefulLink:visited,
+.usefulLink:active {
+  display: block;
+  text-decoration: none;
+  color: rgba(126, 126, 126, 0.8);
+  margin: 5px;
+  text-align: start;
+}
+
 @media (min-width: 600px) {
   .Auth {
     width: 500px;
