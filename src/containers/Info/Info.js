@@ -28,8 +28,8 @@ function AnimeInfo(props) {
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.info.error);
-  const loading = useSelector((state) => state.video.loading);
-  const isZawgyi = useSelector((state) => state.video.isZawgyi);
+  const loading = useSelector((state) => state.info.loading);
+  const isZawgyi = useSelector((state) => state.mmfont.isZawgyi);
   const animeInfo = useSelector((state) => state.info.animeInfo);
   const animeBookmarked = useSelector((state) => state.info.animeBookmarked);
 
@@ -42,11 +42,11 @@ function AnimeInfo(props) {
   // has bookmarked the anime or not.
   const accessToken = localStorage.getItem("token");
 
-  const { name, location, history } = props;
+  const { match, history } = props;
 
   useEffect(() => {
-    const animeId = location.pathname.split("/")[2];
-    if (name === animeId) return;
+    const animeId = match.params.animeInfo;
+    if (animeInfo?.anime_id === animeId) return;
 
     const redirectFunc = history.push;
 
@@ -57,7 +57,7 @@ function AnimeInfo(props) {
     }
 
     dispatch(actions.clearVideoData());
-  }, [dispatch, accessToken, name, location, history]);
+  }, [dispatch, accessToken, animeInfo, match, history]);
 
   const handleBookmarkChange = () => {
     const animeId = animeInfo.anime_id;
@@ -85,7 +85,11 @@ function AnimeInfo(props) {
             <div className={classes.MiddleAlignImage}>
               <Grid item style={{ width: "100%" }}>
                 <Paper className={classes.PosterPaper}>
-                  <img src={animeInfo.poster_uri} alt={name} width="100%" />
+                  <img
+                    src={animeInfo.poster_uri}
+                    alt={animeInfo.anime_id}
+                    width="100%"
+                  />
                 </Paper>
               </Grid>
             </div>
