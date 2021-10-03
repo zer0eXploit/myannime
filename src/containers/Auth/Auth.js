@@ -2,9 +2,9 @@ import React from "react";
 
 import { Helmet } from "react-helmet";
 import { Button } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import Input from "../../components/Input/Input";
@@ -66,14 +66,6 @@ function MyannimeLogin(props) {
     dispatch(clearError());
   }, [dispatch]);
 
-  const switchFormMode = () => {
-    history.push("/register");
-  };
-
-  const switchToPwResetHandler = () => {
-    history.push("/passwordreset");
-  };
-
   const onChangeHandler = (event, elementIdentifier) => {
     const updatedElement = updateObject(controls[elementIdentifier], {
       value: event.target.value,
@@ -133,43 +125,27 @@ function MyannimeLogin(props) {
         );
       })}
       <Button
-        variant="outlined"
+        variant="contained"
         color="primary"
-        style={{ margin: "5px" }}
+        className={styles.loginBtn}
         disabled={!allInputValid}
         onClick={onSubmitHandler}
         type="submit"
         disableElevation
       >
-        <span style={{ padding: "7px" }}>{t("auth.login")}</span>
+        {t("auth.login")}
       </Button>
-      <div>
-        <Button
-          style={{ margin: "2px 2px" }}
-          color="primary"
-          variant="outlined"
-          onClick={switchToPwResetHandler}
-        >
-          <span style={{ padding: "7px" }}>{t("auth.forgotPw")}</span>
-        </Button>
-        <Button
-          style={{ margin: "2px 2px" }}
-          color="secondary"
-          variant="outlined"
-          onClick={switchFormMode}
-        >
-          <span style={{ padding: "7px" }}>{t("auth.noAccount")}</span>
-        </Button>
+      <div className={styles.usefulLinks}>
+        <Link to="/passwordreset" className={styles.usefulLink}>
+          {t("auth.forgotPw")}
+        </Link>
+        <Link to="/register" className={styles.usefulLink}>
+          {t("auth.noAccount")}
+        </Link>
+        <Link to="/newactivationemail" className={styles.usefulLink}>
+          {t("auth.noActivationEmail")}
+        </Link>
       </div>
-      <Button
-        style={{ marginTop: "3px" }}
-        color="primary"
-        onClick={() => {
-          history.push("/newactivationemail");
-        }}
-      >
-        <span style={{ padding: "7px" }}>{t("auth.noActivationEmail")}</span>
-      </Button>
     </form>
   );
 
