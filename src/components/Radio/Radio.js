@@ -36,7 +36,7 @@ export default function RadioButtons(props) {
             inputProps={{ "aria-label": "Title" }}
           />
         }
-        label="Title"
+        label={t("home.title")}
         labelPlacement="end"
       />
 
@@ -51,7 +51,7 @@ export default function RadioButtons(props) {
             inputProps={{ "aria-label": "Rating" }}
           />
         }
-        label="Rating"
+        label={t("home.rating")}
         labelPlacement="end"
       />
     </RadioGroup>
