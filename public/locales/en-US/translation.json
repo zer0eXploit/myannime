@@ -1,7 +1,9 @@
 {
   "home": {
     "pageTitle": "Home",
-    "sortOrder": "Sort Order"
+    "sortOrder": "Sort Order",
+    "title": "title",
+    "rating": "rating"
   },
   "header": {
     "brand": "MyanNime"
@@ -40,7 +42,9 @@
     "seeAnimes": "See Animes",
     "noAnimeInGenre": "Currently, there is no anime in this genre. Please check back again.",
     "animeList": "Anime List",
-    "sortOrder": "Sort Order"
+    "sortOrder": "Sort Order",
+    "title": "title",
+    "rating": "rating"
   },
   "episodesList": {
     "episodes": "Episodes",
