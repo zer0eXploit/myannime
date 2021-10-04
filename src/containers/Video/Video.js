@@ -31,11 +31,10 @@ import classes from "./Video.module.css";
 const Video = (props) => {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.info.error);
-  const loading = useSelector((state) => state.video.loading);
   const isZawgyi = useSelector((state) => state.mmfont.isZawgyi);
-  const animeInfo = useSelector((state) => state.info.animeInfo);
-  const episodeInfo = useSelector((state) => state.video.episodeInfo);
+
+  const { error, animeInfo } = useSelector((state) => state.info);
+  const { loading, episodeInfo } = useSelector((state) => state.video);
 
   const [showComments, setShowComments] = useState(false);
   const [streamUrls, setStreamUrls] = useState([]);

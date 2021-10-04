@@ -27,11 +27,11 @@ import classes from "./Info.module.css";
 function AnimeInfo(props) {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.info.error);
-  const loading = useSelector((state) => state.info.loading);
   const isZawgyi = useSelector((state) => state.mmfont.isZawgyi);
-  const animeInfo = useSelector((state) => state.info.animeInfo);
-  const animeBookmarked = useSelector((state) => state.info.animeBookmarked);
+
+  const { error, loading, animeInfo, animeBookmarked } = useSelector(
+    (state) => state.info,
+  );
 
   const { t } = useTranslation();
 

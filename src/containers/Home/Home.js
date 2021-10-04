@@ -17,11 +17,11 @@ import * as actions from "../../store/actions/index";
 function MyanNimeHome(props) {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.home.error);
-  const loading = useSelector((state) => state.home.loading);
   const isZawgyi = useSelector((state) => state.mmfont.isZawgyi);
-  const animeData = useSelector((state) => state.home.animeData);
-  const sortMethod = useSelector((state) => state.home.sortMethod);
+
+  const { error, loading, animeData, sortMethod } = useSelector(
+    (state) => state.home,
+  );
 
   const { t } = useTranslation();
 

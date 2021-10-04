@@ -17,8 +17,7 @@ import Loader from "../../../components/Loader/Loader";
 import styles from "./Register.module.css";
 
 function MyannimeRegister(props) {
-  const loading = useSelector((state) => state.auth.loading);
-  const authData = useSelector((state) => state.auth.authData);
+  const { loading, authData } = useSelector((state) => state.auth);
 
   const { t } = useTranslation();
 

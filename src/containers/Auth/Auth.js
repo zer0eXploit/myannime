@@ -20,9 +20,7 @@ import styles from "./Auth.module.css";
 function MyannimeLogin(props) {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.auth.error);
-  const loading = useSelector((state) => state.auth.loading);
-  const authData = useSelector((state) => state.auth.authData);
+  const { error, loading, authData } = useSelector((state) => state.auth);
 
   const { t } = useTranslation();
 
